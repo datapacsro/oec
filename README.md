@@ -14,6 +14,14 @@ Dokumentácia a podpora k Datapac OEC
 
 [codesamples](codesamples) - príklad kódu v C#
 
+# Contribution
+V prípade, že sa rozhodnete pomôcť a prispieť či už opravou dokumentácie, príkladov použitia API, článkom do Wiki, pomôžete aj ostatným. Sme otvorení tomuto prístupu, preto neváhajte.
+
+## Help me help you
+1. git clone
+2. spraviť separátny branch
+3. pull request
+
 # Podpora k OEC
 Požiadavky a chyby reportujte cez Issues k tomuto repository.
 
