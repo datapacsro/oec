@@ -1,6 +1,7 @@
 # Datapac OEC
 
-Dokumentácia a podpora k Datapac OEC
+Dokumentácia a podpora k Datapac OEC.
+Datapac OEC je certifikovaný online eKasa klient.
 
 # Popis dokumentov
 
