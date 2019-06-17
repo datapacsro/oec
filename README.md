@@ -18,12 +18,12 @@ Dokumentácia a podpora k Datapac OEC
 V prípade, že sa rozhodnete pomôcť a prispieť či už opravou dokumentácie, príkladov použitia API, článkom do Wiki, pomôžete aj ostatným. Sme otvorení tomuto prístupu, preto neváhajte.
 
 ## Help me help you
-1. git clone
+1. [git clone](https://github.com/datapacsro/oec.git)
 2. spraviť separátny branch
-3. pull request
+3. [pull request](https://github.com/datapacsro/oec/pulls)
 
 # Podpora k OEC
-Požiadavky a chyby reportujte cez Issues k tomuto repository.
+Požiadavky a chyby reportujte cez [Issues](https://github.com/datapacsro/oec/issues) k tomuto repository.
 
 
 
