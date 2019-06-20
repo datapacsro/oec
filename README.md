@@ -30,6 +30,6 @@ git clone https://github.com/datapacsro/oec.git
 # Podpora k OEC
 Požiadavky a chyby reportujte cez [Issues](https://github.com/datapacsro/oec/issues) k tomuto repository.
 
-
+[Wiki k Datapac OEC](https://github.com/datapacsro/oec/wiki)
 
 
