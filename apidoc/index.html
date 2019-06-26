@@ -781,19 +781,6 @@ margin-bottom: 20px;
   },
   "description" : "Konfigurácia pokladne"
 };
-        defs["CashRegisterStatus"] = {
-  "properties" : {
-    "CashRegisterCode" : {
-      "type" : "string",
-      "description" : "Kód on-line registračnej pokladnice"
-    },
-    "UnsentMessagesCount" : {
-      "type" : "integer",
-      "description" : "Počet neodoslaných dátových správ"
-    }
-  },
-  "description" : "Stav pokladne"
-};
         defs["EmailHeaders"] = {
   "required" : [ "Subject", "To" ],
   "properties" : {
@@ -836,6 +823,14 @@ margin-bottom: 20px;
       "type" : "string",
       "description" : "URL eKasa"
     },
+    "eKasaPingEndpoint" : {
+      "type" : "string",
+      "description" : "URL to ping eKasa"
+    },
+    "eKasaPingResponse" : {
+      "type" : "number",
+      "description" : "Result code"
+    },
     "CertificateIssuer" : {
       "type" : "string",
       "description" : "Vydávateľ certifikátu"
@@ -853,10 +848,6 @@ margin-bottom: 20px;
       "type" : "integer",
       "description" : "Timeout čakania na odpoveď od eKasa v ms v prípade doposlania správy. Musí byť >=2000",
       "minimum" : 2000
-    },
-    "LocalMessageStoragePath" : {
-      "type" : "string",
-      "description" : "Cesta k lokálnemu storage"
     }
   },
   "description" : "Globálna OEC konfigurácia"
@@ -1294,6 +1285,19 @@ margin-bottom: 20px;
   },
   "description" : "Text to free print"
 };
+        defs["UnsentState"] = {
+  "properties" : {
+    "CashRegisterCode" : {
+      "type" : "string",
+      "description" : "Kód on-line registračnej pokladnice"
+    },
+    "UnsentMessagesCount" : {
+      "type" : "integer",
+      "description" : "Počet neodoslaných dátových správ"
+    }
+  },
+  "description" : "Stav pokladne"
+};
   </script>
 
   <div class="container-fluid">
@@ -1692,14 +1696,6 @@ $(document).ready(function() {
 
                           <h2>Responses</h2>
                             <h3> Status: 201 - AuthId set pridaný </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                            </div>
-
-                            <h3> Status: 404 - Pokladňa neexistuje </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -2550,6 +2546,14 @@ except ApiException as e:
                                 </div>
                             </div>
 
+                            <h3> Status: 404 - AuthIdSet pre pokladňu nenájdený </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
                         </article>
                       </div>
                       <hr>
@@ -2844,14 +2848,6 @@ except ApiException as e:
                                   </div>
                                   <input id='responses-getAuthIdSets-200-schema-data' type='hidden' value=''></input>
                                 </div>
-                            </div>
-
-                            <h3> Status: 404 - AuthId sety neexistujú </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
                         </article>
@@ -4767,7 +4763,7 @@ public class DefaultApiExample {
         
         DefaultApi apiInstance = new DefaultApi();
         try {
-            array[CashRegisterStatus] result = apiInstance.getUnsentMessagesCount();
+            array[UnsentState] result = apiInstance.getUnsentMessagesCount();
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DefaultApi#getUnsentMessagesCount");
@@ -4785,7 +4781,7 @@ public class DefaultApiExample {
     public static void main(String[] args) {
         DefaultApi apiInstance = new DefaultApi();
         try {
-            array[CashRegisterStatus] result = apiInstance.getUnsentMessagesCount();
+            array[UnsentState] result = apiInstance.getUnsentMessagesCount();
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DefaultApi#getUnsentMessagesCount");
@@ -4804,7 +4800,7 @@ DefaultApi *apiInstance = [[DefaultApi alloc] init];
 
 // Vrati pocty neodoslanych sprav pre vsetky pokladne
 [apiInstance getUnsentMessagesCountWithCompletionHandler: 
-              ^(array[CashRegisterStatus] output, NSError* error) {
+              ^(array[UnsentState] output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -4853,7 +4849,7 @@ namespace Example
             try
             {
                 // Vrati pocty neodoslanych sprav pre vsetky pokladne
-                array[CashRegisterStatus] result = apiInstance.getUnsentMessagesCount();
+                array[UnsentState] result = apiInstance.getUnsentMessagesCount();
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -4943,7 +4939,7 @@ except ApiException as e:
   "schema" : {
     "type" : "array",
     "items" : {
-      "$ref" : "#/definitions/CashRegisterStatus"
+      "$ref" : "#/definitions/UnsentState"
     }
   }
 };
@@ -6004,7 +6000,7 @@ except ApiException as e:
                             </table>
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - Tlač úspešná </h3>
+                            <h3> Status: 201 - Tlač úspešná </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -6013,6 +6009,14 @@ except ApiException as e:
                             </div>
 
                             <h3> Status: 504 - Tlač neúspešná </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 507 - CHDÚ je zaplnené </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -7830,7 +7834,31 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
+                            <h3> Status: 400 - Nezosynchronizovaný čas </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 404 - Pokladňa neexistuje </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
                             <h3> Status: 500 - Odoslanie nebolo možné zahájiť </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 507 - CHDÚ je zaplnené </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
