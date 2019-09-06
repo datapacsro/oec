@@ -20,7 +20,7 @@ Datapac OEC je certifikovaný online eKasa klient.
 Wiki obsahuje 
 * [FAQ](https://github.com/datapacsro/oec/wiki/Datapac-OEC-FAQ)
 * návody
-* [časté chyby](github.com/datapacsro/oec/wiki/Časté-chyby)
+* [časté chyby](https://github.com/datapacsro/oec/wiki/%C4%8Cast%C3%A9-chyby)
 * doplňujúce informácie
 
 # Contribution
