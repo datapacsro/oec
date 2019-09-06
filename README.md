@@ -15,6 +15,14 @@ Datapac OEC je certifikovaný online eKasa klient.
 
 [codesamples](codesamples) - príklad kódu v C#
 
+# Wiki
+[Wiki k Datapac OEC](https://github.com/datapacsro/oec/wiki)
+Wiki obsahuje 
+* [FAQ](https://github.com/datapacsro/oec/wiki/Datapac-OEC-FAQ)
+* návody
+* [časté chyby](github.com/datapacsro/oec/wiki/Časté-chyby)
+* doplňujúce informácie
+
 # Contribution
 V prípade, že sa rozhodnete pomôcť a prispieť či už opravou dokumentácie, príkladov použitia API, článkom do Wiki, pomôžete aj ostatným. Sme otvorení tomuto prístupu, preto neváhajte.
 
@@ -30,6 +38,5 @@ git clone https://github.com/datapacsro/oec.git
 # Podpora k OEC
 Požiadavky a chyby reportujte cez [Issues](https://github.com/datapacsro/oec/issues) k tomuto repository.
 
-[Wiki k Datapac OEC](https://github.com/datapacsro/oec/wiki)
 
 
