@@ -1,4 +1,4 @@
-# OEC.LAN September release notes
+# OEC September 2019 release notes
 
 ## Dostupnosť
 September release je dostupný v týchto updatoch
