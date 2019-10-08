@@ -38,7 +38,9 @@ Nové API umožňuje zistiť kompletný stav dokladu. Na základe dátumu a čí
 
 ### Metóda na otvorenie pokladničnej zásuvky
 V prípade, že pokladničná zásuvka je pripojená k tlačiarni, je možné metódou 
+
 ```POST api/{cashRegisterCode}/opencashdrawer```
+
 poslať do tlačiarne ESC sekvenciu na otvorenie zásuvky. ESC sekvenciu je možné nadefinovať v PrinterConfiguration podľa typu pripojenej tlačiarne.
 
 ### Nové UI pre OECConfigurator
@@ -57,7 +59,7 @@ Doposielanie správ je upravené tak aby neblokovalo bežnú prevádzku (registr
 Pri nepripravenej tlačiarni (otvorené dvierka, chýba papier, ...) zariadenie čaká definovaný timeout (default 20s). Ak do timeoutu tlačiareň neodpovie, zariadenie vráti korektný HTTP status 202 a výsledok podľa toho ako sa zaevidoval doklad.
 
 ### Lepšie spracovanie chýb
-Neočakávené chyby a výnimky sú reportované v ReceiptResponse s väčším detailom aby bolo možné určiť príčinu.
+Neočakávené chyby a výnimky sú reportované v ReceiptResponse v elemente ErrorMessage s väčším detailom aby bolo možné určiť príčinu.
 
 ### Ošetrenie neočakávaných chýb z eKasa
 eKasa pri spracovaní dokladov, ktoré v názve obsahujú diakritické a špeciálne znaky vráti nešpecifikovanú chybu. Táto chyba spôsobovala reštart OEC v prípade doposielania správ.
