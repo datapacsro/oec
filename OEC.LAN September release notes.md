@@ -62,7 +62,8 @@ Pri nepripravenej tlačiarni (otvorené dvierka, chýba papier, ...) zariadenie 
 Neočakávené chyby a výnimky sú reportované v ReceiptResponse v elemente ErrorMessage s väčším detailom aby bolo možné určiť príčinu.
 
 ### Ošetrenie neočakávaných chýb z eKasa
-eKasa pri spracovaní dokladov, ktoré v názve obsahujú diakritické a špeciálne znaky vráti nešpecifikovanú chybu. Táto chyba spôsobovala reštart OEC v prípade doposielania správ.
+eKasa pri spracovaní dokladov, ktoré v názve obsahujú diakritické a špeciálne znaky vráti nešpecifikovanú chybu. 
+Táto chyba spôsobovala reštart OEC v prípade doposielania správ a následnú chybu 502 počas bootovania.
 
 ### Lepšie uvoľnovanie zdrojov
 Lepšie uvoľnovanie zdrojov pri zápise na storage.
