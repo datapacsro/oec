@@ -2,6 +2,7 @@
 
 ## Dostupnosť
 September release je dostupný v týchto updatoch
+
 |Zariadenie|Verzia update|SWID|
 |----|----|----|
 |OEC.LAN Standalone|update 005|8C2D63F7240D7F05B9B9FB1A9CE4DD020D39BDAC|
