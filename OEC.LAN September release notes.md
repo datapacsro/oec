@@ -58,5 +58,8 @@ Pri nepripravenej tlačiarni (otvorené dvierka, chýba papier, ...) zariadenie 
 ### Lepšie spracovanie chýb
 Neočakávené chyby a výnimky sú reportované v ReceiptResponse s väčším detailom aby bolo možné určiť príčinu.
 
+### Ošetrenie neočakávaných chýb z eKasa
+eKasa pri spracovaní dokladov, ktoré v názve obsahujú diakritické a špeciálne znaky vráti nešpecifikovanú chybu. Táto chyba spôsobovala reštart OEC v prípade doposielania správ.
+
 ### Lepšie uvoľnovanie zdrojov
 Lepšie uvoľnovanie zdrojov pri zápise na storage.
