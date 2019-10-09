@@ -9,6 +9,8 @@ September release je dostupný v týchto updatoch
 |OEC.LAN Internal|update 002|854E46AA328D7EC1CD4DF12C5A5D68F18DBB4044|
 |OEC.USB CHDU.sk|update 001|5C34558A85441CF744FC0B87853457D143979416|
 
+> Septembrový release je delta update. Vyžaduje nainštalovanú predošlú verziu. Pred spustením update sa uistite, že máte nainštalovanú predošlú verziu. Návod na zistenie verzie je dostupný na [Wiki](https://github.com/datapacsro/oec/wiki/Ako-zisti%C5%A5-verziu-software-OEC)
+
 ## Nová funkcionalita
 ### Podpora Proxy
 OEC.LAN podporuje použitie Proxy servera pre komunikáciu s eKasa a Update Service.
