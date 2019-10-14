@@ -40,3 +40,4 @@ Požiadavky a chyby reportujte cez [Issues](https://github.com/datapacsro/oec/is
 
 
 
+edit
