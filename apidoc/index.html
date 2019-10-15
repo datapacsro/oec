@@ -757,6 +757,12 @@ margin-bottom: 20px;
       "type" : "string",
       "description" : "Názov pokladne"
     },
+    "Status" : {
+      "type" : "string",
+      "description" : "## Stav pokladne\n- active - umožňuje registrovať doklady (addReceipt), polohu (registerLocation), tlač (print) a otvorenie zásuvky (openCashDrawer)\n- paused - neumožňuje registrovať doklady (addReceipt), polohu (registerLocation), tlač (print) a otvorenie zásuvky (openCashDrawer). V healthckeck sa vyhodnocuje rovnako ako active.\n- disabled - neumožňuje registrovať doklady (addReceipt), polohu (registerLocation), tlač (print) a otvorenie zásuvky (openCashDrawer). V healthckeck je vždy vyhodnotená ako Healthy\n",
+      "default" : "active",
+      "enum" : [ "active", "disabled", "paused" ]
+    },
     "ExceptionMode" : {
       "type" : "boolean",
       "description" : "Príznak, či ide o pokladnicu podnikateľa s udelenou výnimkou zo zasielania údajov"
@@ -797,6 +803,11 @@ margin-bottom: 20px;
     "Subject" : {
       "type" : "string",
       "description" : "Subject"
+    },
+    "IncludeReceiptResponse" : {
+      "type" : "boolean",
+      "description" : "Include ReceiptResponse as the e-mail attachment. If enabled the ReceiptResponse.json is added as a attachment to the e-mail",
+      "default" : false
     }
   },
   "description" : "Hlavičky e-mailu"
@@ -842,12 +853,15 @@ margin-bottom: 20px;
     "Timeout" : {
       "type" : "integer",
       "description" : "Timeout čakania na odpoveď od eKasa v ms. Musí byť >=2000",
-      "minimum" : 2000
+      "minimum" : 2000.0
     },
     "ResendTimeout" : {
       "type" : "integer",
       "description" : "Timeout čakania na odpoveď od eKasa v ms v prípade doposlania správy. Musí byť >=2000",
-      "minimum" : 2000
+      "minimum" : 2000.0
+    },
+    "ProxyConfiguration" : {
+      "$ref" : "#/definitions/ProxyConfiguration"
     }
   },
   "description" : "Globálna OEC konfigurácia"
@@ -948,9 +962,43 @@ margin-bottom: 20px;
       "type" : "string",
       "description" : "Kódovanie, na ktoré sa prekódujú všetky texty poslané na tlačiareň a uložené do CHDU.\n",
       "enum" : [ "ibm852", "windows-1250", "iso-8859-2" ]
+    },
+    "OpenCashDrawerSequence" : {
+      "type" : "string",
+      "description" : "Sekvencia, pomocou ktorej tlačiareň otovorí pripojenú pokladničnú zásuvku. Špeciálne znaky sa uvádzajú v tvare \\xhh kde hh je hexadecimálny kód znaku. \n## Príklady:\n\\x1B\\x70\\x30\\x80\\x80\n",
+      "default" : "\\x1B\\x70\\x30\\x80\\x80"
+    },
+    "PrinterJobWaitTime" : {
+      "type" : "integer",
+      "description" : "Maximálna doba v ms na čakanie odozvy od tlačiarne\n"
     }
   },
   "description" : "Konfigurácia tlačiarne"
+};
+        defs["ProxyConfiguration"] = {
+  "properties" : {
+    "UseProxy" : {
+      "type" : "boolean",
+      "description" : "Použiť alebo nepoužiť proxy"
+    },
+    "Address" : {
+      "type" : "string",
+      "description" : "Adresa proxy"
+    },
+    "Port" : {
+      "type" : "integer",
+      "description" : "Port proxy. Default 80"
+    },
+    "UserName" : {
+      "type" : "string",
+      "description" : "meno"
+    },
+    "Password" : {
+      "type" : "string",
+      "description" : "heslo"
+    }
+  },
+  "description" : "Konfigurácia proxy"
 };
         defs["Receipt"] = {
   "type" : "object",
@@ -1115,6 +1163,23 @@ margin-bottom: 20px;
   },
   "description" : "Položka dokladu"
 };
+        defs["ReceiptMessage"] = {
+  "properties" : {
+    "MessageContent" : {
+      "type" : "string",
+      "description" : "Dekódovaný obsah dátovej správy"
+    },
+    "PrintoutContent" : {
+      "type" : "string",
+      "description" : "Raw dáta"
+    },
+    "MessageType" : {
+      "type" : "integer",
+      "description" : "Typ správy\n * 1: ReceiptRequest\n * 2: ReceiptResponse\n * 3: LocationRequest\n * 4: LocationResponse\n * 5: AuthIdSet\n * 6: PrintReceipt\n * 7: PrintText\n"
+    }
+  },
+  "description" : "Dáta o doklade"
+};
         defs["ReceiptPrintTemplate"] = {
   "type" : "array",
   "description" : "Tlačová šablona\n> Ak nie je špecifikovaná, OEC vygeneruje tlačový výstup pomocou defaultnej tlačovej šablony\n\n## Ako je šablona použitá\n\nText *OFF-LINE DOKLAD* - je pridaný na začiatok textu\n\n*odpoveď z eKasa s QR kódom* - je pridané na koniec textu\n",
@@ -1243,6 +1308,16 @@ margin-bottom: 20px;
       "type" : "string",
       "format" : "email",
       "description" : "Default from address"
+    },
+    "EnableSSL" : {
+      "type" : "boolean",
+      "description" : "Enable SSL. Default true",
+      "default" : true
+    },
+    "IncludeReceiptResponse" : {
+      "type" : "boolean",
+      "description" : "Include ReceiptResponse as the e-mail attachment. If enabled the ReceiptResponse.json is added as a attachment to the e-mail",
+      "default" : false
     }
   },
   "description" : "SMTP configuration"
@@ -1336,6 +1411,9 @@ margin-bottom: 20px;
                     <li data-group="Default" data-name="getCurrentAuthIdSet" class="">
                       <a href="#api-Default-getCurrentAuthIdSet">getCurrentAuthIdSet</a>
                     </li>
+                    <li data-group="Default" data-name="getDocumentInfo" class="">
+                      <a href="#api-Default-getDocumentInfo">getDocumentInfo</a>
+                    </li>
                     <li data-group="Default" data-name="getErrors" class="">
                       <a href="#api-Default-getErrors">getErrors</a>
                     </li>
@@ -1351,6 +1429,12 @@ margin-bottom: 20px;
                     <li data-group="Default" data-name="getUnsentMessagesCount" class="">
                       <a href="#api-Default-getUnsentMessagesCount">getUnsentMessagesCount</a>
                     </li>
+                    <li data-group="Default" data-name="openCashDrawer" class="">
+                      <a href="#api-Default-openCashDrawer">openCashDrawer</a>
+                    </li>
+                    <li data-group="Default" data-name="pingGet" class="">
+                      <a href="#api-Default-pingGet">pingGet</a>
+                    </li>
                     <li data-group="Default" data-name="printReceipt" class="">
                       <a href="#api-Default-printReceipt">printReceipt</a>
                     </li>
@@ -1359,6 +1443,9 @@ margin-bottom: 20px;
                     </li>
                     <li data-group="Default" data-name="printUnsentMessages" class="">
                       <a href="#api-Default-printUnsentMessages">printUnsentMessages</a>
+                    </li>
+                    <li data-group="Default" data-name="rebootGet" class="">
+                      <a href="#api-Default-rebootGet">rebootGet</a>
                     </li>
                     <li data-group="Default" data-name="registerLocation" class="">
                       <a href="#api-Default-registerLocation">registerLocation</a>
@@ -1397,7 +1484,7 @@ margin-bottom: 20px;
         <div id="header">
           <div id="api-_">
             <h2 id="welcome-to-apidoc">API and SDK Documentation</h2>
-              <div class="app-desc">Version: 1.0.0</div>
+              <div class="app-desc">Version: 2</div>
             <hr>
             <div>Datapac OEC API</div>
           </div>
@@ -2175,6 +2262,14 @@ $(document).ready(function() {
                                   </div>
                                   <input id='responses-addReceipt-400-schema-data' type='hidden' value=''></input>
                                 </div>
+                            </div>
+
+                            <h3> Status: 405 - Pokladňa nie je aktívna </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
                             <h3> Status: 507 - Kapacita CHDU vyčerpaná </h3>
@@ -3703,6 +3798,409 @@ except ApiException as e:
                         </article>
                       </div>
                       <hr>
+                    <div id="api-Default-getDocumentInfo">
+                      <article id="api-Default-getDocumentInfo-0" data-group="User" data-name="getDocumentInfo" data-version="0">
+                        <div class="pull-left">
+                          <h1>getDocumentInfo</h1>
+                          <p>Vráti detaily k dokladu</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">Vráti všetky dátové správy a záznamy v CHDU k dokladu
+</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/documentinfo/{CashRegisterCode}/{Year}/{Month}/{ReceiptNumber}</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-getDocumentInfo-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-getDocumentInfo-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-getDocumentInfo-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-getDocumentInfo-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-getDocumentInfo-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-getDocumentInfo-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-getDocumentInfo-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-getDocumentInfo-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-getDocumentInfo-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-getDocumentInfo-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-getDocumentInfo-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-getDocumentInfo-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/documentinfo/{CashRegisterCode}/{Year}/{Month}/{ReceiptNumber}"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-getDocumentInfo-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        String cashRegisterCode = cashRegisterCode_example; // String | Kód on-line registračnej pokladnice
+        Integer year = 56; // Integer | Rok
+        Integer month = 56; // Integer | Mesiac
+        Integer receiptNumber = 56; // Integer | Číslo dokladu
+        try {
+            array[ReceiptMessage] result = apiInstance.getDocumentInfo(cashRegisterCode, year, month, receiptNumber);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getDocumentInfo");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-getDocumentInfo-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        String cashRegisterCode = cashRegisterCode_example; // String | Kód on-line registračnej pokladnice
+        Integer year = 56; // Integer | Rok
+        Integer month = 56; // Integer | Mesiac
+        Integer receiptNumber = 56; // Integer | Číslo dokladu
+        try {
+            array[ReceiptMessage] result = apiInstance.getDocumentInfo(cashRegisterCode, year, month, receiptNumber);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getDocumentInfo");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-getDocumentInfo-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-getDocumentInfo-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">String *cashRegisterCode = cashRegisterCode_example; // Kód on-line registračnej pokladnice
+Integer *year = 56; // Rok
+Integer *month = 56; // Mesiac
+Integer *receiptNumber = 56; // Číslo dokladu
+
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Vráti detaily k dokladu
+[apiInstance getDocumentInfoWith:cashRegisterCode
+    year:year
+    month:month
+    receiptNumber:receiptNumber
+              completionHandler: ^(array[ReceiptMessage] output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getDocumentInfo-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var DatapacOecApi = require('datapac_oec_api');
+
+var api = new DatapacOecApi.DefaultApi()
+
+var cashRegisterCode = cashRegisterCode_example; // {String} Kód on-line registračnej pokladnice
+
+var year = 56; // {Integer} Rok
+
+var month = 56; // {Integer} Mesiac
+
+var receiptNumber = 56; // {Integer} Číslo dokladu
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.getDocumentInfo(cashRegisterCode, year, month, receiptNumber, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-getDocumentInfo-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-getDocumentInfo-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class getDocumentInfoExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new DefaultApi();
+            var cashRegisterCode = cashRegisterCode_example;  // String | Kód on-line registračnej pokladnice
+            var year = 56;  // Integer | Rok
+            var month = 56;  // Integer | Mesiac
+            var receiptNumber = 56;  // Integer | Číslo dokladu
+
+            try
+            {
+                // Vráti detaily k dokladu
+                array[ReceiptMessage] result = apiInstance.getDocumentInfo(cashRegisterCode, year, month, receiptNumber);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.getDocumentInfo: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getDocumentInfo-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\DefaultApi();
+$cashRegisterCode = cashRegisterCode_example; // String | Kód on-line registračnej pokladnice
+$year = 56; // Integer | Rok
+$month = 56; // Integer | Mesiac
+$receiptNumber = 56; // Integer | Číslo dokladu
+
+try {
+    $result = $api_instance->getDocumentInfo($cashRegisterCode, $year, $month, $receiptNumber);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->getDocumentInfo: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getDocumentInfo-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+my $cashRegisterCode = cashRegisterCode_example; # String | Kód on-line registračnej pokladnice
+my $year = 56; # Integer | Rok
+my $month = 56; # Integer | Mesiac
+my $receiptNumber = 56; # Integer | Číslo dokladu
+
+eval { 
+    my $result = $api_instance->getDocumentInfo(cashRegisterCode => $cashRegisterCode, year => $year, month => $month, receiptNumber => $receiptNumber);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->getDocumentInfo: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getDocumentInfo-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+cashRegisterCode = cashRegisterCode_example # String | Kód on-line registračnej pokladnice
+year = 56 # Integer | Rok
+month = 56 # Integer | Mesiac
+receiptNumber = 56 # Integer | Číslo dokladu
+
+try: 
+    # Vráti detaily k dokladu
+    api_response = api_instance.get_document_info(cashRegisterCode, year, month, receiptNumber)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->getDocumentInfo: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">CashRegisterCode*</td>
+<td>
+
+
+    <div id="d2e199_getDocumentInfo_cashRegisterCode">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+                    <div class="inner description">
+                        Kód on-line registračnej pokladnice
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                                  <tr><td style="width:150px;">Year*</td>
+<td>
+
+
+    <div id="d2e199_getDocumentInfo_year">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Integer
+                </span>
+
+                    <div class="inner description">
+                        Rok
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                                  <tr><td style="width:150px;">Month*</td>
+<td>
+
+
+    <div id="d2e199_getDocumentInfo_month">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Integer
+                </span>
+
+                    <div class="inner description">
+                        Mesiac
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                                  <tr><td style="width:150px;">ReceiptNumber*</td>
+<td>
+
+
+    <div id="d2e199_getDocumentInfo_receiptNumber">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Integer
+                </span>
+
+                    <div class="inner description">
+                        Číslo dokladu
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - Detaily o doklade </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getDocumentInfo-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getDocumentInfo-200-schema">
+                                  <div id='responses-getDocumentInfo-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Detaily o doklade",
+  "schema" : {
+    "type" : "array",
+    "items" : {
+      "$ref" : "#/definitions/ReceiptMessage"
+    }
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getDocumentInfo-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getDocumentInfo-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getDocumentInfo-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 404 - Doklad nenájedný </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
                     <div id="api-Default-getErrors">
                       <article id="api-Default-getErrors-0" data-group="User" data-name="getErrors" data-version="0">
                         <div class="pull-left">
@@ -4969,18 +5467,496 @@ except ApiException as e:
                         </article>
                       </div>
                       <hr>
-                    <div id="api-Default-printReceipt">
-                      <article id="api-Default-printReceipt-0" data-group="User" data-name="printReceipt" data-version="0">
+                    <div id="api-Default-openCashDrawer">
+                      <article id="api-Default-openCashDrawer-0" data-group="User" data-name="openCashDrawer" data-version="0">
                         <div class="pull-left">
-                          <h1>printReceipt</h1>
-                          <p>Vytlačí kópiu posledného dokladu s použitím default šablony</p>
+                          <h1>openCashDrawer</h1>
+                          <p>Otvorí pokladničnú zásuvku pomocou ESC sekvencie</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Vytlačí kópiu poledného dokladu použitím default šablony v súlade s požiadavkami zákona
+                        <p class="marked">Otvorí pokladničnú zásuvku pomocou ESC sekvencie
+</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/cashregister/{CashRegisterCode}/opendrawer/</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-openCashDrawer-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-openCashDrawer-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-openCashDrawer-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-openCashDrawer-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-openCashDrawer-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-openCashDrawer-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-openCashDrawer-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-openCashDrawer-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-openCashDrawer-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-openCashDrawer-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-openCashDrawer-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-openCashDrawer-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/cashregister/{CashRegisterCode}/opendrawer/"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-openCashDrawer-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        String cashRegisterCode = cashRegisterCode_example; // String | Kód on-line registračnej pokladnice
+        try {
+            apiInstance.openCashDrawer(cashRegisterCode);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#openCashDrawer");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-openCashDrawer-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        String cashRegisterCode = cashRegisterCode_example; // String | Kód on-line registračnej pokladnice
+        try {
+            apiInstance.openCashDrawer(cashRegisterCode);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#openCashDrawer");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-openCashDrawer-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-openCashDrawer-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">String *cashRegisterCode = cashRegisterCode_example; // Kód on-line registračnej pokladnice
+
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Otvorí pokladničnú zásuvku pomocou ESC sekvencie
+[apiInstance openCashDrawerWith:cashRegisterCode
+              completionHandler: ^(NSError* error) {
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-openCashDrawer-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var DatapacOecApi = require('datapac_oec_api');
+
+var api = new DatapacOecApi.DefaultApi()
+
+var cashRegisterCode = cashRegisterCode_example; // {String} Kód on-line registračnej pokladnice
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+api.openCashDrawer(cashRegisterCode, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-openCashDrawer-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-openCashDrawer-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class openCashDrawerExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new DefaultApi();
+            var cashRegisterCode = cashRegisterCode_example;  // String | Kód on-line registračnej pokladnice
+
+            try
+            {
+                // Otvorí pokladničnú zásuvku pomocou ESC sekvencie
+                apiInstance.openCashDrawer(cashRegisterCode);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.openCashDrawer: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-openCashDrawer-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\DefaultApi();
+$cashRegisterCode = cashRegisterCode_example; // String | Kód on-line registračnej pokladnice
+
+try {
+    $api_instance->openCashDrawer($cashRegisterCode);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->openCashDrawer: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-openCashDrawer-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+my $cashRegisterCode = cashRegisterCode_example; # String | Kód on-line registračnej pokladnice
+
+eval { 
+    $api_instance->openCashDrawer(cashRegisterCode => $cashRegisterCode);
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->openCashDrawer: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-openCashDrawer-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+cashRegisterCode = cashRegisterCode_example # String | Kód on-line registračnej pokladnice
+
+try: 
+    # Otvorí pokladničnú zásuvku pomocou ESC sekvencie
+    api_instance.open_cash_drawer(cashRegisterCode)
+except ApiException as e:
+    print("Exception when calling DefaultApi->openCashDrawer: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">CashRegisterCode*</td>
+<td>
+
+
+    <div id="d2e199_openCashDrawer_cashRegisterCode">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+                    <div class="inner description">
+                        Kód on-line registračnej pokladnice
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - Operácia vykonaná </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 405 - Pokladňa nie je aktívna </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 503 - Nepodarilo sa vykonať </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Default-pingGet">
+                      <article id="api-Default-pingGet-0" data-group="User" data-name="pingGet" data-version="0">
+                        <div class="pull-left">
+                          <h1>pingGet</h1>
+                          <p>Jednoduchý ping. Zariadenie vráti status 200</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">Jednoduchý ping. Zariadenie vráti status 200. Znamená, že zariadenie nabootovalo a je pripravené.
+</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/ping</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-pingGet-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-pingGet-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-pingGet-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-pingGet-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-pingGet-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-pingGet-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-pingGet-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-pingGet-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-pingGet-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-pingGet-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-pingGet-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-pingGet-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/ping"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-pingGet-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        try {
+            apiInstance.pingGet();
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#pingGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-pingGet-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        try {
+            apiInstance.pingGet();
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#pingGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-pingGet-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-pingGet-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Jednoduchý ping. Zariadenie vráti status 200
+[apiInstance pingGetWithCompletionHandler: 
+              ^(NSError* error) {
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-pingGet-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var DatapacOecApi = require('datapac_oec_api');
+
+var api = new DatapacOecApi.DefaultApi()
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+api.pingGet(callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-pingGet-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-pingGet-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class pingGetExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new DefaultApi();
+
+            try
+            {
+                // Jednoduchý ping. Zariadenie vráti status 200
+                apiInstance.pingGet();
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.pingGet: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-pingGet-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\DefaultApi();
+
+try {
+    $api_instance->pingGet();
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->pingGet: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-pingGet-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+
+eval { 
+    $api_instance->pingGet();
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->pingGet: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-pingGet-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+
+try: 
+    # Jednoduchý ping. Zariadenie vráti status 200
+    api_instance.ping_get()
+except ApiException as e:
+    print("Exception when calling DefaultApi->pingGet: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - OK </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Default-printReceipt">
+                      <article id="api-Default-printReceipt-0" data-group="User" data-name="printReceipt" data-version="0">
+                        <div class="pull-left">
+                          <h1>printReceipt</h1>
+                          <p>Vytlačí alebo vráti kópiu posledného dokladu s použitím default šablony</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">Vytlačí alebo vráti kópiu poledného dokladu použitím default šablony v súlade s požiadavkami zákona
   - bez UID (unikátny identifikátor dokladu) a QR kódu
   - s informáciou o online/offline spracovaní
+  
+  Ak je špecifikovaný Renderer
+   - printer,email - doklad vytlačí alebo odošle e-mailom a vráti údaje v ReceiptResponse
+   - none - len vráti údaje o doklade v ReceiptResponse
 </p>
                         <p></p>
                         <br />
@@ -5025,7 +6001,8 @@ public class DefaultApiExample {
         Integer receiptNumber = 56; // Integer | Poradové číslo dokladu
         ReceiptRenderer renderer = ; // ReceiptRenderer | Renderer
         try {
-            apiInstance.printReceipt(cashRegisterCode, date, receiptNumber, renderer);
+            ReceiptResponse result = apiInstance.printReceipt(cashRegisterCode, date, receiptNumber, renderer);
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DefaultApi#printReceipt");
             e.printStackTrace();
@@ -5046,7 +6023,8 @@ public class DefaultApiExample {
         Integer receiptNumber = 56; // Integer | Poradové číslo dokladu
         ReceiptRenderer renderer = ; // ReceiptRenderer | Renderer
         try {
-            apiInstance.printReceipt(cashRegisterCode, date, receiptNumber, renderer);
+            ReceiptResponse result = apiInstance.printReceipt(cashRegisterCode, date, receiptNumber, renderer);
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DefaultApi#printReceipt");
             e.printStackTrace();
@@ -5066,12 +6044,15 @@ ReceiptRenderer *renderer = ; // Renderer (optional)
 
 DefaultApi *apiInstance = [[DefaultApi alloc] init];
 
-// Vytlačí kópiu posledného dokladu s použitím default šablony
+// Vytlačí alebo vráti kópiu posledného dokladu s použitím default šablony
 [apiInstance printReceiptWith:cashRegisterCode
     date:date
     receiptNumber:receiptNumber
     renderer:renderer
-              completionHandler: ^(NSError* error) {
+              completionHandler: ^(ReceiptResponse output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
                             if (error) {
                                 NSLog(@"Error: %@", error);
                             }
@@ -5098,7 +6079,7 @@ var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully.');
+    console.log('API called successfully. Returned data: ' + data);
   }
 };
 api.printReceipt(cashRegisterCode, date, receiptNumber, opts, callback);
@@ -5130,8 +6111,9 @@ namespace Example
 
             try
             {
-                // Vytlačí kópiu posledného dokladu s použitím default šablony
-                apiInstance.printReceipt(cashRegisterCode, date, receiptNumber, renderer);
+                // Vytlačí alebo vráti kópiu posledného dokladu s použitím default šablony
+                ReceiptResponse result = apiInstance.printReceipt(cashRegisterCode, date, receiptNumber, renderer);
+                Debug.WriteLine(result);
             }
             catch (Exception e)
             {
@@ -5154,7 +6136,8 @@ $receiptNumber = 56; // Integer | Poradové číslo dokladu
 $renderer = ; // ReceiptRenderer | Renderer
 
 try {
-    $api_instance->printReceipt($cashRegisterCode, $date, $receiptNumber, $renderer);
+    $result = $api_instance->printReceipt($cashRegisterCode, $date, $receiptNumber, $renderer);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling DefaultApi->printReceipt: ', $e->getMessage(), PHP_EOL;
 }
@@ -5173,7 +6156,8 @@ my $receiptNumber = 56; # Integer | Poradové číslo dokladu
 my $renderer = WWW::SwaggerClient::Object::ReceiptRenderer->new(); # ReceiptRenderer | Renderer
 
 eval { 
-    $api_instance->printReceipt(cashRegisterCode => $cashRegisterCode, date => $date, receiptNumber => $receiptNumber, renderer => $renderer);
+    my $result = $api_instance->printReceipt(cashRegisterCode => $cashRegisterCode, date => $date, receiptNumber => $receiptNumber, renderer => $renderer);
+    print Dumper($result);
 };
 if ($@) {
     warn "Exception when calling DefaultApi->printReceipt: $@\n";
@@ -5195,8 +6179,9 @@ receiptNumber = 56 # Integer | Poradové číslo dokladu
 renderer =  # ReceiptRenderer | Renderer (optional)
 
 try: 
-    # Vytlačí kópiu posledného dokladu s použitím default šablony
-    api_instance.print_receipt(cashRegisterCode, date, receiptNumber, renderer=renderer)
+    # Vytlačí alebo vráti kópiu posledného dokladu s použitím default šablony
+    api_response = api_instance.print_receipt(cashRegisterCode, date, receiptNumber, renderer=renderer)
+    pprint(api_response)
 except ApiException as e:
     print("Exception when calling DefaultApi->printReceipt: %s\n" % e)</code></pre>
                             </div>
@@ -5344,9 +6329,44 @@ $(document).ready(function() {
                             <h3> Status: 204 - Kópia dokladu vyhotovená </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-printReceipt-204-schema">Schema</a>
+                                </li>
+
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-printReceipt-204-schema">
+                                  <div id='responses-printReceipt-204-schema-204' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Kópia dokladu vyhotovená",
+  "schema" : {
+    "$ref" : "#/definitions/ReceiptResponse"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-printReceipt-204-schema-data').val(stringify(schema));
+                                        var result = $('#responses-printReceipt-204-schema-204');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-printReceipt-204-schema-data' type='hidden' value=''></input>
+                                </div>
                             </div>
 
                             <h3> Status: 404 - Doklad nenájedný </h3>
@@ -5666,6 +6686,14 @@ $(document).ready(function() {
                             </div>
 
                             <h3> Status: 202 - Text bol uložený v CHDU, ale **NEBOL** úspešne vytlačený </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 405 - Pokladňa nie je aktívna </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -6017,6 +7045,214 @@ except ApiException as e:
                             </div>
 
                             <h3> Status: 507 - CHDÚ je zaplnené </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Default-rebootGet">
+                      <article id="api-Default-rebootGet-0" data-group="User" data-name="rebootGet" data-version="0">
+                        <div class="pull-left">
+                          <h1>rebootGet</h1>
+                          <p>Vykoná reboot zariadenia</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">Vykoná reboot zariadenia</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/reboot</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-rebootGet-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-rebootGet-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-rebootGet-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-rebootGet-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-rebootGet-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-rebootGet-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-rebootGet-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-rebootGet-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-rebootGet-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-rebootGet-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-rebootGet-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-rebootGet-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/reboot"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-rebootGet-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        try {
+            apiInstance.rebootGet();
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#rebootGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-rebootGet-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        try {
+            apiInstance.rebootGet();
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#rebootGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-rebootGet-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-rebootGet-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Vykoná reboot zariadenia
+[apiInstance rebootGetWithCompletionHandler: 
+              ^(NSError* error) {
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-rebootGet-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var DatapacOecApi = require('datapac_oec_api');
+
+var api = new DatapacOecApi.DefaultApi()
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+api.rebootGet(callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-rebootGet-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-rebootGet-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class rebootGetExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new DefaultApi();
+
+            try
+            {
+                // Vykoná reboot zariadenia
+                apiInstance.rebootGet();
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.rebootGet: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-rebootGet-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\DefaultApi();
+
+try {
+    $api_instance->rebootGet();
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->rebootGet: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-rebootGet-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+
+eval { 
+    $api_instance->rebootGet();
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->rebootGet: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-rebootGet-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+
+try: 
+    # Vykoná reboot zariadenia
+    api_instance.reboot_get()
+except ApiException as e:
+    print("Exception when calling DefaultApi->rebootGet: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - OK </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -6409,6 +7645,14 @@ $(document).ready(function() {
                                   </div>
                                   <input id='responses-registerLocation-400-schema-data' type='hidden' value=''></input>
                                 </div>
+                            </div>
+
+                            <h3> Status: 405 - Pokladňa nie je aktívna </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
                             <h3> Status: 507 - Kapacita CHDU vyčerpaná </h3>
