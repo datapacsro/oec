@@ -50,7 +50,7 @@ OECConfigurátor dostal nový prehľadnejší vzhľad.
 
 ## Zmeny
 ### CompanyAddress je povinný tag
-Tag CompanyAddress je povinný a kontrolovaný v tlačovej šablone
+Tag CompanyAddress je povinný a kontrolovaný v tlačovej šablone. Toto nebolo explicitne napísané v predošlej, ale OEC to kontrolovalo.
 
 
 ## Bugfixes a zlepšenia stability
