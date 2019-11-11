@@ -52,6 +52,9 @@ OECConfigurátor dostal nový prehľadnejší vzhľad.
 ### CompanyAddress je povinný tag
 Tag CompanyAddress je povinný a kontrolovaný v tlačovej šablone. Toto nebolo explicitne napísané v predošlej, ale OEC to kontrolovalo.
 
+### Tlač členenia DPH pri JUP
+Ak je v doklade použitý JUP (Jednoúčelový poukaz) a daňový subjekt je plátcom DPH tak sa v defaultnej šablone vytlačí členenie DPH.
+
 
 ## Bugfixes a zlepšenia stability
 ### Doposielanie správ
