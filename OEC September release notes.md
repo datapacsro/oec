@@ -30,7 +30,7 @@ Je možné vpnúť a zapnúť SSL komunikáciu s SMTP serverom pomocou OECConfig
 
 ### Nové administratívne API
 Nové api obsahuje možnosti 
-- ```GET /api/reboot``` - vykoná reštart zariadenie
+- ```GET /api/reboot``` - vykoná reštart zariadenia
 - ```GET /api/ping``` - jednoduchý ping, zariadenie vráti HTTP status 200
 
 ### Nové API na zistenie stavu dokladu
