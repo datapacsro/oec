@@ -3,11 +3,11 @@
 ## Dostupnosť
 September release je dostupný v týchto updatoch
 
-|Zariadenie|Verzia update|SWID|
-|----|----|----|
-|OEC.LAN Standalone|update 005|8C2D63F7240D7F05B9B9FB1A9CE4DD020D39BDAC|
-|OEC.LAN Internal|update 002|854E46AA328D7EC1CD4DF12C5A5D68F18DBB4044|
-|OEC.USB CHDU.sk|update 001|5C34558A85441CF744FC0B87853457D143979416|
+|Zariadenie|Verzia update|SWID|Verzia SW|
+|----|----|----|----|
+|OEC.LAN Standalone|update 005|8C2D63F7240D7F05B9B9FB1A9CE4DD020D39BDAC|1.0.2.0|
+|OEC.LAN Internal|update 002|854E46AA328D7EC1CD4DF12C5A5D68F18DBB4044|1.0.2.0|
+|OEC.USB CHDU.sk|update 001|5C34558A85441CF744FC0B87853457D143979416|1.0.2.0|
 
 > Septembrový release je delta update. Vyžaduje nainštalovanú predošlú verziu. Pred spustením update sa uistite, že máte nainštalovanú predošlú verziu. Návod na zistenie verzie je dostupný na [Wiki](https://github.com/datapacsro/oec/wiki/Ako-zisti%C5%A5-verziu-software-OEC)
 
@@ -30,7 +30,7 @@ Je možné vpnúť a zapnúť SSL komunikáciu s SMTP serverom pomocou OECConfig
 
 ### Nové administratívne API
 Nové api obsahuje možnosti 
-- ```GET /api/reboot``` - vykoná reštart zariadenie
+- ```GET /api/reboot``` - vykoná reštart zariadenia
 - ```GET /api/ping``` - jednoduchý ping, zariadenie vráti HTTP status 200
 
 ### Nové API na zistenie stavu dokladu
