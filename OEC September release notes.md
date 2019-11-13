@@ -55,7 +55,7 @@ Tag CompanyAddress je povinný a kontrolovaný v tlačovej šablone. Toto nebolo
 ### Tlač členenia DPH pri JUP
 Ak je v doklade použitý JUP (Jednoúčelový poukaz) a daňový subjekt je plátcom DPH tak sa v defaultnej šablone vytlačí členenie DPH.
 
-Usmernenie k JUP od Finančnej správy je v dokumente [Príklady JUP](priklady_JUP.PDF)
+Usmernenie k JUP od Finančnej správy je v dokumente [Príklady JUP](priklady_JUP.pdf)
 
 Príklady requestov k JUP sú popísané v [Datapac OEC API Howto](Datapac%20OEC%20API%20Howto.docx)
 
