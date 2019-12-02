@@ -11,7 +11,7 @@ Datapac OEC je certifikovaný online eKasa klient.
 
 [OEC.LAN pouzivatelsky manual.docx](https://github.com/datapacsro/oec/blob/master/OEC.LAN%20pouzivatelsky%20manual.docx) - používateľský manuál. Popisuje nastavenie siete, zapojenie, podporované tlačiarne atď.
 
-[apidoc](apidoc) - podrobná dokumentácia k API
+[API docs](docs) - podrobná dokumentácia k API
 
 [codesamples](codesamples) - príklad kódu v C#
 
