@@ -1360,6 +1360,21 @@ margin-bottom: 20px;
   },
   "description" : "Text to free print"
 };
+        defs["Transaction"] = {
+  "properties" : {
+    "ReceiptRequest" : {
+      "$ref" : "#/definitions/ReceiptRequest"
+    },
+    "ReceiptResponse" : {
+      "$ref" : "#/definitions/ReceiptResponse"
+    },
+    "TransactionState" : {
+      "type" : "string",
+      "enum" : [ "Idle", "Pending", "Online", "Offline", "Warning", "Error" ]
+    }
+  },
+  "description" : "Zobrazí stav poslednej transakcie"
+};
         defs["UnsentState"] = {
   "properties" : {
     "CashRegisterCode" : {
@@ -1420,11 +1435,20 @@ margin-bottom: 20px;
                     <li data-group="Default" data-name="getGlobalConfiguration" class="">
                       <a href="#api-Default-getGlobalConfiguration">getGlobalConfiguration</a>
                     </li>
+                    <li data-group="Default" data-name="getLastTransaction" class="">
+                      <a href="#api-Default-getLastTransaction">getLastTransaction</a>
+                    </li>
+                    <li data-group="Default" data-name="getLastTransactionCount" class="">
+                      <a href="#api-Default-getLastTransactionCount">getLastTransactionCount</a>
+                    </li>
                     <li data-group="Default" data-name="getStatus" class="">
                       <a href="#api-Default-getStatus">getStatus</a>
                     </li>
                     <li data-group="Default" data-name="getTime" class="">
                       <a href="#api-Default-getTime">getTime</a>
+                    </li>
+                    <li data-group="Default" data-name="getTransactionFromTo" class="">
+                      <a href="#api-Default-getTransactionFromTo">getTransactionFromTo</a>
                     </li>
                     <li data-group="Default" data-name="getUnsentMessagesCount" class="">
                       <a href="#api-Default-getUnsentMessagesCount">getUnsentMessagesCount</a>
@@ -1484,7 +1508,7 @@ margin-bottom: 20px;
         <div id="header">
           <div id="api-_">
             <h2 id="welcome-to-apidoc">API and SDK Documentation</h2>
-              <div class="app-desc">Version: 2</div>
+              <div class="app-desc">Version: 3</div>
             <hr>
             <div>Datapac OEC API</div>
           </div>
@@ -1525,7 +1549,7 @@ margin-bottom: 20px;
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-addAuthIdSet-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://virtserver.swaggerhub.com/oec/api/authidset/{CashRegisterCode}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/authidset/{CashRegisterCode}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-addAuthIdSet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1868,7 +1892,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-addReceipt-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://virtserver.swaggerhub.com/oec/api/receipt/{CashRegisterCode}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/receipt/{CashRegisterCode}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-addReceipt-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2351,7 +2375,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-getAuthIdSet-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/oec/api/authidset/{CashRegisterCode}/{AuthSetId}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/authidset/{CashRegisterCode}/{AuthSetId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-getAuthIdSet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2685,7 +2709,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-getAuthIdSets-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/oec/api/authidset/{CashRegisterCode}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/authidset/{CashRegisterCode}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-getAuthIdSets-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2981,7 +3005,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-getCashRegisterConfiguration-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/oec/api/cashregisterconfig/{CashRegisterCode}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/cashregisterconfig/{CashRegisterCode}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-getCashRegisterConfiguration-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -3282,7 +3306,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-getCashRegistersConfiguration-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/oec/api/cashregisterconfig/"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/cashregisterconfig/"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-getCashRegistersConfiguration-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -3538,7 +3562,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-getCurrentAuthIdSet-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/oec/api/authidset/{CashRegisterCode}/current"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/authidset/{CashRegisterCode}/current"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-getCurrentAuthIdSet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -3831,7 +3855,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-getDocumentInfo-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/oec/api/documentinfo/{CashRegisterCode}/{Year}/{Month}/{ReceiptNumber}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/documentinfo/{CashRegisterCode}/{Year}/{Month}/{ReceiptNumber}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-getDocumentInfo-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -4236,7 +4260,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-getErrors-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/oec/api/errors/{CashRegisterCode}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/errors/{CashRegisterCode}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-getErrors-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -4532,7 +4556,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-getGlobalConfiguration-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/oec/api/globalconfig/"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/globalconfig/"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-getGlobalConfiguration-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -4752,6 +4776,631 @@ except ApiException as e:
                         </article>
                       </div>
                       <hr>
+                    <div id="api-Default-getLastTransaction">
+                      <article id="api-Default-getLastTransaction-0" data-group="User" data-name="getLastTransaction" data-version="0">
+                        <div class="pull-left">
+                          <h1>getLastTransaction</h1>
+                          <p>Vráti poslednú transakciu</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">Vráti poslednú transakciu pre danú pokladňu s jej stavom, poprípade s response
+</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/transaction/{CashRegisterCode}</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-getLastTransaction-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-getLastTransaction-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-getLastTransaction-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-getLastTransaction-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-getLastTransaction-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-getLastTransaction-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-getLastTransaction-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-getLastTransaction-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-getLastTransaction-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-getLastTransaction-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-getLastTransaction-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-getLastTransaction-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/transaction/{CashRegisterCode}"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-getLastTransaction-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        String cashRegisterCode = cashRegisterCode_example; // String | Kód on-line registračnej pokladnice
+        try {
+            array[Transaction] result = apiInstance.getLastTransaction(cashRegisterCode);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getLastTransaction");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-getLastTransaction-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        String cashRegisterCode = cashRegisterCode_example; // String | Kód on-line registračnej pokladnice
+        try {
+            array[Transaction] result = apiInstance.getLastTransaction(cashRegisterCode);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getLastTransaction");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-getLastTransaction-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-getLastTransaction-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">String *cashRegisterCode = cashRegisterCode_example; // Kód on-line registračnej pokladnice
+
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Vráti poslednú transakciu
+[apiInstance getLastTransactionWith:cashRegisterCode
+              completionHandler: ^(array[Transaction] output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getLastTransaction-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var DatapacOecApi = require('datapac_oec_api');
+
+var api = new DatapacOecApi.DefaultApi()
+
+var cashRegisterCode = cashRegisterCode_example; // {String} Kód on-line registračnej pokladnice
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.getLastTransaction(cashRegisterCode, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-getLastTransaction-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-getLastTransaction-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class getLastTransactionExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new DefaultApi();
+            var cashRegisterCode = cashRegisterCode_example;  // String | Kód on-line registračnej pokladnice
+
+            try
+            {
+                // Vráti poslednú transakciu
+                array[Transaction] result = apiInstance.getLastTransaction(cashRegisterCode);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.getLastTransaction: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getLastTransaction-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\DefaultApi();
+$cashRegisterCode = cashRegisterCode_example; // String | Kód on-line registračnej pokladnice
+
+try {
+    $result = $api_instance->getLastTransaction($cashRegisterCode);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->getLastTransaction: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getLastTransaction-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+my $cashRegisterCode = cashRegisterCode_example; # String | Kód on-line registračnej pokladnice
+
+eval { 
+    my $result = $api_instance->getLastTransaction(cashRegisterCode => $cashRegisterCode);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->getLastTransaction: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getLastTransaction-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+cashRegisterCode = cashRegisterCode_example # String | Kód on-line registračnej pokladnice
+
+try: 
+    # Vráti poslednú transakciu
+    api_response = api_instance.get_last_transaction(cashRegisterCode)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->getLastTransaction: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">CashRegisterCode*</td>
+<td>
+
+
+    <div id="d2e199_getLastTransaction_cashRegisterCode">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+                    <div class="inner description">
+                        Kód on-line registračnej pokladnice
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - Posledná transakcia a jej stav </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getLastTransaction-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getLastTransaction-200-schema">
+                                  <div id='responses-getLastTransaction-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Posledná transakcia a jej stav",
+  "schema" : {
+    "type" : "array",
+    "items" : {
+      "$ref" : "#/definitions/Transaction"
+    }
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getLastTransaction-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getLastTransaction-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getLastTransaction-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Default-getLastTransactionCount">
+                      <article id="api-Default-getLastTransactionCount-0" data-group="User" data-name="getLastTransactionCount" data-version="0">
+                        <div class="pull-left">
+                          <h1>getLastTransactionCount</h1>
+                          <p>Vráti posledné Count transakcie</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">Vráti poslednú transakciu pre danú pokladňu s jej stavom, poprípade s response
+</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/transaction/{CashRegisterCode}/{Count}</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-getLastTransactionCount-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-getLastTransactionCount-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-getLastTransactionCount-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-getLastTransactionCount-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-getLastTransactionCount-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-getLastTransactionCount-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-getLastTransactionCount-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-getLastTransactionCount-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-getLastTransactionCount-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-getLastTransactionCount-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-getLastTransactionCount-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-getLastTransactionCount-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/transaction/{CashRegisterCode}/{Count}"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-getLastTransactionCount-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        String cashRegisterCode = cashRegisterCode_example; // String | Kód on-line registračnej pokladnice
+        BigDecimal count = 8.14; // BigDecimal | Počet správ na vrátenie (od najnovšej)
+        try {
+            array[Transaction] result = apiInstance.getLastTransactionCount(cashRegisterCode, count);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getLastTransactionCount");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-getLastTransactionCount-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        String cashRegisterCode = cashRegisterCode_example; // String | Kód on-line registračnej pokladnice
+        BigDecimal count = 8.14; // BigDecimal | Počet správ na vrátenie (od najnovšej)
+        try {
+            array[Transaction] result = apiInstance.getLastTransactionCount(cashRegisterCode, count);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getLastTransactionCount");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-getLastTransactionCount-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-getLastTransactionCount-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">String *cashRegisterCode = cashRegisterCode_example; // Kód on-line registračnej pokladnice
+BigDecimal *count = 8.14; // Počet správ na vrátenie (od najnovšej)
+
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Vráti posledné Count transakcie
+[apiInstance getLastTransactionCountWith:cashRegisterCode
+    count:count
+              completionHandler: ^(array[Transaction] output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getLastTransactionCount-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var DatapacOecApi = require('datapac_oec_api');
+
+var api = new DatapacOecApi.DefaultApi()
+
+var cashRegisterCode = cashRegisterCode_example; // {String} Kód on-line registračnej pokladnice
+
+var count = 8.14; // {BigDecimal} Počet správ na vrátenie (od najnovšej)
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.getLastTransactionCount(cashRegisterCode, count, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-getLastTransactionCount-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-getLastTransactionCount-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class getLastTransactionCountExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new DefaultApi();
+            var cashRegisterCode = cashRegisterCode_example;  // String | Kód on-line registračnej pokladnice
+            var count = 8.14;  // BigDecimal | Počet správ na vrátenie (od najnovšej)
+
+            try
+            {
+                // Vráti posledné Count transakcie
+                array[Transaction] result = apiInstance.getLastTransactionCount(cashRegisterCode, count);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.getLastTransactionCount: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getLastTransactionCount-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\DefaultApi();
+$cashRegisterCode = cashRegisterCode_example; // String | Kód on-line registračnej pokladnice
+$count = 8.14; // BigDecimal | Počet správ na vrátenie (od najnovšej)
+
+try {
+    $result = $api_instance->getLastTransactionCount($cashRegisterCode, $count);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->getLastTransactionCount: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getLastTransactionCount-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+my $cashRegisterCode = cashRegisterCode_example; # String | Kód on-line registračnej pokladnice
+my $count = 8.14; # BigDecimal | Počet správ na vrátenie (od najnovšej)
+
+eval { 
+    my $result = $api_instance->getLastTransactionCount(cashRegisterCode => $cashRegisterCode, count => $count);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->getLastTransactionCount: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getLastTransactionCount-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+cashRegisterCode = cashRegisterCode_example # String | Kód on-line registračnej pokladnice
+count = 8.14 # BigDecimal | Počet správ na vrátenie (od najnovšej)
+
+try: 
+    # Vráti posledné Count transakcie
+    api_response = api_instance.get_last_transaction_count(cashRegisterCode, count)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->getLastTransactionCount: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">CashRegisterCode*</td>
+<td>
+
+
+    <div id="d2e199_getLastTransactionCount_cashRegisterCode">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+                    <div class="inner description">
+                        Kód on-line registračnej pokladnice
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                                  <tr><td style="width:150px;">Count*</td>
+<td>
+
+
+    <div id="d2e199_getLastTransactionCount_count">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    BigDecimal
+                </span>
+
+                    <div class="inner description">
+                        Počet správ na vrátenie (od najnovšej)
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - Posledná transakcia a jej stav </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getLastTransactionCount-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getLastTransactionCount-200-schema">
+                                  <div id='responses-getLastTransactionCount-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Posledná transakcia a jej stav",
+  "schema" : {
+    "type" : "array",
+    "items" : {
+      "$ref" : "#/definitions/Transaction"
+    }
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getLastTransactionCount-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getLastTransactionCount-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getLastTransactionCount-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
                     <div id="api-Default-getStatus">
                       <article id="api-Default-getStatus-0" data-group="User" data-name="getStatus" data-version="0">
                         <div class="pull-left">
@@ -4784,7 +5433,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-getStatus-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/oec/api/status"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/status"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-getStatus-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -5036,7 +5685,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-getTime-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/oec/api/time"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/time"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-getTime-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -5212,6 +5861,367 @@ except ApiException as e:
                         </article>
                       </div>
                       <hr>
+                    <div id="api-Default-getTransactionFromTo">
+                      <article id="api-Default-getTransactionFromTo-0" data-group="User" data-name="getTransactionFromTo" data-version="0">
+                        <div class="pull-left">
+                          <h1>getTransactionFromTo</h1>
+                          <p>Vráti transakcie od datumu po datum</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">Vráti poslednú transakciu pre danú pokladňu s jej stavom, poprípade s response.</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/transaction/{CashRegisterCode}/{From}/{To}</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-getTransactionFromTo-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-getTransactionFromTo-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-getTransactionFromTo-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-getTransactionFromTo-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-getTransactionFromTo-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-getTransactionFromTo-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-getTransactionFromTo-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-getTransactionFromTo-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-getTransactionFromTo-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-getTransactionFromTo-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-getTransactionFromTo-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-getTransactionFromTo-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/transaction/{CashRegisterCode}/{From}/{To}"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-getTransactionFromTo-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        String cashRegisterCode = cashRegisterCode_example; // String | Kód on-line registračnej pokladnice
+        String from = from_example; // String | Dátum od
+        String to = to_example; // String | Dátum do
+        try {
+            array[Transaction] result = apiInstance.getTransactionFromTo(cashRegisterCode, from, to);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getTransactionFromTo");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-getTransactionFromTo-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        String cashRegisterCode = cashRegisterCode_example; // String | Kód on-line registračnej pokladnice
+        String from = from_example; // String | Dátum od
+        String to = to_example; // String | Dátum do
+        try {
+            array[Transaction] result = apiInstance.getTransactionFromTo(cashRegisterCode, from, to);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getTransactionFromTo");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-getTransactionFromTo-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-getTransactionFromTo-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">String *cashRegisterCode = cashRegisterCode_example; // Kód on-line registračnej pokladnice
+String *from = from_example; // Dátum od
+String *to = to_example; // Dátum do
+
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Vráti transakcie od datumu po datum
+[apiInstance getTransactionFromToWith:cashRegisterCode
+    from:from
+    to:to
+              completionHandler: ^(array[Transaction] output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getTransactionFromTo-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var DatapacOecApi = require('datapac_oec_api');
+
+var api = new DatapacOecApi.DefaultApi()
+
+var cashRegisterCode = cashRegisterCode_example; // {String} Kód on-line registračnej pokladnice
+
+var from = from_example; // {String} Dátum od
+
+var to = to_example; // {String} Dátum do
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.getTransactionFromTo(cashRegisterCode, from, to, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-getTransactionFromTo-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-getTransactionFromTo-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class getTransactionFromToExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new DefaultApi();
+            var cashRegisterCode = cashRegisterCode_example;  // String | Kód on-line registračnej pokladnice
+            var from = from_example;  // String | Dátum od
+            var to = to_example;  // String | Dátum do
+
+            try
+            {
+                // Vráti transakcie od datumu po datum
+                array[Transaction] result = apiInstance.getTransactionFromTo(cashRegisterCode, from, to);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.getTransactionFromTo: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getTransactionFromTo-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\DefaultApi();
+$cashRegisterCode = cashRegisterCode_example; // String | Kód on-line registračnej pokladnice
+$from = from_example; // String | Dátum od
+$to = to_example; // String | Dátum do
+
+try {
+    $result = $api_instance->getTransactionFromTo($cashRegisterCode, $from, $to);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->getTransactionFromTo: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getTransactionFromTo-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+my $cashRegisterCode = cashRegisterCode_example; # String | Kód on-line registračnej pokladnice
+my $from = from_example; # String | Dátum od
+my $to = to_example; # String | Dátum do
+
+eval { 
+    my $result = $api_instance->getTransactionFromTo(cashRegisterCode => $cashRegisterCode, from => $from, to => $to);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->getTransactionFromTo: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getTransactionFromTo-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+cashRegisterCode = cashRegisterCode_example # String | Kód on-line registračnej pokladnice
+from = from_example # String | Dátum od
+to = to_example # String | Dátum do
+
+try: 
+    # Vráti transakcie od datumu po datum
+    api_response = api_instance.get_transaction_from_to(cashRegisterCode, from, to)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->getTransactionFromTo: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">CashRegisterCode*</td>
+<td>
+
+
+    <div id="d2e199_getTransactionFromTo_cashRegisterCode">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+                    <div class="inner description">
+                        Kód on-line registračnej pokladnice
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                                  <tr><td style="width:150px;">From*</td>
+<td>
+
+
+    <div id="d2e199_getTransactionFromTo_from">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+                    <div class="inner description">
+                        Dátum od
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                                  <tr><td style="width:150px;">To*</td>
+<td>
+
+
+    <div id="d2e199_getTransactionFromTo_to">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+                    <div class="inner description">
+                        Dátum do
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - Posledná transakcia a jej stav </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getTransactionFromTo-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getTransactionFromTo-200-schema">
+                                  <div id='responses-getTransactionFromTo-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Posledná transakcia a jej stav",
+  "schema" : {
+    "type" : "array",
+    "items" : {
+      "$ref" : "#/definitions/Transaction"
+    }
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getTransactionFromTo-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getTransactionFromTo-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getTransactionFromTo-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
                     <div id="api-Default-getUnsentMessagesCount">
                       <article id="api-Default-getUnsentMessagesCount-0" data-group="User" data-name="getUnsentMessagesCount" data-version="0">
                         <div class="pull-left">
@@ -5244,7 +6254,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-getUnsentMessagesCount-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/oec/api/unsentmessages"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/unsentmessages"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-getUnsentMessagesCount-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -5500,7 +6510,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-openCashDrawer-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://virtserver.swaggerhub.com/oec/api/cashregister/{CashRegisterCode}/opendrawer/"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/cashregister/{CashRegisterCode}/opendrawer/"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-openCashDrawer-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -5765,7 +6775,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-pingGet-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/oec/api/ping"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/ping"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-pingGet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -5980,7 +6990,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-printReceipt-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/oec/api/receipt/{CashRegisterCode}?Date=&ReceiptNumber="</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/receipt/{CashRegisterCode}?Date=&ReceiptNumber="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-printReceipt-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -6420,7 +7430,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-printText-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://virtserver.swaggerhub.com/oec/api/print/{CashRegisterCode}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/print/{CashRegisterCode}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-printText-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -6744,7 +7754,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-printUnsentMessages-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/oec/api/printunsent?DateFrom=&DateTo="</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/printunsent?DateFrom=&DateTo="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-printUnsentMessages-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -7087,7 +8097,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-rebootGet-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/oec/api/reboot"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/reboot"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-rebootGet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -7295,7 +8305,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-registerLocation-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://virtserver.swaggerhub.com/oec/api/location/{CashRegisterCode}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/location/{CashRegisterCode}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-registerLocation-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -7736,7 +8746,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-repairLocationError-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://virtserver.swaggerhub.com/oec/api/locationerror/{CashRegisterCode}/{Date}/{Id}/{ErrorCode}/{CorrectDate}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/locationerror/{CashRegisterCode}/{Date}/{Id}/{ErrorCode}/{CorrectDate}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-repairLocationError-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -8194,7 +9204,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-repairReceiptError-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://virtserver.swaggerhub.com/oec/api/receipterror/{CashRegisterCode}/{Date}/{ReceiptNumber}/{ErrorCode}/{CorrectDate}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/receipterror/{CashRegisterCode}/{Date}/{ReceiptNumber}/{ErrorCode}/{CorrectDate}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-repairReceiptError-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -8649,7 +9659,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-resendAllUnsentMessages-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/oec/api/resendAll"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/resendAll"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-resendAllUnsentMessages-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -8865,7 +9875,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-resendUnsentMessages-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/oec/api/resend"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/resend"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-resendUnsentMessages-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -9148,7 +10158,7 @@ AuthId sety pre pokladňu nie sú zmenené. Na zmenu AuthId set použite POST /a
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-setCashRegisterConfiguration-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://virtserver.swaggerhub.com/oec/api/cashregisterconfig/{CashRegisterCode}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/cashregisterconfig/{CashRegisterCode}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-setCashRegisterConfiguration-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -9457,7 +10467,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-setGlobalConfiguration-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://virtserver.swaggerhub.com/oec/api/globalconfig/"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/globalconfig/"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-setGlobalConfiguration-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -9725,7 +10735,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-setTime-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://virtserver.swaggerhub.com/oec/api/time?SystemDate="</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://virtserver.swaggerhub.com/Datapac/PPEKK/1.0.0/time?SystemDate="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-setTime-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -11154,6 +12164,12 @@ var JSONSchemaView = (function () {
       if (!this.schema) {
         return this.element;
       }
+
+        if (this.schema && this.schema.example) {
+            var exampleDiv = document.createElement('div');
+            exampleDiv.innerHTML = '<div style="display: block" class="example">\n          <span style="color: #808080" class="name">example: ' + this.schema.example + '</span>\n        </div>';
+            this.element.appendChild(exampleDiv.querySelector('.example'));
+        }
 
       if (!this.isCollapsed) {
         this.appendChildren(this.element);
