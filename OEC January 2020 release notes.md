@@ -7,7 +7,7 @@ September release je dostupný v týchto updatoch
 |----|----|----|----|
 |OEC.LAN Standalone|update 006|06A37BE0649B765B89884BDF8A062A791F6E1A1F|1.0.3.0|
 |OEC.LAN Internal|update 003|CA26A6D1EB6E7DF8AF082E78B4D746A9AA618B57|1.0.3.0|
-|OEC.USB CHDU.sk|update 002|2ED5A43EA2B276164FF6A1DDA58DA450A0B9447C|1.0.3.0|
+|OEC.USB CHDU.sk|update 003|2ED5A43EA2B276164FF6A1DDA58DA450A0B9447C|1.0.3.0|
 
 > Release January 2020 je delta update. Vyžaduje nainštalovanú predošlú verziu. Pred spustením update sa uistite, že máte nainštalovanú predošlú verziu. Návod na zistenie verzie je dostupný na [Wiki](https://github.com/datapacsro/oec/wiki/Ako-zisti%C5%A5-verziu-software-OEC)
 
