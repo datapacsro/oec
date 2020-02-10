@@ -5667,12 +5667,12 @@ except ApiException as e:
                       <article id="api-Default-getTime-0" data-group="User" data-name="getTime" data-version="0">
                         <div class="pull-left">
                           <h1>getTime</h1>
-                          <p>Vrati systemovy cas PPEKK</p>
+                          <p>Vráti systémový čas PPEKK</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Vrati systemovy cas PPEKK</p>
+                        <p class="marked">Vráti systémovy čas PPEKK</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/time</span></code></pre>
@@ -5745,7 +5745,7 @@ public class DefaultApiExample {
                               <pre class="prettyprint"><code class="language-cpp">
 DefaultApi *apiInstance = [[DefaultApi alloc] init];
 
-// Vrati systemovy cas PPEKK
+// Vráti systémový čas PPEKK
 [apiInstance getTimeWithCompletionHandler: 
               ^(NSError* error) {
                             if (error) {
@@ -5792,7 +5792,7 @@ namespace Example
 
             try
             {
-                // Vrati systemovy cas PPEKK
+                // Vráti systémový čas PPEKK
                 apiInstance.getTime();
             }
             catch (Exception e)
@@ -5845,7 +5845,7 @@ from pprint import pprint
 api_instance = swagger_client.DefaultApi()
 
 try: 
-    # Vrati systemovy cas PPEKK
+    # Vráti systémový čas PPEKK
     api_instance.get_time()
 except ApiException as e:
     print("Exception when calling DefaultApi->getTime: %s\n" % e)</code></pre>
@@ -5860,7 +5860,7 @@ except ApiException as e:
 
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - Systemovy cas </h3>
+                            <h3> Status: 200 - Systémový čas </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -6236,12 +6236,12 @@ except ApiException as e:
                       <article id="api-Default-getUnsentMessagesCount-0" data-group="User" data-name="getUnsentMessagesCount" data-version="0">
                         <div class="pull-left">
                           <h1>getUnsentMessagesCount</h1>
-                          <p>Vrati pocty neodoslanych sprav pre vsetky pokladne</p>
+                          <p>Vráti počty neodoslaných správ pre všetky pokladne</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Vrati pocty neodoslanych sprav pre vsetky pokladne</p>
+                        <p class="marked">Vráti počty neodoslaných správ pre všetky pokladne</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/unsentmessages</span></code></pre>
@@ -6316,7 +6316,7 @@ public class DefaultApiExample {
                               <pre class="prettyprint"><code class="language-cpp">
 DefaultApi *apiInstance = [[DefaultApi alloc] init];
 
-// Vrati pocty neodoslanych sprav pre vsetky pokladne
+// Vráti počty neodoslaných správ pre všetky pokladne
 [apiInstance getUnsentMessagesCountWithCompletionHandler: 
               ^(array[UnsentState] output, NSError* error) {
                             if (output) {
@@ -6366,7 +6366,7 @@ namespace Example
 
             try
             {
-                // Vrati pocty neodoslanych sprav pre vsetky pokladne
+                // Vráti počty neodoslaných správ pre všetky pokladne
                 array[UnsentState] result = apiInstance.getUnsentMessagesCount();
                 Debug.WriteLine(result);
             }
@@ -6422,7 +6422,7 @@ from pprint import pprint
 api_instance = swagger_client.DefaultApi()
 
 try: 
-    # Vrati pocty neodoslanych sprav pre vsetky pokladne
+    # Vráti počty neodoslaných správ pre všetky pokladne
     api_response = api_instance.get_unsent_messages_count()
     pprint(api_response)
 except ApiException as e:
@@ -10717,12 +10717,12 @@ $(document).ready(function() {
                       <article id="api-Default-setTime-0" data-group="User" data-name="setTime" data-version="0">
                         <div class="pull-left">
                           <h1>setTime</h1>
-                          <p>Nastavi systemovy cas PPEKK</p>
+                          <p>Nastaví systémový čas PPEKK</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Nastai systemovy cas PPEKK</p>
+                        <p class="marked">Nastaví systémový čas PPEKK</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/time</span></code></pre>
@@ -10798,7 +10798,7 @@ public class DefaultApiExample {
 
 DefaultApi *apiInstance = [[DefaultApi alloc] init];
 
-// Nastavi systemovy cas PPEKK
+// Nastaví systémový čas PPEKK
 [apiInstance setTimeWith:systemDate
               completionHandler: ^(NSError* error) {
                             if (error) {
@@ -10849,7 +10849,7 @@ namespace Example
 
             try
             {
-                // Nastavi systemovy cas PPEKK
+                // Nastaví systémový čas PPEKK
                 apiInstance.setTime(systemDate);
             }
             catch (Exception e)
@@ -10905,7 +10905,7 @@ api_instance = swagger_client.DefaultApi()
 systemDate = 2013-10-20 # date | 
 
 try: 
-    # Nastavi systemovy cas PPEKK
+    # Nastaví systémový čas PPEKK
     api_instance.set_time(systemDate)
 except ApiException as e:
     print("Exception when calling DefaultApi->setTime: %s\n" % e)</code></pre>
@@ -10950,7 +10950,7 @@ except ApiException as e:
                             </table>
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - Cas nastaveny </h3>
+                            <h3> Status: 200 - Čas nastavený </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -10958,7 +10958,7 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 500 - Cas sa nepodarilo nastavit </h3>
+                            <h3> Status: 500 - Čas sa nepodarilo nastaviť </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
