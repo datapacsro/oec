@@ -1,7 +1,7 @@
 # OEC February 2020 release notes
 
 ## Dostupnosť
-September release je dostupný v týchto updatoch
+Februar 2020 release je dostupný v týchto updatoch
 
 |Zariadenie|Verzia update|SWID|Verzia SW|
 |----|----|----|----|
