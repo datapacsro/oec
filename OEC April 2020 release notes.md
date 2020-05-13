@@ -13,7 +13,8 @@ April 2020 release je dostupný v týchto updatoch
 
 ## Nová funkcionalita
 ### Podpora autentifikacie a autorizacie
-Implementovana podpora pre autentifikaciu a autorizaciu volani OEC API a OEC aplikacii. Funkcionalita je pripravou
+Implementovana podpora pre autentifikaciu a autorizaciu volani OEC API a OEC aplikacii. Funkcionalita je pripravou, samotne zabezpecenie bude predmetom dalsieho update.
+
 
 ### Deep health check
 Deep healtcheck umoznuje detailne zistit stav zabudovanej SD karty. Pre zvysenu casovu a vypoctovu narocnost odporucame vykonavat v casovych intervaloch 7 a viac dni. Pocas deephealthcheck moze dojst k pomalsim odozvam a timeouty.
