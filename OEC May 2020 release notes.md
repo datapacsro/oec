@@ -26,6 +26,8 @@ OEC bolo zmigrované na najnovšiu verziu .net core 3.1. Cieľom zmeny je
 
 Najvýraznejšia zmena je zrýchlenie, kde sa evidencia dokladov je rýhlejšia o 20% a nábeh OEC po reštarte o viac ako 30%.
 
+Zmigrované na novú platformu je samotné PPEKK a OEC Configurator. Ostatné aplikácie budú zmigrované v ďalších releasoch.
+
 > Zmena platformy je výrazná zmena, ktorá bola dôsledne otestovaná a je plne spätne kompatibilná. Napriek tomu je dôležité a odporúčané aby ste pred inštaláciou do prevádzky otestovali kompatibilitu a funkčnosť s pokladničným programom.
 
 ### Doplnená dokumentácia k Deep health check
