@@ -23,9 +23,10 @@ OEC bolo zmigrované na najnovšiu verziu .net core 3.1. Cieľom zmeny je
 - optimalizácia využitia zdrojov
 - zvýšenie bezpečnosti
 - využitie nových možností
+
 Najvýraznejšia zmena je zrýchlenie, kde sa evidencia dokladov je rýhlejšia o 20% a nábeh OEC po reštarte o viac ako 30%.
 
-Zmena platformy je výrazná zmena, ktorá bola dôsledne otestovaná a je plne spätne kompatibilná. Napriek tomu je dôležité a odporúčané aby ste pred inštaláciou do prevádzky otestovali kompatibilitu a funkčnosť s pokladničným programom.
+> Zmena platformy je výrazná zmena, ktorá bola dôsledne otestovaná a je plne spätne kompatibilná. Napriek tomu je dôležité a odporúčané aby ste pred inštaláciou do prevádzky otestovali kompatibilitu a funkčnosť s pokladničným programom.
 
 ### Doplnená dokumentácia k Deep health check
 
