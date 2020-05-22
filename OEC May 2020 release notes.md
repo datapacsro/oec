@@ -37,3 +37,5 @@ Zmigrované na novú platformu je samotné PPEKK a OEC Configurator. Ostatné ap
 ## Bugfixes a zlepšenia stability
 ### Lepšie ošetrenie stavu preťaženia systému eKasa
 V prípade, že je systém eKasa preťažený (pri registrácií dokladov vracia chybu -1), OEC v súlade s požiadavkami FS uzavrie doklad ako offline a zaradí ho do fronty na doposlanie. V prípade, že aj počas doposlania je systém eKasa preťažený, OEC sa bude snažiť doposielať doklad opakovane až kým systém eKasa doklad neakceptuje alebo nevráti inú chybu ako -1.
+
+> OEC automaticky dopošle všetky existujúce doklady s chybou -1.
