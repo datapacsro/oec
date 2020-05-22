@@ -15,6 +15,8 @@ Datapac OEC je certifikovaný online eKasa klient.
 
 [codesamples](codesamples) - príklad kódu v C#
 
+[Releases](https://github.com/datapacsro/oec/releases) - aktualizácie dostupné pre OEC.LAN Standalone
+
 # Wiki
 [Wiki k Datapac OEC](https://github.com/datapacsro/oec/wiki)
 
