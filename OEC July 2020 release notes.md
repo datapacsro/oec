@@ -1,15 +1,15 @@
-# OEC May 2020 release notes
+# OEC July 2020 release notes
 
 ## Dostupnosť
-May 2020 release je dostupný v týchto updatoch
+July 2020 release je dostupný v týchto updatoch
 
 |Zariadenie|Verzia update|SWID|Verzia SW|
 |----|----|----|----|
-|OEC.LAN Standalone|update 009|XXX|1.0.6.0|
-|OEC.LAN Internal|update 006|XXX|1.0.6.0|
-|OEC.USB CHDU.sk|update 006|XXX|1.0.6.0|
+|OEC.LAN Standalone|update 009|E90A0E255D1352EC2C4C3BC14CEAC6EEB05755E6|1.0.6.0|
+|OEC.LAN Internal|update 006|A3772145C1132E6D120A82610F19295E67501530|1.0.6.0|
+|OEC.USB CHDU.sk|update 006|DC52DC8B6B2239003726B77FD4AA0010CD3A081F|1.0.6.0|
 
-> Release May 2020 je kompletný update. Preto a kôli migrácii na novú platformu je veľkosť update väčšia ako delta updatov. Obsahuje všetky funkcionality z predoškých releasov. 
+> Release July 2020 je kompletný update. Preto a kôli migrácii na novú platformu je veľkosť update väčšia ako delta updatov. Obsahuje všetky funkcionality z predoškých releasov. 
 
 > Vyžaduje nainštalovanú verziu 005. Pred spustením update sa uistite, že máte nainštalovanú verziu 005. Návod na zistenie verzie je dostupný na [Wiki](https://github.com/datapacsro/oec/wiki/Ako-zisti%C5%A5-verziu-software-OEC)
 
