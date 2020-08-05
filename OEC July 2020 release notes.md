@@ -11,7 +11,7 @@ July 2020 release je dostupný v týchto updatoch
 
 > Release July 2020 je kompletný update. Preto a kôli migrácii na novú platformu je veľkosť update väčšia ako delta updatov. Obsahuje všetky funkcionality z predoškých releasov. 
 
-> Vyžaduje nainštalovanú verziu 005. Pred spustením update sa uistite, že máte nainštalovanú verziu 005. Návod na zistenie verzie je dostupný na [Wiki](https://github.com/datapacsro/oec/wiki/Ako-zisti%C5%A5-verziu-software-OEC)
+> Vyžaduje nainštalovanú verziu 008. Pred spustením update sa uistite, že máte nainštalovanú verziu 008. Návod na zistenie verzie je dostupný na [Wiki](https://github.com/datapacsro/oec/wiki/Ako-zisti%C5%A5-verziu-software-OEC)
 
 ## Nová funkcionalita
 
