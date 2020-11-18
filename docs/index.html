@@ -853,12 +853,12 @@ margin-bottom: 20px;
     "Timeout" : {
       "type" : "integer",
       "description" : "Timeout čakania na odpoveď od eKasa v ms. Musí byť >=2000",
-      "minimum" : 2000.0
+      "minimum" : 2000
     },
     "ResendTimeout" : {
       "type" : "integer",
       "description" : "Timeout čakania na odpoveď od eKasa v ms v prípade doposlania správy. Musí byť >=2000",
-      "minimum" : 2000.0
+      "minimum" : 2000
     },
     "ProxyConfiguration" : {
       "$ref" : "#/definitions/ProxyConfiguration"
@@ -7744,7 +7744,7 @@ $(document).ready(function() {
                         <p class="marked">Vytlačí neodoslané dátové správy pre zvolenú pokladňu a dátumový rozsah</p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/printunsent</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/printunsent/{CashRegisterCode}</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -7764,7 +7764,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-printUnsentMessages-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://virtserver.swaggerhub.com/oec/api/printunsent?DateFrom=&DateTo="</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://virtserver.swaggerhub.com/oec/api/printunsent/{CashRegisterCode}?DateFrom=&DateTo="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-printUnsentMessages-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -9865,7 +9865,7 @@ except ApiException as e:
                         <p class="marked">Zaháji pokus o odoslanie neodoslaných správ. Odoslanie beží na pozadí.</p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/resend</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/resend/{CashRegisterCode}</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -9885,7 +9885,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-resendUnsentMessages-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://virtserver.swaggerhub.com/oec/api/resend"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://virtserver.swaggerhub.com/oec/api/resend/{CashRegisterCode}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-resendUnsentMessages-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
