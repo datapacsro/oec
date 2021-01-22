@@ -2,7 +2,7 @@
 Stabilizačný a bugfix release. Vzhľadom na blížiaci sa termín expirácie prvých certifikátov vydaných 1.4.2019 ale odporúčame inštaláciu tohto release najneskôr do 30.3.2021.
 
 ## Dostupnosť
-July 2021 release je dostupný v týchto updatoch
+January 2021 release je dostupný v týchto updatoch
 
 |Zariadenie|Verzia update|SWID|Verzia SW|
 |----|----|----|----|
