@@ -853,12 +853,12 @@ margin-bottom: 20px;
     "Timeout" : {
       "type" : "integer",
       "description" : "Timeout čakania na odpoveď od eKasa v ms. Musí byť >=2000",
-      "minimum" : 2000.0
+      "minimum" : 2000
     },
     "ResendTimeout" : {
       "type" : "integer",
       "description" : "Timeout čakania na odpoveď od eKasa v ms v prípade doposlania správy. Musí byť >=2000",
-      "minimum" : 2000.0
+      "minimum" : 2000
     },
     "ProxyConfiguration" : {
       "$ref" : "#/definitions/ProxyConfiguration"
@@ -1408,6 +1408,9 @@ margin-bottom: 20px;
                     <li data-group="Default" data-name="addAuthIdSet" class="">
                       <a href="#api-Default-addAuthIdSet">addAuthIdSet</a>
                     </li>
+                    <li data-group="Default" data-name="addAuthIdSetRaw" class="">
+                      <a href="#api-Default-addAuthIdSetRaw">addAuthIdSetRaw</a>
+                    </li>
                     <li data-group="Default" data-name="addReceipt" class="">
                       <a href="#api-Default-addReceipt">addReceipt</a>
                     </li>
@@ -1508,7 +1511,7 @@ margin-bottom: 20px;
         <div id="header">
           <div id="api-_">
             <h2 id="welcome-to-apidoc">API and SDK Documentation</h2>
-              <div class="app-desc">Version: 3</div>
+              <div class="app-desc">Version: 4.0.0</div>
             <hr>
             <div><h2>API je dostupné na adrese</h2>
 <pre><code>http://adresa/oec/api
@@ -1864,6 +1867,417 @@ $(document).ready(function() {
                                     </script>
                                   </div>
                                   <input id='responses-addAuthIdSet-507-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Default-addAuthIdSetRaw">
+                      <article id="api-Default-addAuthIdSetRaw-0" data-group="User" data-name="addAuthIdSetRaw" data-version="0">
+                        <div class="pull-left">
+                          <h1>addAuthIdSetRaw</h1>
+                          <p>Pridá raw AuthId set pre pokladňu</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">Pridá AuthId set pre pokladňu. AuthSet Id nastaví na max(AuthSetId)+1
+Vstup sú autentifikačné alebo identifikačné údaje a heslo. 
+* Ak sú špecifikované autentifikačné aj identifikačné údaje, OEC pridá oba
+* Ak sú špecifikované len autentifikačné alebo len identifikačné, OEC pridá len tie, ktoré sú špecifikované a druhé použije existujúce. Je teda možné poslať len autentifikačné údaje
+* Heslo je povinné pokiaľ sa posielajú autentifikačné údaje
+</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/authidsetraw/{CashRegisterCode}</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-addAuthIdSetRaw-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-addAuthIdSetRaw-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-addAuthIdSetRaw-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-addAuthIdSetRaw-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-addAuthIdSetRaw-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-addAuthIdSetRaw-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-addAuthIdSetRaw-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-addAuthIdSetRaw-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-addAuthIdSetRaw-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-addAuthIdSetRaw-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-addAuthIdSetRaw-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-addAuthIdSetRaw-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://virtserver.swaggerhub.com/oec/api/authidsetraw/{CashRegisterCode}?password="</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-addAuthIdSetRaw-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        String cashRegisterCode = cashRegisterCode_example; // String | Kód on-line registračnej pokladnice
+        File upfile1 = /path/to/file.txt; // File | XML súbor
+        File upfile2 = /path/to/file.txt; // File | XML súbor
+        String password = password_example; // String | Heslo k autentifikačným údajom ak sú poslané
+        try {
+            apiInstance.addAuthIdSetRaw(cashRegisterCode, upfile1, upfile2, password);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#addAuthIdSetRaw");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-addAuthIdSetRaw-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        String cashRegisterCode = cashRegisterCode_example; // String | Kód on-line registračnej pokladnice
+        File upfile1 = /path/to/file.txt; // File | XML súbor
+        File upfile2 = /path/to/file.txt; // File | XML súbor
+        String password = password_example; // String | Heslo k autentifikačným údajom ak sú poslané
+        try {
+            apiInstance.addAuthIdSetRaw(cashRegisterCode, upfile1, upfile2, password);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#addAuthIdSetRaw");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-addAuthIdSetRaw-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-addAuthIdSetRaw-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">String *cashRegisterCode = cashRegisterCode_example; // Kód on-line registračnej pokladnice
+File *upfile1 = /path/to/file.txt; // XML súbor
+File *upfile2 = /path/to/file.txt; // XML súbor (optional)
+String *password = password_example; // Heslo k autentifikačným údajom ak sú poslané (optional)
+
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Pridá raw AuthId set pre pokladňu
+[apiInstance addAuthIdSetRawWith:cashRegisterCode
+    upfile1:upfile1
+    upfile2:upfile2
+    password:password
+              completionHandler: ^(NSError* error) {
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-addAuthIdSetRaw-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var DatapacOecApi = require('datapac_oec_api');
+
+var api = new DatapacOecApi.DefaultApi()
+
+var cashRegisterCode = cashRegisterCode_example; // {String} Kód on-line registračnej pokladnice
+
+var upfile1 = /path/to/file.txt; // {File} XML súbor
+
+var opts = { 
+  'upfile2': /path/to/file.txt, // {File} XML súbor
+  'password': password_example // {String} Heslo k autentifikačným údajom ak sú poslané
+};
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+api.addAuthIdSetRaw(cashRegisterCode, upfile1, opts, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-addAuthIdSetRaw-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-addAuthIdSetRaw-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class addAuthIdSetRawExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new DefaultApi();
+            var cashRegisterCode = cashRegisterCode_example;  // String | Kód on-line registračnej pokladnice
+            var upfile1 = new File(); // File | XML súbor
+            var upfile2 = new File(); // File | XML súbor (optional) 
+            var password = password_example;  // String | Heslo k autentifikačným údajom ak sú poslané (optional) 
+
+            try
+            {
+                // Pridá raw AuthId set pre pokladňu
+                apiInstance.addAuthIdSetRaw(cashRegisterCode, upfile1, upfile2, password);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.addAuthIdSetRaw: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-addAuthIdSetRaw-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\DefaultApi();
+$cashRegisterCode = cashRegisterCode_example; // String | Kód on-line registračnej pokladnice
+$upfile1 = /path/to/file.txt; // File | XML súbor
+$upfile2 = /path/to/file.txt; // File | XML súbor
+$password = password_example; // String | Heslo k autentifikačným údajom ak sú poslané
+
+try {
+    $api_instance->addAuthIdSetRaw($cashRegisterCode, $upfile1, $upfile2, $password);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->addAuthIdSetRaw: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-addAuthIdSetRaw-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+my $cashRegisterCode = cashRegisterCode_example; # String | Kód on-line registračnej pokladnice
+my $upfile1 = /path/to/file.txt; # File | XML súbor
+my $upfile2 = /path/to/file.txt; # File | XML súbor
+my $password = password_example; # String | Heslo k autentifikačným údajom ak sú poslané
+
+eval { 
+    $api_instance->addAuthIdSetRaw(cashRegisterCode => $cashRegisterCode, upfile1 => $upfile1, upfile2 => $upfile2, password => $password);
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->addAuthIdSetRaw: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-addAuthIdSetRaw-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+cashRegisterCode = cashRegisterCode_example # String | Kód on-line registračnej pokladnice
+upfile1 = /path/to/file.txt # File | XML súbor
+upfile2 = /path/to/file.txt # File | XML súbor (optional)
+password = password_example # String | Heslo k autentifikačným údajom ak sú poslané (optional)
+
+try: 
+    # Pridá raw AuthId set pre pokladňu
+    api_instance.add_auth_id_set_raw(cashRegisterCode, upfile1, upfile2=upfile2, password=password)
+except ApiException as e:
+    print("Exception when calling DefaultApi->addAuthIdSetRaw: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">CashRegisterCode*</td>
+<td>
+
+
+    <div id="d2e199_addAuthIdSetRaw_cashRegisterCode">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+                    <div class="inner description">
+                        Kód on-line registračnej pokladnice
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+                            <div class="methodsubtabletitle">Form parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                  <tr><td style="width:150px;">upfile1*</td>
+<td>
+
+
+    <div id="d2e199_addAuthIdSetRaw_upfile1">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    File
+                </span>
+
+                    <div class="inner description">
+                        XML súbor
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                                  <tr><td style="width:150px;">upfile2</td>
+<td>
+
+
+    <div id="d2e199_addAuthIdSetRaw_upfile2">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    File
+                </span>
+
+                    <div class="inner description">
+                        XML súbor
+                    </div>
+            </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+                            <div class="methodsubtabletitle">Query parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">password</td>
+<td>
+
+
+    <div id="d2e199_addAuthIdSetRaw_password">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+                    <div class="inner description">
+                        Heslo k autentifikačným údajom ak sú poslané
+                    </div>
+            </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+                          <h2>Responses</h2>
+                            <h3> Status: 201 - AuthId set pridaný </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 400 - Zlé heslo alebo autentifikačné údaje nesedia s identifikačnými alebo číslom pokladne </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 507 - Kapacita CHDU vyčerpaná </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-addAuthIdSetRaw-507-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-addAuthIdSetRaw-507-schema">
+                                  <div id='responses-addAuthIdSetRaw-507-schema-507' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Kapacita CHDU vyčerpaná",
+  "schema" : {
+    "$ref" : "#/definitions/ReceiptResponse"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-addAuthIdSetRaw-507-schema-data').val(stringify(schema));
+                                        var result = $('#responses-addAuthIdSetRaw-507-schema-507');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-addAuthIdSetRaw-507-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -7744,7 +8158,7 @@ $(document).ready(function() {
                         <p class="marked">Vytlačí neodoslané dátové správy pre zvolenú pokladňu a dátumový rozsah</p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/printunsent</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/printunsent/{CashRegisterCode}</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -7764,7 +8178,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-printUnsentMessages-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://virtserver.swaggerhub.com/oec/api/printunsent?DateFrom=&DateTo="</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://virtserver.swaggerhub.com/oec/api/printunsent/{CashRegisterCode}?DateFrom=&DateTo="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-printUnsentMessages-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -9865,7 +10279,7 @@ except ApiException as e:
                         <p class="marked">Zaháji pokus o odoslanie neodoslaných správ. Odoslanie beží na pozadí.</p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/resend</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/resend/{CashRegisterCode}</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -9885,7 +10299,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Default-resendUnsentMessages-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://virtserver.swaggerhub.com/oec/api/resend"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://virtserver.swaggerhub.com/oec/api/resend/{CashRegisterCode}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-resendUnsentMessages-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
