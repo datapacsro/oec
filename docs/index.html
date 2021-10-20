@@ -696,698 +696,32 @@ margin-bottom: 20px;
   <script>
     // Script section to load models into a JS Var
     var defs = {}
-        defs["AuthIdSet"] = {
-  "required" : [ "Authentication", "Id", "Identification", "UploadDate" ],
-  "properties" : {
-    "Id" : {
-      "type" : "integer",
-      "description" : "Id AuthId setu"
-    },
-    "UploadDate" : {
-      "type" : "string",
-      "format" : "datetime",
-      "description" : "Dátum uploadu AuthId setu"
-    },
-    "Authentication" : {
-      "type" : "string",
-      "description" : "Autentikačné informácie v eKasa štruktúre"
-    },
-    "Identification" : {
-      "type" : "string",
-      "description" : "Identifikačné data v eKasa štruktúre"
-    },
-    "CertificatePassword" : {
-      "type" : "string",
-      "description" : "Heslo k certifikat v autentikacnych udajoch"
-    }
-  },
-  "description" : "Set autentikačných a identifikačných údajov"
-};
-        defs["CHDUInformation"] = {
-  "properties" : {
-    "Capacity" : {
-      "type" : "integer",
-      "format" : "int64",
-      "description" : "Celková využiteľná kapacita CHDU v byte"
-    },
-    "AvailableSpace" : {
-      "type" : "integer",
-      "format" : "int64",
-      "description" : "Voľná kapacita CHDU v byte"
-    },
-    "Version" : {
-      "type" : "string",
-      "description" : "Verzia firmware CHDU"
-    },
-    "SerialNumber" : {
-      "type" : "string",
-      "description" : "Sériové číslo"
-    }
-  },
-  "description" : "CHDU informácie"
-};
-        defs["CashRegisterConfiguration"] = {
-  "required" : [ "CashRegisterCode", "ExceptionMode" ],
-  "properties" : {
-    "CashRegisterCode" : {
-      "type" : "string",
-      "description" : "Kód on-line registračnej pokladnice\n\n> Ak je nie je špecifikovná SMTP konfigurácia pre pokladňu, použije sa SMTP z globálnej konfigurácie\n"
-    },
-    "Name" : {
-      "type" : "string",
-      "description" : "Názov pokladne"
-    },
-    "Status" : {
-      "type" : "string",
-      "description" : "## Stav pokladne\n- active - umožňuje registrovať doklady (addReceipt), polohu (registerLocation), tlač (print) a otvorenie zásuvky (openCashDrawer)\n- paused - neumožňuje registrovať doklady (addReceipt), polohu (registerLocation), tlač (print) a otvorenie zásuvky (openCashDrawer). V healthckeck sa vyhodnocuje rovnako ako active.\n- disabled - neumožňuje registrovať doklady (addReceipt), polohu (registerLocation), tlač (print) a otvorenie zásuvky (openCashDrawer). V healthckeck je vždy vyhodnotená ako Healthy\n",
-      "default" : "active",
-      "enum" : [ "active", "disabled", "paused" ]
-    },
-    "ExceptionMode" : {
-      "type" : "boolean",
-      "description" : "Príznak, či ide o pokladnicu podnikateľa s udelenou výnimkou zo zasielania údajov"
-    },
-    "LastReceiptNumber" : {
-      "type" : "integer",
-      "description" : "Číslo posledného dokladu"
-    },
-    "SMTPConfiguration" : {
-      "$ref" : "#/definitions/SMTPConfiguration"
-    },
-    "PrinterConfiguration" : {
-      "$ref" : "#/definitions/PrinterConfiguration"
-    },
-    "AuthIdSets" : {
-      "type" : "array",
-      "description" : "AuthId sety pre pokladňu",
-      "items" : {
-        "$ref" : "#/definitions/AuthIdSet"
-      }
-    }
-  },
-  "description" : "Konfigurácia pokladne"
-};
-        defs["EmailHeaders"] = {
-  "required" : [ "Subject", "To" ],
-  "properties" : {
-    "From" : {
-      "type" : "string",
-      "format" : "email",
-      "description" : "From. Ak nie je špecifkované, použije sa hodnota s konfigurácie"
-    },
-    "To" : {
-      "type" : "string",
-      "format" : "email",
-      "description" : "To"
-    },
-    "Subject" : {
-      "type" : "string",
-      "description" : "Subject"
-    },
-    "IncludeReceiptResponse" : {
-      "type" : "boolean",
-      "description" : "Include ReceiptResponse as the e-mail attachment. If enabled the ReceiptResponse.json is added as a attachment to the e-mail",
-      "default" : false
-    }
-  },
-  "description" : "Hlavičky e-mailu"
-};
-        defs["GPSLocation"] = {
-  "properties" : {
-    "X" : {
-      "type" : "string",
-      "description" : "Obsahuje X-ovú súradnicu"
-    },
-    "Y" : {
-      "type" : "string",
-      "description" : "Obsahuje Y-ovú súradnicu"
-    }
-  },
-  "description" : "GPS súradnice miesta podľa súradnicového systému WGS 84, na ktorom ORP vyhotovuje doklady. ORP použije tento typ, ak vie získať svoje GPS súradnice v rámci súradnicového systému WGS 84    \n"
-};
-        defs["GlobalConfiguration"] = {
-  "properties" : {
-    "SMTPConfiguration" : {
-      "$ref" : "#/definitions/SMTPConfiguration"
-    },
-    "eKasaEndpoint" : {
-      "type" : "string",
-      "description" : "URL eKasa"
-    },
-    "eKasaPingEndpoint" : {
-      "type" : "string",
-      "description" : "URL to ping eKasa"
-    },
-    "eKasaPingResponse" : {
-      "type" : "number",
-      "description" : "Result code"
-    },
-    "CertificateIssuer" : {
-      "type" : "string",
-      "description" : "Vydávateľ certifikátu"
-    },
-    "CertificateSubject" : {
-      "type" : "string",
-      "description" : "Subjekt certifikátu"
-    },
-    "Timeout" : {
-      "type" : "integer",
-      "description" : "Timeout čakania na odpoveď od eKasa v ms. Musí byť >=2000",
-      "minimum" : 2000
-    },
-    "ResendTimeout" : {
-      "type" : "integer",
-      "description" : "Timeout čakania na odpoveď od eKasa v ms v prípade doposlania správy. Musí byť >=2000",
-      "minimum" : 2000
-    },
-    "ProxyConfiguration" : {
-      "$ref" : "#/definitions/ProxyConfiguration"
-    }
-  },
-  "description" : "Globálna OEC konfigurácia"
-};
-        defs["Message"] = {
-  "properties" : {
-    "CashRegisterCode" : {
-      "type" : "string",
-      "description" : "Kód on-line registračnej pokladnice"
-    },
-    "CreateDate" : {
-      "type" : "string",
-      "format" : "date-time",
-      "description" : "Dátum vytvorenia dátovej správy"
-    },
-    "Id" : {
-      "type" : "string",
-      "description" : "Identifikátor dátovej správy"
-    },
-    "MessageContent" : {
-      "type" : "string",
-      "description" : "Obsah dátovej správy"
-    },
-    "ErrorCode" : {
-      "type" : "integer",
-      "description" : "Kód chyby \n\n- 0 žiadna\n- != 0 kód chyby\n"
-    }
-  },
-  "description" : "Dátová správa"
-};
-        defs["Payment"] = {
-  "properties" : {
-    "Method" : {
-      "type" : "string",
-      "description" : "Metóda platby",
-      "enum" : [ "cash", "bankcard", "fleetcard", "loyalty", "voucher", "other" ]
-    },
-    "Amount" : {
-      "type" : "number",
-      "description" : "Uhradená čiastka"
-    },
-    "Identification" : {
-      "type" : "string",
-      "description" : "Identifikácia platby (číslo karty, číslo vouchra, ...)"
-    },
-    "AdditionalData" : {
-      "type" : "string",
-      "description" : "Doplnkové data"
-    }
-  },
-  "description" : "Informácie o platbe"
-};
-        defs["PhysicalAddress"] = {
-  "required" : [ "Municipality", "StreetName" ],
-  "properties" : {
-    "Municipality" : {
-      "type" : "string",
-      "description" : "Názov obce. Obcou je územnosprávna jednotka charakterizovaná súvislým domovým osídlením a vlastným názvom. Obcou je aj mesto\n"
-    },
-    "BuildingNumber" : {
-      "type" : "string",
-      "description" : "Názov budovy alebo číslo domu."
-    },
-    "PostalCode" : {
-      "type" : "string",
-      "description" : "Poštové smerové číslo - kód, ktorý ustanovili poštové autority za účelom doručovania pošty."
-    },
-    "PropertyRegistrationNumber" : {
-      "type" : "string",
-      "description" : "Súpisné číslo budovy"
-    },
-    "StreetName" : {
-      "type" : "string",
-      "description" : "Názov ulice. Ak obec nemá názov ulice, udáva sa tu názov obce"
-    }
-  },
-  "description" : "Fyzická adresa"
-};
-        defs["PrinterConfiguration"] = {
-  "properties" : {
-    "Address" : {
-      "type" : "string",
-      "description" : "Adresa tlačiarne"
-    },
-    "QRSequence" : {
-      "type" : "string",
-      "description" : "Sekvencia, pomocou ktorej tlačiareň vytlačí QR kód. Špeciálne znaky sa uvádzajú v tvare \\xhh kde hh je hexadecimálny kód znaku. \n\nOEC nahradi tieto tagy\n* [len:16] - dlzka kodu reprezentovana 16bit word\n* [len:8] - dlzka kodu reprezentovana 8bit word\n* [code] - QR kod, ktory sa ma vytlacit\n## Príklady:\n### Diebold-Nixdorf TH-250\n\n\\x1D\\x28\\x6B[len:16]\\x31\\x50\\x30[code]\\x1D\\x28\\x6B\\x03\\x00\\x31\\x51\\x30\n"
-    },
-    "PaperCutSequence" : {
-      "type" : "string",
-      "description" : "Sekvencia, pomocou ktorej tlačiareň odreže papier. Špeciálne znaky sa uvádzajú v tvare \\xhh kde hh je hexadecimálny kód znaku. \n## Príklady:\n\\x1B\\x69\n"
-    },
-    "PrinterCodePageSequence" : {
-      "type" : "string",
-      "description" : "Sekvencia, pomocou ktorej tlačiareň nastaví kódovú stránku uvedenú v Encoding. Špeciálne znaky sa uvádzajú v tvare \\xhh kde hh je hexadecimálny kód znaku. \n## Príklady:\nibm852 \\x1Bt\\x12\n"
-    },
-    "Encoding" : {
-      "type" : "string",
-      "description" : "Kódovanie, na ktoré sa prekódujú všetky texty poslané na tlačiareň a uložené do CHDU.\n",
-      "enum" : [ "ibm852", "windows-1250", "iso-8859-2" ]
-    },
-    "OpenCashDrawerSequence" : {
-      "type" : "string",
-      "description" : "Sekvencia, pomocou ktorej tlačiareň otovorí pripojenú pokladničnú zásuvku. Špeciálne znaky sa uvádzajú v tvare \\xhh kde hh je hexadecimálny kód znaku. \n## Príklady:\n\\x1B\\x70\\x30\\x80\\x80\n",
-      "default" : "\\x1B\\x70\\x30\\x80\\x80"
-    },
-    "PrinterJobWaitTime" : {
-      "type" : "integer",
-      "description" : "Maximálna doba v ms na čakanie odozvy od tlačiarne\n"
-    }
-  },
-  "description" : "Konfigurácia tlačiarne"
-};
-        defs["ProxyConfiguration"] = {
-  "properties" : {
-    "UseProxy" : {
-      "type" : "boolean",
-      "description" : "Použiť alebo nepoužiť proxy"
-    },
-    "Address" : {
-      "type" : "string",
-      "description" : "Adresa proxy"
-    },
-    "Port" : {
-      "type" : "integer",
-      "description" : "Port proxy. Default 80"
-    },
-    "UserName" : {
-      "type" : "string",
-      "description" : "meno"
-    },
-    "Password" : {
-      "type" : "string",
-      "description" : "heslo"
-    }
-  },
-  "description" : "Konfigurácia proxy"
-};
-        defs["Receipt"] = {
-  "type" : "object",
-  "required" : [ "Amount", "IssueDate", "Paragon", "ReceiptType" ],
-  "properties" : {
-    "Amount" : {
-      "type" : "number",
-      "description" : "Celková suma dokladu"
-    },
-    "IssueDate" : {
-      "type" : "string",
-      "format" : "date-time",
-      "description" : "Dátum a čas zaevidovania dokladu v systéme eKasa"
-    },
-    "ReceiptNumber" : {
-      "type" : "integer",
-      "description" : "Poradové číslo dokladu"
-    },
-    "InvoiceNumber" : {
-      "type" : "string",
-      "description" : "Poradové číslo faktúry, ak ide o úhradu faktúry alebo jej časti"
-    },
-    "ParagonNumber" : {
-      "type" : "integer",
-      "description" : "Poradové číslo paragónu"
-    },
-    "CustomerId" : {
-      "type" : "string",
-      "description" : "Unikátny identifikátor kupujúceho"
-    },
-    "CustomerIdType" : {
-      "type" : "string",
-      "description" : "Typ identifikátora kupujúceho",
-      "enum" : [ "ICO", "DIC", "IC_DPH", "INE" ]
-    },
-    "CashRegisterCode" : {
-      "type" : "string",
-      "description" : "Kód on-line registračnej pokladnice"
-    },
-    "Paragon" : {
-      "type" : "boolean",
-      "description" : "Príznak, či ide o zaevidovanie paragónu do ORP"
-    },
-    "BasicVatAmount" : {
-      "type" : "number",
-      "description" : "Celková suma DPH pre základnú sadzbu dane podľa zákona č. 222/2004 Z. z."
-    },
-    "ReducedVatAmount" : {
-      "type" : "number",
-      "description" : "Celková suma DPH pre zníženú sadzbu dane podľa zákona č. 222/2004 Z. z."
-    },
-    "TaxFreeAmount" : {
-      "type" : "number",
-      "description" : "Celková suma položiek oslobodených od DPH alebo položiek, na ktoré sa uplatňuje osobitná úprava. V prípade podnikateľa, ktorý nie je platiteľom DPH suma všetkých položiek."
-    },
-    "ReceiptType" : {
-      "type" : "string",
-      "description" : "Typ pokladničného dokladu",
-      "enum" : [ "PD", "UF", "ND", "VY", "VK" ]
-    },
-    "TaxBaseBasic" : {
-      "type" : "number",
-      "description" : "Celková suma základu DPH pre základnú sadzbu dane podľa zákona č. 222/2004 Z. z."
-    },
-    "TaxBaseReduced" : {
-      "type" : "number",
-      "description" : "Celková suma základu DPH pre zníženú sadzbu dane podľa zákona č. 222/2004 Z. z."
-    },
-    "Items" : {
-      "type" : "array",
-      "description" : "Položky dokladu",
-      "items" : {
-        "$ref" : "#/definitions/ReceiptItem"
-      },
-      "minItems" : 0
-    },
-    "Payments" : {
-      "type" : "array",
-      "description" : "Prijaté platby",
-      "items" : {
-        "$ref" : "#/definitions/Payment"
-      }
-    },
-    "Cashier" : {
-      "type" : "string",
-      "description" : "Pokladník"
-    }
-  },
-  "description" : "Receipt - doklad"
-};
-        defs["ReceiptItem"] = {
-  "type" : "object",
-  "required" : [ "ItemType", "Name", "Price", "Quantity", "VatRate" ],
-  "properties" : {
-    "Price" : {
-      "type" : "number",
-      "description" : "Celková cena tovaru alebo služby"
-    },
-    "Quantity" : {
-      "type" : "number",
-      "description" : "Množstvo tovaru alebo rozsah služby"
-    },
-    "MeasurementUnit" : {
-      "type" : "string",
-      "description" : "Merná jednotka"
-    },
-    "Name" : {
-      "type" : "string",
-      "description" : "Označenie tovaru alebo služby"
-    },
-    "ReferenceReceiptId" : {
-      "type" : "string",
-      "description" : "Číslo dokladu, ku ktorému sa vzťahuje oprava alebo vrátenie položky"
-    },
-    "VatRate" : {
-      "type" : "number",
-      "example" : 10.0,
-      "description" : "Sadzba DPH v %"
-    },
-    "ItemType" : {
-      "type" : "string",
-      "description" : "Typ položky dokladu",
-      "enum" : [ "K", "VO", "V", "O", "Z", "OZ", "VP" ]
-    },
-    "SpecialRegulation" : {
-      "type" : "string",
-      "description" : "Príznak, ktorý bližšie špecifikuje „dôvod“ priradenia dane s hodnotou 0, ak bola položke priradená",
-      "enum" : [ "PDP", "OOD", "CK", "PT", "UD", "ZPS" ]
-    },
-    "SellerIdType" : {
-      "type" : "string",
-      "description" : "Typ identifikátora predávajúceho, v ktorého mene bol predaný tovar alebo poskytnutá služba",
-      "enum" : [ "DIC", "IC_DPH" ]
-    },
-    "SellerId" : {
-      "type" : "string",
-      "description" : "Identifikátor predávajúceho, v ktorého mene bol predaný tovar alebo poskytnutá služba"
-    },
-    "VoucherNumber" : {
-      "type" : "string",
-      "description" : "Číslo jednoúčelového poukazu pri jeho výmene za tovar alebo poskytnutú službu."
-    },
-    "ItemId" : {
-      "type" : "string",
-      "description" : "Číslo tovaru"
-    },
-    "Category" : {
-      "type" : "string",
-      "description" : "Kategória"
-    },
-    "SerialNumber" : {
-      "type" : "string",
-      "description" : "Sériové číslo"
-    },
-    "EAN" : {
-      "type" : "array",
-      "description" : "EAN kódy",
-      "items" : {
-        "type" : "string"
-      }
-    }
-  },
-  "description" : "Položka dokladu"
-};
-        defs["ReceiptMessage"] = {
-  "properties" : {
-    "MessageContent" : {
-      "type" : "string",
-      "description" : "Dekódovaný obsah dátovej správy"
-    },
-    "PrintoutContent" : {
-      "type" : "string",
-      "description" : "Raw dáta"
-    },
-    "MessageType" : {
-      "type" : "integer",
-      "description" : "Typ správy\n * 1: ReceiptRequest\n * 2: ReceiptResponse\n * 3: LocationRequest\n * 4: LocationResponse\n * 5: AuthIdSet\n * 6: PrintReceipt\n * 7: PrintText\n"
-    }
-  },
-  "description" : "Dáta o doklade"
-};
-        defs["ReceiptPrintTemplate"] = {
-  "type" : "array",
-  "description" : "Tlačová šablona\n> Ak nie je špecifikovaná, OEC vygeneruje tlačový výstup pomocou defaultnej tlačovej šablony\n\n## Ako je šablona použitá\n\nText *OFF-LINE DOKLAD* - je pridaný na začiatok textu\n\n*odpoveď z eKasa s QR kódom* - je pridané na koniec textu\n",
-  "items" : {
-    "type" : "string"
-  }
-};
-        defs["ReceiptRenderer"] = {
-  "properties" : {
-    "Renderer" : {
-      "type" : "string",
-      "description" : "Receipt renderer\n",
-      "enum" : [ "printer", "email", "none" ]
-    },
-    "EmailHeaders" : {
-      "$ref" : "#/definitions/EmailHeaders"
-    }
-  },
-  "description" : "# Renderer určuje ako sa doklad pošle na výstup\n\n## Možné hodnoty\n* printer - Doklad bude vytlačený na tlačiarni\n* email - Doklad bude skonvertovaný do PDF vrátane QR kódu (ak nejde o kópiu) a odoslaný e-mailom\n* none - doklad sa nebude tlačiť ani posielať e-mailom. Je možné použiť len s dokladmi typu VKLAD a VÝBER. Pri ostatných dokladoch **musí** byť doklad vytlačený alebo doručený elektronicky\n\n> Ak je požadovaný email, musia byť nakonfigurované SMTP parametre a vyplnený EmailHeaders\n\n> V prípade, že doklad bol uzavretý offline, vždy sa ako renderer použije printer a doklad bude vytlačený na pripojenej tlačiarni\n"
-};
-        defs["ReceiptRequest"] = {
-  "type" : "object",
-  "properties" : {
-    "Receipt" : {
-      "$ref" : "#/definitions/Receipt"
-    },
-    "ReceiptRenderer" : {
-      "$ref" : "#/definitions/ReceiptRenderer"
-    },
-    "PrintTemplate" : {
-      "$ref" : "#/definitions/ReceiptPrintTemplate"
-    }
-  },
-  "description" : "Receipt request. Obsahuje Receipt (doklad), renderer a tlačový template"
-};
-        defs["ReceiptResponse"] = {
-  "properties" : {
-    "Mode" : {
-      "type" : "string",
-      "description" : "Spôsob registrácie dokladu v eKasa\n* Online - doklad bol do eKasa odoslaný online\n* Offline - doklad nebol do eKasa odoslaný\n",
-      "enum" : [ "Online", "Offline" ]
-    },
-    "Id" : {
-      "type" : "string",
-      "description" : "Generovaný unikátny identifikátor dokladu"
-    },
-    "ErrorCode" : {
-      "type" : "integer",
-      "description" : "Chybový kód"
-    },
-    "ErrorMessage" : {
-      "type" : "string",
-      "description" : "Popis chyby"
-    },
-    "Receipt" : {
-      "$ref" : "#/definitions/Receipt"
-    },
-    "Printout" : {
-      "$ref" : "#/definitions/ReceiptPrintTemplate"
-    }
-  },
-  "description" : "Odpoveď na ReceiptRequest"
-};
-        defs["RegisterLocationRequest"] = {
-  "required" : [ "CreateDate" ],
-  "properties" : {
-    "CreateDate" : {
-      "type" : "string",
-      "format" : "datetime",
-      "description" : "Dátum a čas vytvorenia záznamu o umiestnení prenosnej pokladnice"
-    },
-    "Other" : {
-      "type" : "string",
-      "description" : "Iný spôsob definovania umiestnenia prenosnej pokladnice , na ktorej podnikateľ v danom čase prijíma tržbu. ORP použije tento typ definovania polohy, ak nie je možné uviesť adresu umiestnenia prenosnej pokladnice alebo GPS súradnice\n"
-    },
-    "GPS" : {
-      "$ref" : "#/definitions/GPSLocation"
-    },
-    "PhysicalAddress" : {
-      "$ref" : "#/definitions/PhysicalAddress"
-    }
-  },
-  "description" : "Register location request"
-};
-        defs["RegisterLocationResponse"] = {
-  "required" : [ "Mode" ],
-  "properties" : {
-    "Mode" : {
-      "type" : "string",
-      "description" : "Spôsob registrácie polohy v eKasa\n* Online - poloha bola do eKasa odoslaný online\n* Offline - poloha nebola do eKasa odoslaný\n",
-      "enum" : [ "Online", "Offline" ]
-    },
-    "Id" : {
-      "type" : "string",
-      "description" : "Generovaný unikátny identifikátor dokladu"
-    },
-    "Warning" : {
-      "type" : "string",
-      "description" : "Upozornenie zaevidovania polohy"
-    },
-    "RegisterLocationRequest" : {
-      "$ref" : "#/definitions/RegisterLocationRequest"
-    }
-  },
-  "description" : "Register location response"
-};
-        defs["SMTPConfiguration"] = {
-  "properties" : {
-    "Address" : {
-      "type" : "string",
-      "description" : "SMTP server address"
-    },
-    "Username" : {
-      "type" : "string",
-      "description" : "SMTP server username"
-    },
-    "Password" : {
-      "type" : "string",
-      "description" : "SMTP server password"
-    },
-    "Port" : {
-      "type" : "integer",
-      "description" : "Port number. If not specified default 25 is used"
-    },
-    "From" : {
-      "type" : "string",
-      "format" : "email",
-      "description" : "Default from address"
-    },
-    "EnableSSL" : {
-      "type" : "boolean",
-      "description" : "Enable SSL. Default true",
-      "default" : true
-    },
-    "IncludeReceiptResponse" : {
-      "type" : "boolean",
-      "description" : "Include ReceiptResponse as the e-mail attachment. If enabled the ReceiptResponse.json is added as a attachment to the e-mail",
-      "default" : false
-    }
-  },
-  "description" : "SMTP configuration"
-};
-        defs["Status"] = {
-  "properties" : {
-    "CHDUInformation" : {
-      "$ref" : "#/definitions/CHDUInformation"
-    },
-    "Version" : {
-      "type" : "string",
-      "description" : "Verzia PPEKK"
-    },
-    "SoftwareId" : {
-      "type" : "string",
-      "description" : "Id softvéru"
-    },
-    "SerialNumber" : {
-      "type" : "string",
-      "description" : "Sériové číslo"
-    },
-    "Capabilities" : {
-      "type" : "string",
-      "description" : "Funkcionality"
-    },
-    "UnsentMessageCount" : {
-      "type" : "integer",
-      "description" : "Počet neodoslaných dátových správ"
-    }
-  },
-  "description" : "Status OEC"
-};
-        defs["Text"] = {
-  "required" : [ "Value" ],
-  "properties" : {
-    "Value" : {
-      "type" : "string",
-      "description" : "Text určený pre voľnú tlač"
-    }
-  },
-  "description" : "Text to free print"
-};
-        defs["Transaction"] = {
-  "properties" : {
-    "ReceiptRequest" : {
-      "$ref" : "#/definitions/ReceiptRequest"
-    },
-    "ReceiptResponse" : {
-      "$ref" : "#/definitions/ReceiptResponse"
-    },
-    "TransactionState" : {
-      "type" : "string",
-      "enum" : [ "Idle", "Pending", "Online", "Offline", "Warning", "Error" ]
-    }
-  },
-  "description" : "Zobrazí stav poslednej transakcie"
-};
-        defs["UnsentState"] = {
-  "properties" : {
-    "CashRegisterCode" : {
-      "type" : "string",
-      "description" : "Kód on-line registračnej pokladnice"
-    },
-    "UnsentMessagesCount" : {
-      "type" : "integer",
-      "description" : "Počet neodoslaných dátových správ"
-    }
-  },
-  "description" : "Stav pokladne"
-};
+        defs["AuthIdSet"] = {"required":["Authentication","Id","Identification","UploadDate"],"properties":{"Id":{"type":"integer","description":"Id AuthId setu"},"UploadDate":{"type":"string","format":"datetime","description":"Dátum uploadu AuthId setu"},"Authentication":{"type":"string","description":"Autentikačné informácie v eKasa štruktúre"},"Identification":{"type":"string","description":"Identifikačné data v eKasa štruktúre"},"CertificatePassword":{"type":"string","description":"Heslo k certifikat v autentikacnych udajoch"}},"description":"Set autentikačných a identifikačných údajov"};
+        defs["CHDUInformation"] = {"properties":{"Capacity":{"type":"integer","format":"int64","description":"Celková využiteľná kapacita CHDU v byte"},"AvailableSpace":{"type":"integer","format":"int64","description":"Voľná kapacita CHDU v byte"},"Version":{"type":"string","description":"Verzia firmware CHDU"},"SerialNumber":{"type":"string","description":"Sériové číslo"}},"description":"CHDU informácie"};
+        defs["CashRegisterConfiguration"] = {"required":["CashRegisterCode","ExceptionMode"],"properties":{"CashRegisterCode":{"type":"string","description":"Kód on-line registračnej pokladnice\n\n> Ak je nie je špecifikovná SMTP konfigurácia pre pokladňu, použije sa SMTP z globálnej konfigurácie\n"},"Name":{"type":"string","description":"Názov pokladne"},"Status":{"type":"string","description":"## Stav pokladne\n- active - umožňuje registrovať doklady (addReceipt), polohu (registerLocation), tlač (print) a otvorenie zásuvky (openCashDrawer)\n- paused - neumožňuje registrovať doklady (addReceipt), polohu (registerLocation), tlač (print) a otvorenie zásuvky (openCashDrawer). V healthckeck sa vyhodnocuje rovnako ako active.\n- disabled - neumožňuje registrovať doklady (addReceipt), polohu (registerLocation), tlač (print) a otvorenie zásuvky (openCashDrawer). V healthckeck je vždy vyhodnotená ako Healthy\n","default":"active","enum":["active","disabled","paused"]},"ExceptionMode":{"type":"boolean","description":"Príznak, či ide o pokladnicu podnikateľa s udelenou výnimkou zo zasielania údajov"},"LastReceiptNumber":{"type":"integer","description":"Číslo posledného dokladu"},"SMTPConfiguration":{"$ref":"#/definitions/SMTPConfiguration"},"PrinterConfiguration":{"$ref":"#/definitions/PrinterConfiguration"},"AuthIdSets":{"type":"array","description":"AuthId sety pre pokladňu","items":{"$ref":"#/definitions/AuthIdSet"}},"CloudStorageConfiguration":{"$ref":"#/definitions/CloudStorageConfiguration"}},"description":"Konfigurácia pokladne"};
+        defs["CloudStorageConfiguration"] = {"properties":{"Url":{"type":"string","description":"Cloud storage URL"},"ApiKey":{"type":"string","description":"API key"},"Enabled":{"type":"boolean","description":"Enabled"},"Timeout":{"type":"integer","description":"Timeout"},"DocumentTypes":{"type":"array","description":"Documents to send to the cloud storage","items":{"type":"string"}}},"description":"Cloud storage configuration"};
+        defs["EmailHeaders"] = {"required":["Subject","To"],"properties":{"From":{"type":"string","format":"email","description":"From. Ak nie je špecifkované, použije sa hodnota s konfigurácie"},"To":{"type":"string","format":"email","description":"To"},"Subject":{"type":"string","description":"Subject"},"IncludeReceiptResponse":{"type":"boolean","description":"Include ReceiptResponse as the e-mail attachment. If enabled the ReceiptResponse.json is added as a attachment to the e-mail","default":false}},"description":"Hlavičky e-mailu"};
+        defs["GPSLocation"] = {"properties":{"X":{"type":"string","description":"Obsahuje X-ovú súradnicu"},"Y":{"type":"string","description":"Obsahuje Y-ovú súradnicu"}},"description":"GPS súradnice miesta podľa súradnicového systému WGS 84, na ktorom ORP vyhotovuje doklady. ORP použije tento typ, ak vie získať svoje GPS súradnice v rámci súradnicového systému WGS 84    \n"};
+        defs["GlobalConfiguration"] = {"properties":{"SMTPConfiguration":{"$ref":"#/definitions/SMTPConfiguration"},"eKasaEndpoint":{"type":"string","description":"URL eKasa"},"eKasaPingEndpoint":{"type":"string","description":"URL to ping eKasa"},"eKasaPingResponse":{"type":"number","description":"Result code"},"CertificateIssuer":{"type":"string","description":"Vydávateľ certifikátu"},"CertificateSubject":{"type":"string","description":"Subjekt certifikátu"},"Timeout":{"type":"integer","description":"Timeout čakania na odpoveď od eKasa v ms. Musí byť >=2000","minimum":2000},"ResendTimeout":{"type":"integer","description":"Timeout čakania na odpoveď od eKasa v ms v prípade doposlania správy. Musí byť >=2000","minimum":2000},"ProxyConfiguration":{"$ref":"#/definitions/ProxyConfiguration"}},"description":"Globálna OEC konfigurácia"};
+        defs["Message"] = {"properties":{"CashRegisterCode":{"type":"string","description":"Kód on-line registračnej pokladnice"},"CreateDate":{"type":"string","format":"date-time","description":"Dátum vytvorenia dátovej správy"},"Id":{"type":"string","description":"Identifikátor dátovej správy"},"MessageContent":{"type":"string","description":"Obsah dátovej správy"},"ErrorCode":{"type":"integer","description":"Kód chyby \n\n- 0 žiadna\n- != 0 kód chyby\n"}},"description":"Dátová správa"};
+        defs["Payment"] = {"properties":{"Method":{"type":"string","description":"Metóda platby","enum":["cash","bankcard","fleetcard","loyalty","voucher","other"]},"Amount":{"type":"number","description":"Uhradená čiastka"},"Identification":{"type":"string","description":"Identifikácia platby (číslo karty, číslo vouchra, ...)"},"AdditionalData":{"type":"string","description":"Doplnkové data"}},"description":"Informácie o platbe"};
+        defs["PhysicalAddress"] = {"required":["Municipality","StreetName"],"properties":{"Municipality":{"type":"string","description":"Názov obce. Obcou je územnosprávna jednotka charakterizovaná súvislým domovým osídlením a vlastným názvom. Obcou je aj mesto\n"},"BuildingNumber":{"type":"string","description":"Názov budovy alebo číslo domu."},"PostalCode":{"type":"string","description":"Poštové smerové číslo - kód, ktorý ustanovili poštové autority za účelom doručovania pošty."},"PropertyRegistrationNumber":{"type":"string","description":"Súpisné číslo budovy"},"StreetName":{"type":"string","description":"Názov ulice. Ak obec nemá názov ulice, udáva sa tu názov obce"}},"description":"Fyzická adresa"};
+        defs["PrinterConfiguration"] = {"properties":{"Address":{"type":"string","description":"Adresa tlačiarne"},"QRSequence":{"type":"string","description":"Sekvencia, pomocou ktorej tlačiareň vytlačí QR kód. Špeciálne znaky sa uvádzajú v tvare \\xhh kde hh je hexadecimálny kód znaku. \n\nOEC nahradi tieto tagy\n* [len:16] - dlzka kodu reprezentovana 16bit word\n* [len:8] - dlzka kodu reprezentovana 8bit word\n* [code] - QR kod, ktory sa ma vytlacit\n## Príklady:\n### Diebold-Nixdorf TH-250\n\n\\x1D\\x28\\x6B[len:16]\\x31\\x50\\x30[code]\\x1D\\x28\\x6B\\x03\\x00\\x31\\x51\\x30\n"},"PaperCutSequence":{"type":"string","description":"Sekvencia, pomocou ktorej tlačiareň odreže papier. Špeciálne znaky sa uvádzajú v tvare \\xhh kde hh je hexadecimálny kód znaku. \n## Príklady:\n\\x1B\\x69\n"},"PrinterCodePageSequence":{"type":"string","description":"Sekvencia, pomocou ktorej tlačiareň nastaví kódovú stránku uvedenú v Encoding. Špeciálne znaky sa uvádzajú v tvare \\xhh kde hh je hexadecimálny kód znaku. \n## Príklady:\nibm852 \\x1Bt\\x12\n"},"Encoding":{"type":"string","description":"Kódovanie, na ktoré sa prekódujú všetky texty poslané na tlačiareň a uložené do CHDU.\n","enum":["ibm852","windows-1250","iso-8859-2"]},"OpenCashDrawerSequence":{"type":"string","description":"Sekvencia, pomocou ktorej tlačiareň otovorí pripojenú pokladničnú zásuvku. Špeciálne znaky sa uvádzajú v tvare \\xhh kde hh je hexadecimálny kód znaku. \n## Príklady:\n\\x1B\\x70\\x30\\x80\\x80\n","default":"\\x1B\\x70\\x30\\x80\\x80"},"PrinterJobWaitTime":{"type":"integer","description":"Maximálna doba v ms na čakanie odozvy od tlačiarne\n"}},"description":"Konfigurácia tlačiarne"};
+        defs["ProxyConfiguration"] = {"properties":{"UseProxy":{"type":"boolean","description":"Použiť alebo nepoužiť proxy"},"Address":{"type":"string","description":"Adresa proxy"},"Port":{"type":"integer","description":"Port proxy. Default 80"},"UserName":{"type":"string","description":"meno"},"Password":{"type":"string","description":"heslo"}},"description":"Konfigurácia proxy"};
+        defs["Receipt"] = {"type":"object","required":["Amount","IssueDate","Paragon","ReceiptType"],"properties":{"Amount":{"type":"number","description":"Celková suma dokladu"},"IssueDate":{"type":"string","format":"date-time","description":"Dátum a čas zaevidovania dokladu v systéme eKasa"},"ReceiptNumber":{"type":"integer","description":"Poradové číslo dokladu"},"InvoiceNumber":{"type":"string","description":"Poradové číslo faktúry, ak ide o úhradu faktúry alebo jej časti"},"ParagonNumber":{"type":"integer","description":"Poradové číslo paragónu"},"CustomerId":{"type":"string","description":"Unikátny identifikátor kupujúceho"},"CustomerIdType":{"type":"string","description":"Typ identifikátora kupujúceho","enum":["ICO","DIC","IC_DPH","INE"]},"CashRegisterCode":{"type":"string","description":"Kód on-line registračnej pokladnice"},"Paragon":{"type":"boolean","description":"Príznak, či ide o zaevidovanie paragónu do ORP"},"BasicVatAmount":{"type":"number","description":"Celková suma DPH pre základnú sadzbu dane podľa zákona č. 222/2004 Z. z."},"ReducedVatAmount":{"type":"number","description":"Celková suma DPH pre zníženú sadzbu dane podľa zákona č. 222/2004 Z. z."},"TaxFreeAmount":{"type":"number","description":"Celková suma položiek oslobodených od DPH alebo položiek, na ktoré sa uplatňuje osobitná úprava. V prípade podnikateľa, ktorý nie je platiteľom DPH suma všetkých položiek."},"ReceiptType":{"type":"string","description":"Typ pokladničného dokladu","enum":["PD","UF","ND","VY","VK"]},"TaxBaseBasic":{"type":"number","description":"Celková suma základu DPH pre základnú sadzbu dane podľa zákona č. 222/2004 Z. z."},"TaxBaseReduced":{"type":"number","description":"Celková suma základu DPH pre zníženú sadzbu dane podľa zákona č. 222/2004 Z. z."},"Items":{"type":"array","description":"Položky dokladu","items":{"$ref":"#/definitions/ReceiptItem"},"minItems":0},"Payments":{"type":"array","description":"Prijaté platby","items":{"$ref":"#/definitions/Payment"}},"Cashier":{"type":"string","description":"Pokladník"}},"description":"Receipt - doklad"};
+        defs["ReceiptItem"] = {"type":"object","required":["ItemType","Name","Price","Quantity","VatRate"],"properties":{"Price":{"type":"number","description":"Celková cena tovaru alebo služby"},"Quantity":{"type":"number","description":"Množstvo tovaru alebo rozsah služby"},"MeasurementUnit":{"type":"string","description":"Merná jednotka"},"Name":{"type":"string","description":"Označenie tovaru alebo služby"},"ReferenceReceiptId":{"type":"string","description":"Číslo dokladu, ku ktorému sa vzťahuje oprava alebo vrátenie položky"},"VatRate":{"type":"number","example":10.0,"description":"Sadzba DPH v %"},"ItemType":{"type":"string","description":"Typ položky dokladu","enum":["K","VO","V","O","Z","OZ","VP"]},"SpecialRegulation":{"type":"string","description":"Príznak, ktorý bližšie špecifikuje „dôvod“ priradenia dane s hodnotou 0, ak bola položke priradená","enum":["PDP","OOD","CK","PT","UD","ZPS"]},"SellerIdType":{"type":"string","description":"Typ identifikátora predávajúceho, v ktorého mene bol predaný tovar alebo poskytnutá služba","enum":["DIC","IC_DPH"]},"SellerId":{"type":"string","description":"Identifikátor predávajúceho, v ktorého mene bol predaný tovar alebo poskytnutá služba"},"VoucherNumber":{"type":"string","description":"Číslo jednoúčelového poukazu pri jeho výmene za tovar alebo poskytnutú službu."},"ItemId":{"type":"string","description":"Číslo tovaru"},"Category":{"type":"string","description":"Kategória"},"SerialNumber":{"type":"string","description":"Sériové číslo"},"EAN":{"type":"array","description":"EAN kódy","items":{"type":"string"}}},"description":"Položka dokladu"};
+        defs["ReceiptMessage"] = {"properties":{"MessageContent":{"type":"string","description":"Dekódovaný obsah dátovej správy"},"PrintoutContent":{"type":"string","description":"Raw dáta"},"MessageType":{"type":"integer","description":"Typ správy\n * 1: ReceiptRequest\n * 2: ReceiptResponse\n * 3: LocationRequest\n * 4: LocationResponse\n * 5: AuthIdSet\n * 6: PrintReceipt\n * 7: PrintText\n"}},"description":"Dáta o doklade"};
+        defs["ReceiptPrintTemplate"] = {"type":"array","description":"Tlačová šablona\n> Ak nie je špecifikovaná, OEC vygeneruje tlačový výstup pomocou defaultnej tlačovej šablony\n\n## Ako je šablona použitá\n\nText *OFF-LINE DOKLAD* - je pridaný na začiatok textu\n\n*odpoveď z eKasa s QR kódom* - je pridané na koniec textu\n","items":{"type":"string"}};
+        defs["ReceiptRenderer"] = {"properties":{"Renderer":{"type":"string","description":"Receipt renderer\n","enum":["printer","email","none"]},"EmailHeaders":{"$ref":"#/definitions/EmailHeaders"}},"description":"# Renderer určuje ako sa doklad pošle na výstup\n\n## Možné hodnoty\n* printer - Doklad bude vytlačený na tlačiarni\n* email - Doklad bude skonvertovaný do PDF vrátane QR kódu (ak nejde o kópiu) a odoslaný e-mailom\n* none - doklad sa nebude tlačiť ani posielať e-mailom. Je možné použiť len s dokladmi typu VKLAD a VÝBER. Pri ostatných dokladoch **musí** byť doklad vytlačený alebo doručený elektronicky\n\n> Ak je požadovaný email, musia byť nakonfigurované SMTP parametre a vyplnený EmailHeaders\n\n> V prípade, že doklad bol uzavretý offline, vždy sa ako renderer použije printer a doklad bude vytlačený na pripojenej tlačiarni\n"};
+        defs["ReceiptRequest"] = {"type":"object","properties":{"Receipt":{"$ref":"#/definitions/Receipt"},"ReceiptRenderer":{"$ref":"#/definitions/ReceiptRenderer"},"PrintTemplate":{"$ref":"#/definitions/ReceiptPrintTemplate"}},"description":"Receipt request. Obsahuje Receipt (doklad), renderer a tlačový template"};
+        defs["ReceiptResponse"] = {"properties":{"Mode":{"type":"string","description":"Spôsob registrácie dokladu v eKasa\n* Online - doklad bol do eKasa odoslaný online\n* Offline - doklad nebol do eKasa odoslaný\n","enum":["Online","Offline"]},"Id":{"type":"string","description":"Generovaný unikátny identifikátor dokladu"},"ErrorCode":{"type":"integer","description":"Chybový kód"},"ErrorMessage":{"type":"string","description":"Popis chyby"},"Receipt":{"$ref":"#/definitions/Receipt"},"Printout":{"$ref":"#/definitions/ReceiptPrintTemplate"}},"description":"Odpoveď na ReceiptRequest"};
+        defs["RegisterLocationRequest"] = {"required":["CreateDate"],"properties":{"CreateDate":{"type":"string","format":"datetime","description":"Dátum a čas vytvorenia záznamu o umiestnení prenosnej pokladnice"},"Other":{"type":"string","description":"Iný spôsob definovania umiestnenia prenosnej pokladnice , na ktorej podnikateľ v danom čase prijíma tržbu. ORP použije tento typ definovania polohy, ak nie je možné uviesť adresu umiestnenia prenosnej pokladnice alebo GPS súradnice\n"},"GPS":{"$ref":"#/definitions/GPSLocation"},"PhysicalAddress":{"$ref":"#/definitions/PhysicalAddress"}},"description":"Register location request"};
+        defs["RegisterLocationResponse"] = {"required":["Mode"],"properties":{"Mode":{"type":"string","description":"Spôsob registrácie polohy v eKasa\n* Online - poloha bola do eKasa odoslaný online\n* Offline - poloha nebola do eKasa odoslaný\n","enum":["Online","Offline"]},"Id":{"type":"string","description":"Generovaný unikátny identifikátor dokladu"},"Warning":{"type":"string","description":"Upozornenie zaevidovania polohy"},"RegisterLocationRequest":{"$ref":"#/definitions/RegisterLocationRequest"}},"description":"Register location response"};
+        defs["SMTPConfiguration"] = {"properties":{"Address":{"type":"string","description":"SMTP server address"},"Username":{"type":"string","description":"SMTP server username"},"Password":{"type":"string","description":"SMTP server password"},"Port":{"type":"integer","description":"Port number. If not specified default 25 is used"},"From":{"type":"string","format":"email","description":"Default from address"},"EnableSSL":{"type":"boolean","description":"Enable SSL. Default true","default":true},"IncludeReceiptResponse":{"type":"boolean","description":"Include ReceiptResponse as the e-mail attachment. If enabled the ReceiptResponse.json is added as a attachment to the e-mail","default":false}},"description":"SMTP configuration"};
+        defs["Status"] = {"properties":{"CHDUInformation":{"$ref":"#/definitions/CHDUInformation"},"Version":{"type":"string","description":"Verzia PPEKK"},"SoftwareId":{"type":"string","description":"Id softvéru"},"SerialNumber":{"type":"string","description":"Sériové číslo"},"Capabilities":{"type":"string","description":"Funkcionality"},"UnsentMessageCount":{"type":"integer","description":"Počet neodoslaných dátových správ"}},"description":"Status OEC"};
+        defs["Text"] = {"required":["Value"],"properties":{"Value":{"type":"string","description":"Text určený pre voľnú tlač"}},"description":"Text to free print"};
+        defs["Transaction"] = {"properties":{"ReceiptRequest":{"$ref":"#/definitions/ReceiptRequest"},"ReceiptResponse":{"$ref":"#/definitions/ReceiptResponse"},"TransactionState":{"type":"string","enum":["Idle","Pending","Online","Offline","Warning","Error"]}},"description":"Zobrazí stav poslednej transakcie"};
+        defs["UnsentState"] = {"properties":{"CashRegisterCode":{"type":"string","description":"Kód on-line registračnej pokladnice"},"UnsentMessagesCount":{"type":"integer","description":"Počet neodoslaných dátových správ"}},"description":"Stav pokladne"};
   </script>
 
   <div class="container-fluid">
@@ -1471,6 +805,9 @@ margin-bottom: 20px;
                     <li data-group="Default" data-name="printUnsentMessages" class="">
                       <a href="#api-Default-printUnsentMessages">printUnsentMessages</a>
                     </li>
+                    <li data-group="Default" data-name="printerstatusGet" class="">
+                      <a href="#api-Default-printerstatusGet">printerstatusGet</a>
+                    </li>
                     <li data-group="Default" data-name="rebootGet" class="">
                       <a href="#api-Default-rebootGet">rebootGet</a>
                     </li>
@@ -1485,6 +822,9 @@ margin-bottom: 20px;
                     </li>
                     <li data-group="Default" data-name="resendAllUnsentMessages" class="">
                       <a href="#api-Default-resendAllUnsentMessages">resendAllUnsentMessages</a>
+                    </li>
+                    <li data-group="Default" data-name="resendCloudDocuments" class="">
+                      <a href="#api-Default-resendCloudDocuments">resendCloudDocuments</a>
                     </li>
                     <li data-group="Default" data-name="resendUnsentMessages" class="">
                       <a href="#api-Default-resendUnsentMessages">resendUnsentMessages</a>
@@ -1511,7 +851,7 @@ margin-bottom: 20px;
         <div id="header">
           <div id="api-_">
             <h2 id="welcome-to-apidoc">API and SDK Documentation</h2>
-              <div class="app-desc">Version: 4.0.0</div>
+              <div class="app-desc">Version: 6.0.0</div>
             <hr>
             <div><h2>API je dostupné na adrese</h2>
 <pre><code>http://adresa/oec/api
@@ -2718,6 +2058,49 @@ $(document).ready(function() {
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 504 - Tlačiareň nepripravená </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-addReceipt-504-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-addReceipt-504-schema">
+                                  <div id='responses-addReceipt-504-schema-504' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Tlačiareň nepripravená",
+  "schema" : {
+    "$ref" : "#/definitions/ReceiptResponse"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-addReceipt-504-schema-data').val(stringify(schema));
+                                        var result = $('#responses-addReceipt-504-schema-504');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-addReceipt-504-schema-data' type='hidden' value=''></input>
+                                </div>
                             </div>
 
                             <h3> Status: 507 - Kapacita CHDU vyčerpaná </h3>
@@ -7814,9 +7197,44 @@ $(document).ready(function() {
                             <h3> Status: 504 - Kópiu dokladu sa nepodarilo vyhotoviť. Buď zlyhala tlač alebo odoslanie e-mailu </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-printReceipt-504-schema">Schema</a>
+                                </li>
+
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-printReceipt-504-schema">
+                                  <div id='responses-printReceipt-504-schema-504' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Kópiu dokladu sa nepodarilo vyhotoviť. Buď zlyhala tlač alebo odoslanie e-mailu",
+  "schema" : {
+    "$ref" : "#/definitions/ReceiptResponse"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-printReceipt-504-schema-data').val(stringify(schema));
+                                        var result = $('#responses-printReceipt-504-schema-504');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-printReceipt-504-schema-data' type='hidden' value=''></input>
+                                </div>
                             </div>
 
                         </article>
@@ -8133,6 +7551,49 @@ $(document).ready(function() {
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 504 - Tlačiareň nepripravená </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-printText-504-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-printText-504-schema">
+                                  <div id='responses-printText-504-schema-504' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Tlačiareň nepripravená",
+  "schema" : {
+    "$ref" : "#/definitions/ReceiptResponse"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-printText-504-schema-data').val(stringify(schema));
+                                        var result = $('#responses-printText-504-schema-504');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-printText-504-schema-data' type='hidden' value=''></input>
+                                </div>
                             </div>
 
                             <h3> Status: 507 - Kapacita CHDU vyčerpaná </h3>
@@ -8484,6 +7945,279 @@ except ApiException as e:
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Default-printerstatusGet">
+                      <article id="api-Default-printerstatusGet-0" data-group="User" data-name="printerstatusGet" data-version="0">
+                        <div class="pull-left">
+                          <h1>printerstatusGet</h1>
+                          <p>Vráti stav tlačiarne</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">Tlačiareň je funkčná len ak je jej status ***Success***
+* Success
+* PrinterIsBusy
+* OutOfPaper
+* TheFormatOfPrintDataPacketError
+* PrinterMalfunctions
+* PrinterOverHeats
+* PrinterVoltageIsTooLow
+* PrintingIsUnfinished
+* CutJamError
+* CoverOpenError
+* ThePrinterHasNotInstalledFontLibrary
+* DataPackageIsTooLong
+* OtherError
+</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/printerstatus</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-printerstatusGet-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-printerstatusGet-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-printerstatusGet-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-printerstatusGet-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-printerstatusGet-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-printerstatusGet-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-printerstatusGet-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-printerstatusGet-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-printerstatusGet-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-printerstatusGet-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-printerstatusGet-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-printerstatusGet-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://virtserver.swaggerhub.com/oec/api/printerstatus"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-printerstatusGet-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        try {
+            Object result = apiInstance.printerstatusGet();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#printerstatusGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-printerstatusGet-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        try {
+            Object result = apiInstance.printerstatusGet();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#printerstatusGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-printerstatusGet-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-printerstatusGet-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Vráti stav tlačiarne
+[apiInstance printerstatusGetWithCompletionHandler: 
+              ^(Object output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-printerstatusGet-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var DatapacOecApi = require('datapac_oec_api');
+
+var api = new DatapacOecApi.DefaultApi()
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.printerstatusGet(callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-printerstatusGet-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-printerstatusGet-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class printerstatusGetExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new DefaultApi();
+
+            try
+            {
+                // Vráti stav tlačiarne
+                Object result = apiInstance.printerstatusGet();
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.printerstatusGet: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-printerstatusGet-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\DefaultApi();
+
+try {
+    $result = $api_instance->printerstatusGet();
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->printerstatusGet: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-printerstatusGet-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+
+eval { 
+    my $result = $api_instance->printerstatusGet();
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->printerstatusGet: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-printerstatusGet-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+
+try: 
+    # Vráti stav tlačiarne
+    api_response = api_instance.printerstatus_get()
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->printerstatusGet: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - OK </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-printerstatusGet-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-printerstatusGet-200-schema">
+                                  <div id='responses-printerstatusGet-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "OK",
+  "schema" : {
+    "type" : "object",
+    "properties" : {
+      "Status" : {
+        "type" : "string",
+        "example" : "Success",
+        "description" : "* Success\n* PrinterIsBusy\n* OutOfPaper\n* TheFormatOfPrintDataPacketError\n* PrinterMalfunctions\n* PrinterOverHeats\n* PrinterVoltageIsTooLow\n* PrintingIsUnfinished\n* CutJamError\n* CoverOpenError\n* ThePrinterHasNotInstalledFontLibrary\n* DataPackageIsTooLong\n* OtherError\n"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-printerstatusGet-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-printerstatusGet-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-printerstatusGet-200-schema-data' type='hidden' value=''></input>
+                                </div>
                             </div>
 
                         </article>
@@ -10249,6 +9983,270 @@ except ApiException as e:
 
                           <h2>Responses</h2>
                             <h3> Status: 200 - Odoslanie zahájené </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 500 - Odoslanie nebolo možné zahájiť </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Default-resendCloudDocuments">
+                      <article id="api-Default-resendCloudDocuments-0" data-group="User" data-name="resendCloudDocuments" data-version="0">
+                        <div class="pull-left">
+                          <h1>resendCloudDocuments</h1>
+                          <p>Zaháji pokus o odoslanie neodoslaných dokumentov pre cloud storage konkrétnej pokladne</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">Zaháji pokus o odoslanie neodoslaných dokumentov do cloud storage. Odoslanie beží na pozadí.</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/cloudstorageresend/{CashRegisterCode}</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-resendCloudDocuments-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-resendCloudDocuments-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-resendCloudDocuments-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-resendCloudDocuments-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-resendCloudDocuments-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-resendCloudDocuments-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-resendCloudDocuments-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-resendCloudDocuments-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-resendCloudDocuments-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-resendCloudDocuments-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-resendCloudDocuments-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-resendCloudDocuments-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://virtserver.swaggerhub.com/oec/api/cloudstorageresend/{CashRegisterCode}"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-resendCloudDocuments-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        String cashRegisterCode = cashRegisterCode_example; // String | Kód on-line registračnej pokladnice
+        try {
+            apiInstance.resendCloudDocuments(cashRegisterCode);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#resendCloudDocuments");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-resendCloudDocuments-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        String cashRegisterCode = cashRegisterCode_example; // String | Kód on-line registračnej pokladnice
+        try {
+            apiInstance.resendCloudDocuments(cashRegisterCode);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#resendCloudDocuments");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-resendCloudDocuments-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-resendCloudDocuments-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">String *cashRegisterCode = cashRegisterCode_example; // Kód on-line registračnej pokladnice
+
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Zaháji pokus o odoslanie neodoslaných dokumentov pre cloud storage konkrétnej pokladne
+[apiInstance resendCloudDocumentsWith:cashRegisterCode
+              completionHandler: ^(NSError* error) {
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-resendCloudDocuments-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var DatapacOecApi = require('datapac_oec_api');
+
+var api = new DatapacOecApi.DefaultApi()
+
+var cashRegisterCode = cashRegisterCode_example; // {String} Kód on-line registračnej pokladnice
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+api.resendCloudDocuments(cashRegisterCode, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-resendCloudDocuments-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-resendCloudDocuments-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class resendCloudDocumentsExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new DefaultApi();
+            var cashRegisterCode = cashRegisterCode_example;  // String | Kód on-line registračnej pokladnice
+
+            try
+            {
+                // Zaháji pokus o odoslanie neodoslaných dokumentov pre cloud storage konkrétnej pokladne
+                apiInstance.resendCloudDocuments(cashRegisterCode);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.resendCloudDocuments: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-resendCloudDocuments-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\DefaultApi();
+$cashRegisterCode = cashRegisterCode_example; // String | Kód on-line registračnej pokladnice
+
+try {
+    $api_instance->resendCloudDocuments($cashRegisterCode);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->resendCloudDocuments: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-resendCloudDocuments-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+my $cashRegisterCode = cashRegisterCode_example; # String | Kód on-line registračnej pokladnice
+
+eval { 
+    $api_instance->resendCloudDocuments(cashRegisterCode => $cashRegisterCode);
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->resendCloudDocuments: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-resendCloudDocuments-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+cashRegisterCode = cashRegisterCode_example # String | Kód on-line registračnej pokladnice
+
+try: 
+    # Zaháji pokus o odoslanie neodoslaných dokumentov pre cloud storage konkrétnej pokladne
+    api_instance.resend_cloud_documents(cashRegisterCode)
+except ApiException as e:
+    print("Exception when calling DefaultApi->resendCloudDocuments: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">CashRegisterCode*</td>
+<td>
+
+
+    <div id="d2e199_resendCloudDocuments_cashRegisterCode">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+                    <div class="inner description">
+                        Kód on-line registračnej pokladnice
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - Odoslanie zahájené </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 404 - Pokladňa neexistuje </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
