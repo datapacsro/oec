@@ -42,6 +42,11 @@ Príklad
 ```
 
 ## Zmeny
+### Zrušenie UIK
+OEC už do eKasa neposiela Unikátny identifikátor kupujúceho (UIK). Ak sa v requeste z pokladne bude UIK (CustomerID) nachádzať, OEC ho zmaže a do eKasa nepošle. Doklad bude registrovaný bez UIK.
+
+> V zmysle rozhodnutia Ústavného súdu SR č. 492/2021 Z. z., Nález Ústavného súdu Slovenskej republiky č. k. PL. ÚS 25/2019-117 z 10. novembra 2021 vo veci vysloveniu nesúladu ustanovenia § 8a ods. 1 zákona č. 289/2008 Z. z. o používaní elektronickej registračnej pokladnice a o zmene a doplnení zákona Slovenskej národnej rady č. 511/1992 Zb. o správe daní a poplatkov a o zmenách v sústave územných finančných orgánov v znení neskorších predpisov v časti „unikátny identifikátor kupujúceho, ak je predložený kupujúcim pred zaevidovaním prijatej tržby“ s čl. 16 ods. 1, čl. 19 ods. 2 a 3 Ústavy Slovenskej republiky (https://www.slov-lex.sk/pravne-predpisy/SK/ZZ/2021/492/vyhlasene_znenie.html), bola zrušená existencia unikátneho identifikátora kupujúceho (ďalej len „UIK“).
+
 ### Unhealthy bez certifikátov
 V prípade, že v OEC nie je nainštalovaný žiadny certifikát, je výsledný stav reportovaný ako ```Unhealthy```
 > Do teraz bol takýto stav reportovaný ako ```Healthy```
