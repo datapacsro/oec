@@ -23,6 +23,11 @@ Datapac OEC je certifikovaný online eKasa klient.
 # Wiki
 [Wiki k Datapac OEC](https://github.com/datapacsro/oec/wiki)
 
+# Verzie
+OEC je dostupné v niekoľkých verziách
+- OEC.LAN Standalone - samostatné zariadenie (modrá krabička), ktoré využíva pokladňa na registráciu dokladov. Stačí ho pripojiť k LAN a pripjiť doň tlačiareň. 
+- OEC.Android Swissbit - aplikácia pre podporované Android zariadenia, ktoré obsahujú aj vstavanú tlačiareň. Dá sa využiť s externou alebo integrovanou Android pokladňou
+
 # Contribution
 V prípade, že sa rozhodnete pomôcť a prispieť či už opravou dokumentácie, príkladov použitia API, článkom do Wiki, pomôžete aj ostatným. Sme otvorení tomuto prístupu, preto neváhajte.
 
