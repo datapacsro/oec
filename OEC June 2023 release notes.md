@@ -21,7 +21,7 @@ June 2023 release je dostupný v týchto updatoch
 
 ## Bugfixes a zlepšenia stability
 ### Opravená chyba s reportovaním online/offline stavu
-OEC chybne reportovalo online/offline stav. Táto chyba je opravená. 
+OEC chybne reportovalo online/offline stav. 
 
 > Chyba sa netýka OEC.Android verzie.
 
