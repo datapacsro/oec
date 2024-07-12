@@ -15,22 +15,33 @@ May 2024 release je dostupný v týchto updatoch
 > Vyžaduje nainštalovanú predošlú verziu. Pre OEC.LAN Standalone minimálne verziu 016. Pred spustením update sa uistite, že máte nainštalovanú minimálne verziu 016. Návod na zistenie verzie je dostupný na [Wiki](https://github.com/datapacsro/oec/wiki/Ako-zisti%C5%A5-verziu-software-OEC)
 
 ## Nová funkcionalita
-OEC bolo certifikované na Finančnej správe a certifikát je platných ďalších 5 rokov do mája 2029.
+OEC bolo úspešne certifikované na Finančnej správe a certifikát je platných ďalších 5 rokov do mája 2029.
 Pri certifikácii boli zapracované zmeny, ktoré Finančná spáva vyžaduje. Detailný popis nájdete v zmenách nižšie.
 
 
 ## Zmeny
 ### Vratné obaly bez DPH
 Vratné obaly sú oslobodené od DPH preto sa nesmú uvádzať v rozpise DPH, ale na samostatnom riadku Oslobodené od DPH.
-Pri predaji vratného obalu OEC akceptuje položku vraný obal s kladnou hodnotou a uvedie ju na doklade bez vypísanej sadzby DPH
-Pri predaji vratného obalu OEC akceptuje položku vraný obal so zápornou hodnotou a uvedie ju na doklade bez vypísanej sadzby DPH
+- Pri predaji vratného obalu OEC akceptuje položku vratný obal s **kladnou** hodnotou a uvedie ju na doklade bez vypísanej sadzby DPH. Typ položky musí byť VO
+- Pri výkupe vratného obalu OEC akceptuje položku vratný obal so **zápornou** hodnotou a uvedie ju na doklade bez vypísanej sadzby DPH. Typ položky musí byť VO.
 
-### JUP na jednu položku
-JUP je možné použiť len v kombinácii 1 JUP na 1 položku. Nie je možné mať v doklade viac položiek alebo použiť viac JUP v jednom doklade.
+Túto úpravu je potrebné vykonať aj na úrovni pokladničného systému. 
+
+OEC uvedie sumár všetkých položiek mimo režim DPH v samostatnom riadku.
+
+> Do eKasa bude výkup vratných obalov odoslaný ako položka typu VO. Keďže eKasa nepozná predaj vratných obalov, ale zároveň vyžaduje režim mimo DPH, tak označenie predaného vratného obalu VO slúži pre OEC na rozlíšenie predaja a vyčíslenie v rámci sumáru položiek mimo režim DPH. Predaj vratných obalov OEC odosiela do eKasa ako kladnú položku typu K.
+
+### Jednoúčelové poukazy
+- JUP je možné použiť len v kombinácii 1 JUP na 1 položku. Nie je možné mať v doklade viac položiek alebo použiť viac JUP v jednom doklade.
+- Ak je výsledná suma dokladu pri použití JUP 0 (JUP sa použije na úhradu celého dokladu), netlačí sa DPH na riadkoch ani sa netlačí rozpis DPH
+
+### Znak €
+Znak € nesmie byť použitý v názve položky
 
 ### Zabezpečenie Android
 Na podporované Android zariadenia je možné nainštalovať len OEC.Adnroid a aplikácie tretích strán podpísané Datapacom. 
 Podporované zariadenia od výrobcov Sunmi, PAX a Nexgo sú uvedené v tabuľke nižšie
+
 |Výrobca |Model|
 |----|----|
 |PAX|A8500|
