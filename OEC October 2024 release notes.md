@@ -98,17 +98,16 @@ Pre jednotlivé sadzby DPH je v elemente VATBreakdown pole VATAmount pre jednotl
 ```
 
 
-#### Usmernenie Finančnej správy z 7.10.2024
-> Finančné riaditeľstvo Slovenskej republiky Vám oznamuje, že v rámci zmien dane z pridanej hodnoty (pridanie novej zníženej sadzby a zmeny sadzieb DPH) bol predbežne zvolený variant úpravy systému e-kasa a ORP tak, že v dátovej správe ORP nebude posielať  od. 1.1.2025 žiadnu hodnotu rekapitulácie DPH TaxBaseBasic“, BasicVatAmout“, „TaxBaseReduced“, „ReducedVatAmount“, „TaxFreeAmount“ – aktuálne vo WSDL schéme sú tieto hodnoty ako „optional“, avšak systém e-kasa kontroluje prítomnosť aspoň jednej uvedenej hodnoty v dátovej správe (táto kontrola bude odstránená, o odstránení Vás budeme informovať). Pokladničné doklady rekapituláciu DPH budú naďalej obsahovať v štandardnej forme rozdelenú v členení za jednotlivé sadzby DPH. Bude vykonaná aj úprava tlačového výstupu Neodoslané dátové správy tak, aby tento výstup z ORP neobsahoval rekapituláciu DPH (o prípadnom celkovom zrušení tlačového výstupu Neodoslané dátové správy od. 1.1.2025 Vás budeme informovať).
-
 #### Príklady použitia
 ##### Doklad registrovaný v roku 2024 so sadzbami DPH 0, 10, 20%
 - Doklad je možné zaslať v pôvodnej štruktúre s vyplnenými elementami TaxBaseBasic, TaxBaseReduced, TaxFreeAmount, BasicVatAmount, ReducedVatAmount
-- Doklad je možné zaslať aj v novej štruktúre s VATBreakdown za predpokladu, že budú použité len sadzby 0, 10, 20% platné v roku 2024
+- Doklad je možné zaslať aj v novej štruktúre s VATBreakdown za predpokladu, že budú použité len sadzby 0, 10, 20% platné v roku 2024. Finančná správa upozorňuje
 
 ##### Doklad registrovaný v roku 2025 so sadzbami DPH 0, 5, 10, 19, 20, 23%
 - Doklad je možné zaslať **len** v novej štruktúre s VATBreakdown. Doklad zaslaný bez VATBreakdown OEC zamietne
 
+#### Usmernenie Finančnej správy z 7.10.2024
+> Finančné riaditeľstvo Slovenskej republiky Vám oznamuje, že v rámci zmien dane z pridanej hodnoty (pridanie novej zníženej sadzby a zmeny sadzieb DPH) bol predbežne zvolený variant úpravy systému e-kasa a ORP tak, že v dátovej správe ORP nebude posielať  od. 1.1.2025 žiadnu hodnotu rekapitulácie DPH TaxBaseBasic“, BasicVatAmout“, „TaxBaseReduced“, „ReducedVatAmount“, „TaxFreeAmount“ – aktuálne vo WSDL schéme sú tieto hodnoty ako „optional“, avšak systém e-kasa kontroluje prítomnosť aspoň jednej uvedenej hodnoty v dátovej správe (táto kontrola bude odstránená, o odstránení Vás budeme informovať). Pokladničné doklady rekapituláciu DPH budú naďalej obsahovať v štandardnej forme rozdelenú v členení za jednotlivé sadzby DPH. Bude vykonaná aj úprava tlačového výstupu Neodoslané dátové správy tak, aby tento výstup z ORP neobsahoval rekapituláciu DPH (o prípadnom celkovom zrušení tlačového výstupu Neodoslané dátové správy od. 1.1.2025 Vás budeme informovať).
 
 
 
