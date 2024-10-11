@@ -1,3 +1,5 @@
+# Zmena DPH od 1.1.2025
+Prosím pozorne si prečítajte informáciu k zmene DPH od 1.1.2025 [Zmena DPH od 1.1.2025](OEC%20October%202024%20release%20notes.md)
 # Datapac OEC
 
 Dokumentácia a podpora k Datapac OEC.
