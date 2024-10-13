@@ -122,6 +122,8 @@ Znak € nesmie byť použitý v názve položky
 Na podporované Android zariadenia je možné nainštalovať len OEC.Adnroid a aplikácie tretích strán podpísané Datapacom. 
 Podporované zariadenia od výrobcov Sunmi, PAX a Nexgo sú uvedené v tabuľke nižšie
 
+> Zariadenie musí podporovať Swissbit kartu. Android 11 nemusí Swissbit podporovať kôli zmenám, ktoré v ňom zaviedol Google. Verzie do 11 alebo nad 11 väčšinou Swissbit podporujú.
+
 |Výrobca |Model|
 |----|----|
 |PAX|A8500|
