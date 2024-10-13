@@ -10,9 +10,9 @@ May 2024 release je dostupný v týchto updatoch
 
 |Zariadenie|Verzia update|SWID|Verzia SW|
 |----|----|----|----|
-|OEC.LAN Standalone|update 019|7F08506D1B9FF0481F68D8FDF6552823DAED7E1E|1.6.0.0|
-|OEC.LAN Internal|update 016|423A27245CA984FE830BF729794027B85EC3938C|1.6.0.0|
-|OEC.USB CHDU.sk|update 016|98C6A1851A6AAE57417BE33272DF8A587D7FA18F|1.6.0.0|
+|OEC.LAN Standalone|update 019|TBD|1.6.0.0|
+|OEC.LAN Internal|update 016|TBD|1.6.0.0|
+|OEC.USB CHDU.sk|update 016|TBD|1.6.0.0|
 
 > Release October 2024 je delta update.  
 
