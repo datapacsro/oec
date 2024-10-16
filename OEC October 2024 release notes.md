@@ -6,7 +6,7 @@ Rozšírená podpora Android zariadení
 
 
 ## Dostupnosť
-May 2024 release je dostupný v týchto updatoch
+October 2024 release je dostupný v týchto updatoch
 
 |Zariadenie|Verzia update|SWID|Verzia SW|
 |----|----|----|----|
@@ -62,18 +62,18 @@ Pre jednotlivé sadzby DPH je v elemente VATBreakdown pole VATAmount pre jednotl
 |Sadzba|Zaklad|DPH|Spolu|
 |---:|---:|---:|---:|
 | 5%|20.00€|1.00€|21.00€|
-| 9%|40.00€|3.60€|43.60€|
+|19%|40.00€|7.60€|47.60€|
 |23%|60.00€|13.80€|73.80€|
 
 |Zaklad DPH|DPH celkom|Suma|
 |---:|---:|---:|
-|120.00€|18.40€|138.40€|
+|120.00€|22.40€|142.40€|
 
 ```json
 "VATBreakdown": {
                 "TotalBaseAmount": 120.00,
-                "TotalVATAmount": 18.40,
-                "TotalAmount": 138.40,
+                "TotalVATAmount": 22.40,
+                "TotalAmount": 142.40,
                 "VATAmount": [
                     {
                         "Percentage": 5,
@@ -82,10 +82,10 @@ Pre jednotlivé sadzby DPH je v elemente VATBreakdown pole VATAmount pre jednotl
                         "Amount": 21.00
                     },
                     {
-                        "Percentage": 9,
+                        "Percentage": 19,
                         "BaseAmount": 40.00,
-                        "VATAmount": 3.60,
-                        "Amount": 43.60
+                        "VATAmount": 7.60,
+                        "Amount": 47.60
                     },
                     {
                         "Percentage": 23,
