@@ -6,7 +6,7 @@ Rozšírená podpora Android zariadení
 
 
 ## Dostupnosť
-May 2024 release je dostupný v týchto updatoch
+October 2024 release je dostupný v týchto updatoch
 
 |Zariadenie|Verzia update|SWID|Verzia SW|
 |----|----|----|----|
