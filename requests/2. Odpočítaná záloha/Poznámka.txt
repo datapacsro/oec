@@ -1,0 +1,16 @@
+Odpočítaná záloha, ktorá je poskytnutá v rovnakej sadzbe DPH, ako je kladná položka, na ktorú sa záloha vzťahuje, znižuje hodnotu DPH:
+
+--------------------------------------------
+Item 1               1.00  ks  120.00    20%
+Odpočítaná záloha    1.00  ks  -60.00    20%
+--------------------------------------------
+SUMA:                              60.00 EUR
+============================================
+Triedy     Základ        DPH           Spolu
+20 %       50.00     10.00 EUR     60.00 EUR
+10 %        0.00      0.00 EUR      0.00 EUR
+0  %        0.00      0.00 EUR      0.00 EUR
+--------------------------------------------
+Spolu:     50.00     10.00 EUR     60.00 EUR
+
+Tzn. DPH sa nepočíta z 120 EUR (hodnota kladnej položky), ale z rozdielu medzi kladnou položkou a odpočítanou zálohou (60 EUR).

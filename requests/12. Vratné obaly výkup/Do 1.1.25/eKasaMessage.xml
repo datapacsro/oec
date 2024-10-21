@@ -1,0 +1,14 @@
+
+<ekasa:RegisterReceiptRequest xmlns:ekasa="http://financnasprava.sk/ekasa/schema/v2">
+  <ekasa:Header Uuid="bf269db9-7a72-426e-9126-a9189f7968e5" RequestDate="2024-10-16T18:14:46+02:00" SendingCount="1" SwId="228F46B815A1CD5DB93C667C845269633F181EA0" Exception="true" />
+  <ekasa:ReceiptData Paragon="false" ReducedVatAmount="0" TaxBaseReduced="0" BasicVatAmount="0.2" TaxBaseBasic="1" TaxFreeAmount="0" Amount="1.07" CreateDate="2024-10-16T18:14:46+02:00" IssueDate="2024-10-16T18:14:45+02:00" ReceiptNumber="285" CashRegisterCode="88812345678900001" Ico="76543210" IcDph="SK1234567890" Dic="1234567890" ReceiptType="PD">
+    <ekasa:Items>
+      <ekasa:Item Name="Urpiner 12 ležiak" ItemType="K" Quantity="1.0" VatRate="20.0" Price="1.20" />
+      <ekasa:Item Name="Vratná fľaša" ItemType="VO" Quantity="1.0" VatRate="0" Price="-0.13" />
+    </ekasa:Items>
+  </ekasa:ReceiptData>
+  <ekasa:ValidationCode>
+    <ekasa:PKP digest="SHA256" cipher="RSA2048" encoding="base64">t+Hxrq0FuG8wPHl8i2gOHjVpf7A30ZlvdeVrCQpiGYKsJTLeADm3vjV89ZLZKAOSgzz9UyrfuHILKDmPO/Q8BtxdW2Dh0SWLu0MCgowf9aTD5hYIYl0HFX2D9FqAU4w2cbk0XWr8pXMdIpzZW7vu7f9z0Va4eqgVbYbK/onPHceD7EyO0C61AN7Ud4Q4BZKe9W2HIrufhClANS5NEinD7mydCmvV/ZbLrBsRF/NGjCZVQua0YNF6lp7TWLHlWJ+kuJCeze++YgLJUCLOsWiFItk1lSdQrowVTJHGlB8WnRkz49TrNMXUG0LpHMUKtcBASIT4h7/2A8yHGWPQ5oUdjw==</ekasa:PKP>
+    <ekasa:OKP digest="SHA1" encoding="base16">d7483232-6fd55c85-477da0b9-15021c4a-2412c3ca</ekasa:OKP>
+  </ekasa:ValidationCode>
+</ekasa:RegisterReceiptRequest>

@@ -1,0 +1,14 @@
+
+<ekasa:RegisterReceiptRequest xmlns:ekasa="http://financnasprava.sk/ekasa/schema/v2">
+  <ekasa:Header Uuid="d3c17186-913d-4940-9bd5-4eeb01245eb0" RequestDate="2024-10-16T17:52:38+02:00" SendingCount="1" SwId="228F46B815A1CD5DB93C667C845269633F181EA0" Exception="true" />
+  <ekasa:ReceiptData Paragon="false" Amount="60.0" CreateDate="2024-10-16T17:52:38+02:00" IssueDate="2024-10-16T17:52:35+02:00" ReceiptNumber="253" CashRegisterCode="88812345678900001" Ico="76543210" IcDph="SK1234567890" Dic="1234567890" ReceiptType="PD">
+    <ekasa:Items>
+      <ekasa:Item Name="Item 1" ItemType="K" Quantity="1.0" VatRate="23.0" Price="123.00" />
+      <ekasa:Item Name="Odpočítaná záloha" ItemType="OZ" Quantity="1.0" VatRate="0.0" Price="-63.00" />
+    </ekasa:Items>
+  </ekasa:ReceiptData>
+  <ekasa:ValidationCode>
+    <ekasa:PKP digest="SHA256" cipher="RSA2048" encoding="base64">d3BDgbihfFioXByMl1cKapSGrUeEh7Z58e9etyC4yWQ61leaNIAtPU/5Mm2uwvykRbU3dX4OJzyEliY3xUxfubHJF2cg6Tzmb7fKwRq+hrHqoxqxOIoBs6aOtqQnORNh8lejq3yeViLCATA1dfKEaVJ/l5M2vHOKUuA4kQDOMpFhmxvCgk64BIYebYp+mbMt9G5n3F8MUcgCaXkhrtIzMKyQKz0HVTb1TV40iluwgXEDIcGp0u8fc9C3a16m65+/AoQSpFl5qVyRqVVoLfjF5i1AD5hMAOd38VtATfLuV9/fc3ORFcr4sQf04+7LCU3kNLPgpDBExpUEpL2wN8SITQ==</ekasa:PKP>
+    <ekasa:OKP digest="SHA1" encoding="base16">ebcb99fe-ef10bf1b-3aacf75f-f0fd759d-8592a24e</ekasa:OKP>
+  </ekasa:ValidationCode>
+</ekasa:RegisterReceiptRequest>

@@ -1,0 +1,16 @@
+
+<ekasa:RegisterReceiptRequest xmlns:ekasa="http://financnasprava.sk/ekasa/schema/v2">
+  <ekasa:Header Uuid="19c98237-4af3-4b5c-8773-d497524fbe11" RequestDate="2024-10-16T18:06:54+02:00" SendingCount="1" SwId="228F46B815A1CD5DB93C667C845269633F181EA0" Exception="true" />
+  <ekasa:ReceiptData Paragon="false" Amount="0.98" CreateDate="2024-10-16T18:06:54+02:00" IssueDate="2024-10-16T18:06:51+02:00" ReceiptNumber="277" CashRegisterCode="88812345678900001" Ico="76543210" IcDph="SK1234567890" Dic="1234567890" ReceiptType="PD">
+    <ekasa:Items>
+      <ekasa:Item Name="Item" ItemType="K" Quantity="1.0" VatRate="23.0" Price="2.49" />
+      <ekasa:Item Name="Item 2" ItemType="K" Quantity="1.0" VatRate="19.0" Price="1.49" />
+      <ekasa:Item Name="Disount 1" ItemType="Z" Quantity="1.0" VatRate="23.0" Price="-2.49" />
+      <ekasa:Item Name="Discount 2" ItemType="Z" Quantity="1.0" VatRate="19.0" Price="-0.51" />
+    </ekasa:Items>
+  </ekasa:ReceiptData>
+  <ekasa:ValidationCode>
+    <ekasa:PKP digest="SHA256" cipher="RSA2048" encoding="base64">SaEFfSCEYDlDodaOhMRAsenhEiNFbnX7KWD8CXByo8mzm6Whxv2gRAwSit7CFv4AcUldp83MqBSAQzuNVMo+laY4epnQJzZdmmmTz8oujC301g5/eJuZO6T4F8AUwNeYn4bJl3e2eg1f86lIWf+7YU+6KzbEx43np6WmNMJJOckB2xDMolPudPubQmjO0L8SPK3j9cKOzTffF4jawRizHfUQMxQmB+qZI+cmiOg9sx8MY+EvrQM70TVvvBctPzLtG6K41d6ExmI0aSIS8fKe/znt+Xvh6j/Ly8QzRnBhNpRjHVzYWEDBDTdvay7qGMHnDZzMejku9knrMkA1N83gFg==</ekasa:PKP>
+    <ekasa:OKP digest="SHA1" encoding="base16">4bd68526-11004758-02bbe3c3-04557a4e-481a5b6d</ekasa:OKP>
+  </ekasa:ValidationCode>
+</ekasa:RegisterReceiptRequest>

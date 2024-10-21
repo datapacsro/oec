@@ -1,0 +1,12 @@
+Vratné obaly - iba výkup 
+
+	- Doklad, na ktorom je iba výkup vratných obalov nesmie obsahovať rozpis DPH, DPH pri položke a celá suma je oslobodená od dane:
+Poradové číslo dokladu/účtu:             291
+--------------------------------------------
+Vratná fľaša         1.00  ks   -1.30 
+--------------------------------------------
+SUMA:                              -1.30 EUR
+============================================
+Oslobodené od dane                 -1.30 EUR
+--------------------------------------------
+--------------------------------------------

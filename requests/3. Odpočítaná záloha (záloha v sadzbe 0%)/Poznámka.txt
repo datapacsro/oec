@@ -1,0 +1,20 @@
+Pokiaľ je odpočítaná záloha v sadzbe 0% a kladná položka v inej sadzbe DPH, odpočítaná záloha nesmie znižovať DPH:
+
+Poradové císlo dokladu/úctu:             251
+--------------------------------------------
+Item 1               1.00  ks  120.00    20%
+Odpočítaná záloha    1.00  ks  -60.00     0%
+--------------------------------------------
+SUMA:                              60.00 EUR
+============================================
+Triedy     Základ        DPH           Spolu
+20 %      100.00     20.00 EUR    120.00 EUR
+10 %        0.00      0.00 EUR      0.00 EUR
+0  %        0.00      0.00 EUR      0.00 EUR
+--------------------------------------------
+Spolu:    100.00     20.00 EUR    120.00 EUR
+--------------------------------------------
+
+Zo zálohy, ktorá je v 0% DPH nebola žiadna DPH odvedená v čase zakúpenia zálohy, čiže celá daňová povinnosť zostáva pri predaji kladnej položky (s odpočítanou zálohou) a DPH sa počíta z celej sumy kladnej položky (120 EUR).
+
+Záloha môže byť nižšia, rovnaká alebo aj vyššia ako kladná položka. V žiadnom z prípadov sa nesmie znížiť DPH na doklade.
