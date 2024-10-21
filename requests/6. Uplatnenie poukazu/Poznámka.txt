@@ -1,0 +1,23 @@
+Uplatnenie poukazu
+
+- Poukaz musí byť v rovnakej sadzbe DPH ako kladná položka
+- Poukaz ZNIŽUJE hodnotu DPH:
+
+Poradové číslo dokladu/účtu:             265
+--------------------------------------------
+Item 1               1.00  ks  120.00    20%
+Použitie poukazu     1.00  ks  -60.00    20%
+úhrada poukazom
+0918                             
+--------------------------------------------
+SUMA:                              60.00 EUR
+============================================
+Triedy     Základ        DPH           Spolu
+20 %       50.00     10.00 EUR     60.00 EUR
+10 %        0.00      0.00 EUR      0.00 EUR
+0  %        0.00      0.00 EUR      0.00 EUR
+--------------------------------------------
+Spolu:     50.00     10.00 EUR     60.00 EUR
+--------------------------------------------
+
+Poukaz v čase predaja bol predaný s DPH, čiže hodnota DPH bude odpočítaná od DPH na doklade s uplatnením tejto zľavy.

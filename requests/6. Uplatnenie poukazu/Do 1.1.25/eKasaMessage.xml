@@ -1,0 +1,14 @@
+
+<ekasa:RegisterReceiptRequest xmlns:ekasa="http://financnasprava.sk/ekasa/schema/v2">
+  <ekasa:Header Uuid="4e56fdd0-9a3b-4d8a-a407-dfee1289d480" RequestDate="2024-10-16T17:59:02+02:00" SendingCount="1" SwId="228F46B815A1CD5DB93C667C845269633F181EA0" Exception="true" />
+  <ekasa:ReceiptData Paragon="false" ReducedVatAmount="0" TaxBaseReduced="0" BasicVatAmount="10" TaxBaseBasic="50" TaxFreeAmount="0" Amount="60.0" CreateDate="2024-10-16T17:59:02+02:00" IssueDate="2024-10-16T17:59:02+02:00" ReceiptNumber="266" CashRegisterCode="88812345678900001" Ico="76543210" IcDph="SK1234567890" Dic="1234567890" ReceiptType="PD">
+    <ekasa:Items>
+      <ekasa:Item Name="Item 1" ItemType="K" Quantity="1.0" VatRate="20.0" Price="120.00" />
+      <ekasa:Item Name="Použitie poukazu" ItemType="VP" Quantity="1.0" VatRate="20.0" Price="-60.00" VoucherNumber="0918" />
+    </ekasa:Items>
+  </ekasa:ReceiptData>
+  <ekasa:ValidationCode>
+    <ekasa:PKP digest="SHA256" cipher="RSA2048" encoding="base64">rgReUtCK283qS7Q0QPfEdCoCGrfOzsfFaTsPUEPy68W/xtVLhLk/k7gHHRwFDwGiqXzQX5nz3ppqKt8U9Cshz2zUGltwoVPOPW0rN25SBQvPbtFZHLCv96uCWKBVlyGYycNj1SR587OmatNMr03+5Mb2XMAV+A2JFjLrqu3Dv5H+GO1z5j9lYx1ZjrHKu/sr5Z0UtWp5S7wc0Pynv7GF6q322ZRMAlHcNM5Huzd6Id9HkhVuu5aMjx4zDSh2DlejgARzE2bwTSnFOLG6Ja3TV59Nhfqg7Yt81ffyE/CTh8JAM91M2htlgqlrBSPXwKi47xrOg0Aws9XrWjC/Vx9Abg==</ekasa:PKP>
+    <ekasa:OKP digest="SHA1" encoding="base16">5beda555-c809c586-e41691ca-4008fa30-8ed74e33</ekasa:OKP>
+  </ekasa:ValidationCode>
+</ekasa:RegisterReceiptRequest>

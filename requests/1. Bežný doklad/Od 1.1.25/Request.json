@@ -1,0 +1,155 @@
+{
+  "Receipt": {
+    "Amount": 3.98,
+    "IssueDate": "2024-10-16T17:49:42+02:00",
+    "CreateDate": null,
+    "ReceiptNumber": 0,
+    "InvoiceNumber": null,
+    "ParagonNumber": null,
+    "CashRegisterCode": "88812345678900001",
+    "Paragon": false,
+    "BasicVatAmount": null,
+    "ReducedVatAmount": null,
+    "TaxFreeAmount": null,
+    "ReceiptType": "PD",
+    "TaxBaseBasic": null,
+    "TaxBaseReduced": null,
+    "Items": [
+      {
+        "Price": 2.49,
+        "Quantity": 1.0,
+        "MeasurementUnit": "ks",
+        "Name": "Item 1",
+        "ReferenceReceiptId": null,
+        "VatRate": 23.0,
+        "ItemType": "K",
+        "SpecialRegulation": null,
+        "SellerIdType": null,
+        "SellerId": null,
+        "VoucherNumber": null,
+        "ItemId": null,
+        "Category": null,
+        "SerialNumber": null,
+        "EAN": null
+      },
+      {
+        "Price": 1.49,
+        "Quantity": 1.0,
+        "MeasurementUnit": "ks",
+        "Name": "Item 2",
+        "ReferenceReceiptId": null,
+        "VatRate": 19.0,
+        "ItemType": "K",
+        "SpecialRegulation": null,
+        "SellerIdType": null,
+        "SellerId": null,
+        "VoucherNumber": null,
+        "ItemId": null,
+        "Category": null,
+        "SerialNumber": null,
+        "EAN": null
+      },
+      {
+        "Price": 2.49,
+        "Quantity": 1.0,
+        "MeasurementUnit": "ks",
+        "Name": "Item 3",
+        "ReferenceReceiptId": null,
+        "VatRate": 9.0,
+        "ItemType": "K",
+        "SpecialRegulation": null,
+        "SellerIdType": null,
+        "SellerId": null,
+        "VoucherNumber": null,
+        "ItemId": null,
+        "Category": null,
+        "SerialNumber": null,
+        "EAN": null
+      },
+      {
+        "Price": 2.49,
+        "Quantity": 1.0,
+        "MeasurementUnit": "ks",
+        "Name": "Item 4",
+        "ReferenceReceiptId": null,
+        "VatRate": 5.0,
+        "ItemType": "K",
+        "SpecialRegulation": null,
+        "SellerIdType": null,
+        "SellerId": null,
+        "VoucherNumber": null,
+        "ItemId": null,
+        "Category": null,
+        "SerialNumber": null,
+        "EAN": null
+      },
+      {
+        "Price": 2.49,
+        "Quantity": 1.0,
+        "MeasurementUnit": "ks",
+        "Name": "Item 5",
+        "ReferenceReceiptId": null,
+        "VatRate": 0.0,
+        "ItemType": "K",
+        "SpecialRegulation": null,
+        "SellerIdType": null,
+        "SellerId": null,
+        "VoucherNumber": null,
+        "ItemId": null,
+        "Category": null,
+        "SerialNumber": null,
+        "EAN": null
+      }
+    ],
+    "Payments": [
+      {
+        "Method": "cash",
+        "Amount": 0.0,
+        "Identification": "string",
+        "AdditionalData": "string"
+      }
+    ],
+    "Cashier": null,
+    "VATBreakdown": {
+      "TotalBaseAmount": 10.42,
+      "TotalVATAmount": 2.04,
+      "TotalAmount": 11.45,
+      "VATAmount": [
+        {
+          "Percentage": 23.0,
+          "BaseAmount": 2.02,
+          "VATAmount": 0.47,
+          "Amount": 2.49
+        },
+        {
+          "Percentage": 19.0,
+          "BaseAmount": 1.25,
+          "VATAmount": 0.24,
+          "Amount": 1.49
+        },
+        {
+          "Percentage": 9.0,
+          "BaseAmount": 2.28,
+          "VATAmount": 0.21,
+          "Amount": 2.49
+        },
+        {
+          "Percentage": 5.0,
+          "BaseAmount": 2.37,
+          "VATAmount": 0.12,
+          "Amount": 2.49
+        },
+        {
+          "Percentage": 0.0,
+          "BaseAmount": 2.49,
+          "VATAmount": 0.0,
+          "Amount": 2.49
+        }
+      ]
+    }
+  },
+  "ReceiptRenderer": null,
+  "PrintTemplate": [
+    "[codePage]\r\n[CompanyName:CWRAP44]\r\nIČO: [ICO:L8]       DIČ: [DIC:L10] \r\nIČ DPH: [ICDPH:L12]\r\n[CompanyAddress:CWRAP]\r\nPrevádzka:\r\n[Shop:CWRAP]\r\n[PosType:LMAX]\r\nKód pokladne: [CashRegisterCode:L20]\r\nDátum vyhot. a dodania:  [CreateDateTime:R19]\r\n\r\nPoradové číslo dokladu/účtu:      [ReceiptNumber:R10]\r\n--------------------------------------------\r\n[Items.Start]\r\n[Item.Start]\r\n[Item.Name:L18] [Item.Quantity:R3.2] [Item.MeasurementUnit:R3] [Item.Price:R4.2] [Item.ItemVat:R4.0]%\r\n[Item.End]\r\n[Item.Start]\r\n[Item.Name:L18] [Item.Quantity:R3.2] [Item.MeasurementUnit:R3] [Item.Price:R4.2] [Item.ItemVat:R4.0]%\r\n[Item.End]\r\n[Item.Start]\r\n[Item.Name:L18] [Item.Quantity:R3.2] [Item.MeasurementUnit:R3] [Item.Price:R4.2] [Item.ItemVat:R4.0]%\r\n[Item.End]\r\n[Item.Start]\r\n[Item.Name:L18] [Item.Quantity:R3.2] [Item.MeasurementUnit:R3] [Item.Price:R4.2] [Item.ItemVat:R4.0]%\r\n[Item.End]\r\n[Item.Start]\r\n[Item.Name:L18] [Item.Quantity:R3.2] [Item.MeasurementUnit:R3] [Item.Price:R4.2] [Item.ItemVat:R4.0]%\r\n[Item.End]\r\n[Items.End]\r\n--------------------------------------------\r\nSUMA:[Amount:R32.2] EUR\r\n============================================\r\nTriedy     Základ        DPH           Spolu\r\n[VatRate23:L2.0]%     [VatBase23:R4.2]   [VatAmount23:R4.2] EUR   [VatAmountTotal23:R4.2] EUR\r\n[VatRate19:L2.0]%     [VatBase19:R4.2]   [VatAmount19:R4.2] EUR   [VatAmountTotal19:R4.2] EUR\r\n[VatRate9:L2.0]%     [VatBase9:R4.2]   [VatAmount9:R4.2] EUR   [VatAmountTotal9:R4.2] EUR\r\n[VatRate5:L2.0]%     [VatBase5:R4.2]   [VatAmount5:R4.2] EUR   [VatAmountTotal5:R4.2] EUR\r\n[VatRate0:L2.0]%     [VatBase0:R4.2]   [VatAmount0:R4.2] EUR   [VatAmountTotal0:R4.2] EUR\r\n--------------------------------------------\r\nSpolu:   [VatBaseSum:R4.2]   [VatAmountSum:R4.2] EUR[VatTotal:R7.2] EUR\r\n--------------------------------------------\r\n[UID:LMAX]\r\n\r\n             Ďakujeme za nákup              \r\n[qrcode]\r\n\r\n[okpCode:LMAX]\r\n\r\n\r\n\r\n\r\n\r\n\r\n[paperCut]\r\n"
+  ]
+}

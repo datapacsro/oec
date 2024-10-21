@@ -1,0 +1,13 @@
+
+<ekasa:RegisterReceiptRequest xmlns:ekasa="http://financnasprava.sk/ekasa/schema/v2">
+  <ekasa:Header Uuid="7989626e-1ad7-4048-ad30-58f48a34485f" RequestDate="2024-10-16T18:25:07+02:00" SendingCount="1" SwId="228F46B815A1CD5DB93C667C845269633F181EA0" Exception="true" />
+  <ekasa:ReceiptData Paragon="false" ReducedVatAmount="0" TaxBaseReduced="0" BasicVatAmount="0" TaxBaseBasic="0" TaxFreeAmount="0" Amount="-1.30" CreateDate="2024-10-16T18:25:07+02:00" IssueDate="2024-10-16T18:25:07+02:00" ReceiptNumber="290" CashRegisterCode="88812345678900001" Ico="76543210" IcDph="SK1234567890" Dic="1234567890" ReceiptType="PD">
+    <ekasa:Items>
+      <ekasa:Item Name="Vratná fľaša" ItemType="VO" Quantity="1.0" VatRate="0" Price="-1.30" />
+    </ekasa:Items>
+  </ekasa:ReceiptData>
+  <ekasa:ValidationCode>
+    <ekasa:PKP digest="SHA256" cipher="RSA2048" encoding="base64">uNf77phg9lfnvAX4euCezFc5p3QpOLBjPm6g56al+R6cQ45L4shmPmR0WTel7IgYXjzm2kX0WkfhUcPz8SRkHzfw2G061s2rYOL4X/efBE4V3GwBB6stXZam08XjkdWkxxbTr0JoY2d5s53lxqb5qUq63muAWDhSo9hXr1CFT9jFOrKjgPa1AALM7JKuV4tqHA4gLRIvvk1FdSHNq52/lLS0vrWQBNw+JKXCJN6Ak6Mfr1cbdtaFokgBEY+iTEG34/iSDFa4sgN6ufvFZe4PB8kwnRdSKNJ8lErnQ+KsN4Ojs8OQBPvT5OZ9Aj5U3uWba0SCLZ7VrAMWtOqWxqX0yg==</ekasa:PKP>
+    <ekasa:OKP digest="SHA1" encoding="base16">d21752b9-efb9b0de-b361532c-0321ddd6-392b2470</ekasa:OKP>
+  </ekasa:ValidationCode>
+</ekasa:RegisterReceiptRequest>

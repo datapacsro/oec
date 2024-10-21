@@ -1,0 +1,13 @@
+
+<ekasa:RegisterReceiptRequest xmlns:ekasa="http://financnasprava.sk/ekasa/schema/v2">
+  <ekasa:Header Uuid="76d47f0e-ed80-44a5-97a6-c0484d168a05" RequestDate="2024-10-16T18:53:42+02:00" SendingCount="1" SwId="228F46B815A1CD5DB93C667C845269633F181EA0" Exception="true" />
+  <ekasa:ReceiptData Paragon="false" ReducedVatAmount="0" TaxBaseReduced="0" BasicVatAmount="-0.41" TaxBaseBasic="-2.08" TaxFreeAmount="0" Amount="-2.49" CreateDate="2024-10-16T18:53:42+02:00" IssueDate="2024-10-16T18:53:35+02:00" ReceiptNumber="297" CashRegisterCode="88812345678900001" Ico="76543210" IcDph="SK1234567890" Dic="1234567890" ReceiptType="PD">
+    <ekasa:Items>
+      <ekasa:Item Name="Item" ItemType="O" Quantity="1.0" VatRate="20.0" Price="-2.49" ReferenceReceiptId="testID" />
+    </ekasa:Items>
+  </ekasa:ReceiptData>
+  <ekasa:ValidationCode>
+    <ekasa:PKP digest="SHA256" cipher="RSA2048" encoding="base64">Nmj4IlfBtzKR4V9DttPg1v47rAJFdNaetu16Adly/nxbDhG/Q1ZzvPD/FzglSMj2RdSz535nUfZgKXI2mDCLarO2zacr8LaWmDV6PSNaFavddAg7bkQ9e6cB1o1Wm9nEairDF2OxM6t9yBlwAPJ7ukT+WPIyVvhvDdZjQPPn8L+YytL7EuN8XOPUi4Z7SUx+mzrID85uvKnP2/PgeyTy8hPP/S1kVduZwn5M549BvMFkt9MPxaWrb2RYK1ZZibT3ypaK2EEoVKekdtpYyfsfOWDiXVNutkDICQK3mDtkK0/SPh4MVfT3R34JoSINpo60fngxWM8IUdK6fS1wID2A0w==</ekasa:PKP>
+    <ekasa:OKP digest="SHA1" encoding="base16">06382c50-ff60692d-d0e7ff31-616271c9-51e10224</ekasa:OKP>
+  </ekasa:ValidationCode>
+</ekasa:RegisterReceiptRequest>

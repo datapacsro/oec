@@ -1,0 +1,15 @@
+Uplatnenie poukazu do nuly
+
+Uplatnenie poukazu do nuly - znižuje DPH. Nesmie sa tlačiť rozpis DPH ani DPH pri položkách:
+Poradové číslo dokladu/účtu:             268
+--------------------------------------------
+Item 1               1.00  ks   60.00 
+Použitie poukazu     1.00  ks  -60.00 
+úhrada poukazom
+0918                             
+--------------------------------------------
+SUMA:                               0.00 EUR
+============================================
+--------------------------------------------
+--------------------------------------------
+UID: O-6FF27E7B194F490DB27E7B194FE-TEST

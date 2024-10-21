@@ -1,0 +1,19 @@
+Vratné obaly predaj
+
+	- Vratné obaly musia byť oslobodené od DPH, pri položke sa nesmie DPH tlačiť
+	
+Poradové číslo dokladu/účtu:             284
+--------------------------------------------
+Urpiner 12 ležiak    1.00  ks    1.20    20%
+Vratná fľaša         1.00  ks   -0.13 
+--------------------------------------------
+SUMA:                               1.07 EUR
+============================================
+Triedy     Základ        DPH           Spolu
+20 %        1.00      0.20 EUR      1.20 EUR
+10 %        0.00      0.00 EUR      0.00 EUR
+0  %        0.00      0.00 EUR      0.00 EUR
+Oslobodené od dane                 -0.13 EUR
+--------------------------------------------
+Spolu:      1.00      0.20 EUR      1.07 EUR
+--------------------------------------------

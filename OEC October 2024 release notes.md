@@ -1,7 +1,8 @@
 # OEC October 2024 release notes
 
-Podpora nových sadzieb DPH od 1.1.2025
-Úprava pre vratné obaly s oslobodením od DPH
+- Podpora nových sadzieb DPH od 1.1.2025
+- Úprava pre vratné obaly s oslobodením od DPH
+- 
 Rozšírená podpora Android zariadení
 
 
@@ -25,6 +26,9 @@ Táto verzia prináša aj podporu pre nové sadzby DPH platné od 1.1.2025 na z�
 
 
 ## Zmeny
+
+> Príklady requestov nájdete tu 
+
 ### Vratné obaly bez DPH
 Vratné obaly sú oslobodené od DPH preto sa nesmú uvádzať v rozpise DPH, ale na samostatnom riadku Oslobodené od DPH.
 - Pri predaji vratného obalu OEC akceptuje položku vratný obal s **kladnou** hodnotou a uvedie ju na doklade bez vypísanej sadzby DPH. Typ položky musí byť VO
