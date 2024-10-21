@@ -27,7 +27,7 @@ Táto verzia prináša aj podporu pre nové sadzby DPH platné od 1.1.2025 na z�
 
 ## Zmeny
 
-> Príklady requestov nájdete tu 
+> Príklady requestov nájdete tu [https://github.com/datapacsro/oec/tree/master/requests](https://github.com/datapacsro/oec/tree/master/requests)
 
 ### Vratné obaly bez DPH
 Vratné obaly sú oslobodené od DPH preto sa nesmú uvádzať v rozpise DPH, ale na samostatnom riadku Oslobodené od DPH.
