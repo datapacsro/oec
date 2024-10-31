@@ -11,9 +11,9 @@ October 2024 release je dostupný v týchto updatoch
 
 |Zariadenie|Verzia update|SWID|Verzia SW|
 |----|----|----|----|
-|OEC.LAN Standalone|update 019|TBD|1.6.0.0|
-|OEC.LAN Internal|update 016|TBD|1.6.0.0|
-|OEC.USB CHDU.sk|update 016|TBD|1.6.0.0|
+|OEC.LAN Standalone|update 019|317841A9B75C9A8CD3F3CE4EC3C71CDC0C70F582|1.6.0.0|
+|OEC.LAN Internal|update 016|5861CBBFCE984BE7A9A45BF39BD5CD33EAE7DC87|1.6.0.0|
+|OEC.Android Swissbit|update 014|BA73B31976E33555452146D7E4422DDB38F122FC|1.6.0.0|
 
 > Release October 2024 je delta update.  
 
