@@ -1,3 +1,4 @@
+---
 swagger: "2.0"
 info:
   description: "## API je dostupné na adrese\n```\nhttp://adresa/oec/api\n```\n\n### Príklad\n```\nhttp://adresa/oec/api/status\nhttp://adresa/oec/api/receipt/123456789\n```\n\n## Healthcheck OEC je dostupný na \n```\nhttp://adresa/oec/health\n```\n"
