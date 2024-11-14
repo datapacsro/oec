@@ -24,7 +24,6 @@ OEC bolo úspešne certifikované na Finančnej správe a certifikát je platný
 Pri certifikácii boli zapracované zmeny, ktoré Finančná spáva vyžaduje. Detailný popis nájdete v zmenách nižšie.
 Táto verzia prináša aj podporu pre nové sadzby DPH platné od 1.1.2025 na základe rozhodnutia vlády a usmernenia Finančnej správy k implementácii v eKasa.
 
-
 ## Zmeny
 
 > Príklady requestov nájdete tu [https://github.com/datapacsro/oec/tree/master/requests](https://github.com/datapacsro/oec/tree/master/requests)
@@ -124,6 +123,9 @@ Na základe vyjadrenie FS sa kópia dokladu môže robiť len z dát v dátovej 
 
 ### Znak €
 Znak € nesmie byť použitý v názve položky
+
+### Zrušenie tlače QR kódu pre vklady a výbery hotovosti
+Na základe žiadosti od Finančnej správy sa pri vkladoch a výberoch hotovosti odstránila tlač QR kódu.
 
 ### Zabezpečenie Android
 Na podporované Android zariadenia je možné nainštalovať len OEC.Adnroid a aplikácie tretích strán podpísané Datapacom. 
