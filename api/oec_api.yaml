@@ -1,0 +1,1546 @@
+swagger: "2.0"
+info:
+  description: "## API je dostupné na adrese\n```\nhttp://adresa/oec/api\n```\n\n### Príklad\n```\nhttp://adresa/oec/api/status\nhttp://adresa/oec/api/receipt/123456789\n```\n\n## Healthcheck OEC je dostupný na \n```\nhttp://adresa/oec/health\n```\n"
+  version: 7.0.0
+  title: Datapac OEC API
+  contact:
+    name: Helpdesk
+    url: https://www.datapac.sk/
+    email: helpdesk@datapac.sk
+  license:
+    name: Private - len pre zákazníkov Datapac OEC
+    url: http://www.datapac.sk
+host: virtserver.swaggerhub.com
+basePath: /oec/api
+schemes:
+- http
+paths:
+  /receipt/{CashRegisterCode}:
+    get:
+      summary: Vytlačí alebo vráti kópiu posledného dokladu s použitím default šablony
+      description: "Vytlačí alebo vráti kópiu poledného dokladu použitím default šablony v súlade s požiadavkami zákona\n  - bez UID (unikátny identifikátor dokladu) a QR kódu\n  - s informáciou o online/offline spracovaní\n  \n  Ak je špecifikovaný Renderer\n   - printer,email - doklad vytlačí alebo odošle e-mailom a vráti údaje v ReceiptResponse\n   - none - len vráti údaje o doklade v ReceiptResponse\n"
+      operationId: printReceipt
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      - name: Date
+        in: query
+        description: Dátum vyhotovenia dokladu
+        required: true
+        type: string
+        format: date
+      - name: ReceiptNumber
+        in: query
+        description: Poradové číslo dokladu
+        required: true
+        type: integer
+        format: int32
+      - in: body
+        name: Renderer
+        description: Renderer
+        required: false
+        schema:
+          $ref: '#/definitions/ReceiptRenderer'
+      responses:
+        "204":
+          description: Kópia dokladu vyhotovená
+          schema:
+            $ref: '#/definitions/ReceiptResponse'
+        "404":
+          description: Doklad nenájedný
+        "504":
+          description: Kópiu dokladu sa nepodarilo vyhotoviť. Buď zlyhala tlač alebo odoslanie e-mailu
+          schema:
+            $ref: '#/definitions/ReceiptResponse'
+    post:
+      summary: Zaeviduje doklad v eKasa
+      description: "Zaeviduje doklad v eKasa systéme, CHDU a použitím zvoleného renderera ho vytlačí alebo pošle e-mailom"
+      operationId: addReceipt
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      - in: body
+        name: ReceiptRequest
+        description: Receipt request
+        required: true
+        schema:
+          $ref: '#/definitions/ReceiptRequest'
+      responses:
+        "201":
+          description: "Doklad bol úspešne zaevidovaný v eKasa buď online alebo offline, uložený v CHDU a vytlačený alebo poslaný e-mailom"
+          schema:
+            $ref: '#/definitions/ReceiptResponse'
+        "202":
+          description: |
+            Doklad bol úspešne zaevidovaný v eKasa buď online alebo offline, uložený v CHDU, ale **NEBOL** vytlačený alebo poslaný e-mailom
+          schema:
+            $ref: '#/definitions/ReceiptResponse'
+        "400":
+          description: Zlý vstup
+          schema:
+            $ref: '#/definitions/ReceiptResponse'
+        "405":
+          description: Pokladňa nie je aktívna
+        "504":
+          description: Tlačiareň nepripravená
+          schema:
+            $ref: '#/definitions/ReceiptResponse'
+        "507":
+          description: Kapacita CHDU vyčerpaná
+          schema:
+            $ref: '#/definitions/ReceiptResponse'
+  /transaction/{CashRegisterCode}:
+    get:
+      summary: Vráti poslednú transakciu
+      description: |
+        Vráti poslednú transakciu pre danú pokladňu s jej stavom, poprípade s response
+      operationId: getLastTransaction
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Posledná transakcia a jej stav
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Transaction'
+  /transaction/{CashRegisterCode}/{Count}:
+    get:
+      summary: Vráti posledné Count transakcie
+      description: |
+        Vráti poslednú transakciu pre danú pokladňu s jej stavom, poprípade s response
+      operationId: getLastTransactionCount
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      - name: Count
+        in: path
+        description: Počet správ na vrátenie (od najnovšej)
+        required: true
+        type: number
+      responses:
+        "200":
+          description: Posledná transakcia a jej stav
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Transaction'
+  /transaction/{CashRegisterCode}/{From}/{To}:
+    get:
+      summary: Vráti transakcie od datumu po datum
+      description: "Vráti poslednú transakciu pre danú pokladňu s jej stavom, poprípade s response."
+      operationId: getTransactionFromTo
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      - name: From
+        in: path
+        description: Dátum od
+        required: true
+        type: string
+      - name: To
+        in: path
+        description: Dátum do
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Posledná transakcia a jej stav
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Transaction'
+  /documentinfo/{CashRegisterCode}/{Year}/{Month}/{ReceiptNumber}:
+    get:
+      summary: Vráti detaily k dokladu
+      description: |
+        Vráti všetky dátové správy a záznamy v CHDU k dokladu
+      operationId: getDocumentInfo
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      - name: Year
+        in: path
+        description: Rok
+        required: true
+        type: integer
+      - name: Month
+        in: path
+        description: Mesiac
+        required: true
+        type: integer
+      - name: ReceiptNumber
+        in: path
+        description: Číslo dokladu
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Detaily o doklade
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ReceiptMessage'
+        "404":
+          description: Doklad nenájedný
+  /location/{CashRegisterCode}:
+    post:
+      summary: Zaeviduje polohu v eKasa
+      operationId: registerLocation
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      - in: body
+        name: RegusterLocationRequest
+        description: Register location request
+        required: true
+        schema:
+          $ref: '#/definitions/RegisterLocationRequest'
+      responses:
+        "201":
+          description: Poloha zaevidovaná v eKasa
+          schema:
+            $ref: '#/definitions/RegisterLocationResponse'
+        "400":
+          description: Zlý vstup
+          schema:
+            $ref: '#/definitions/ReceiptResponse'
+        "405":
+          description: Pokladňa nie je aktívna
+        "507":
+          description: Kapacita CHDU vyčerpaná
+          schema:
+            $ref: '#/definitions/ReceiptResponse'
+  /print/{CashRegisterCode}:
+    post:
+      summary: Prints the text to the printer and stores it to the CHDU
+      operationId: printText
+      consumes:
+      - text/plain
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      - in: body
+        name: ReceiptRequest
+        description: Receipt request
+        required: true
+        schema:
+          $ref: '#/definitions/Text'
+      responses:
+        "200":
+          description: Text bol uložený v CHDU a vytlačený
+        "202":
+          description: "Text bol uložený v CHDU, ale **NEBOL** úspešne vytlačený"
+        "405":
+          description: Pokladňa nie je aktívna
+        "504":
+          description: Tlačiareň nepripravená
+          schema:
+            $ref: '#/definitions/ReceiptResponse'
+        "507":
+          description: Kapacita CHDU vyčerpaná
+  /cashregisterconfig/{CashRegisterCode}:
+    get:
+      summary: Vráti konfiguráciu pre pokladňu
+      description: |
+        Vráti konfiguráciu pre pokladňu
+      operationId: getCashRegisterConfiguration
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Konfigurácia pre pokladňu
+          schema:
+            $ref: '#/definitions/CashRegisterConfiguration'
+        "400":
+          description: Konfigurácia pre pokladňu neexistuje
+    post:
+      summary: Zapíše konfiguráciu pre pokladňu
+      description: |
+        Zapíše konfiguráciu pre pokladňu. Ak sú v špecifikované aj iné pokladne ako v parametri, ich konfigurácie sú ignorované.
+        Ak konfigurácia pre pokladňu už existuje, je prepísaná.
+        AuthId sety pre pokladňu nie sú zmenené. Na zmenu AuthId set použite POST /authidset/{CashRegisterCode}
+      operationId: setCashRegisterConfiguration
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      - in: body
+        name: Configuration
+        description: Konfigurácia pokladne
+        required: true
+        schema:
+          $ref: '#/definitions/CashRegisterConfiguration'
+      responses:
+        "201":
+          description: Konfigurácia zmenená
+        "507":
+          description: Kapacita CHDU vyčerpaná
+  /cashregisterconfig/:
+    get:
+      summary: Vráti konfiguráciu pre všetky pokladne
+      description: |
+        Vráti konfiguráciu pre všetky pokladne
+      operationId: getCashRegistersConfiguration
+      produces:
+      - application/json
+      - application/xml
+      parameters: []
+      responses:
+        "200":
+          description: Konfigurácia pre všetky pokladne
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CashRegisterConfiguration'
+  /globalconfig/:
+    get:
+      summary: Vráti globálnu  konfiguráciu
+      description: |
+        Vráti globálnu konfiguráciu
+      operationId: getGlobalConfiguration
+      produces:
+      - application/json
+      - application/xml
+      parameters: []
+      responses:
+        "200":
+          description: Globálna konfigurácia
+          schema:
+            $ref: '#/definitions/GlobalConfiguration'
+    post:
+      summary: Uloží globálnu konfiguráciu
+      description: |
+        Uloží globálnu konfiguráciu
+      operationId: setGlobalConfiguration
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: Configuration
+        description: Global Configuration
+        required: true
+        schema:
+          $ref: '#/definitions/GlobalConfiguration'
+      responses:
+        "200":
+          description: Update úspešný
+        "400":
+          description: Zlý formát alebo iná chyba
+  /{CashRegisterCode}/opencashdrawer/:
+    post:
+      summary: Otvorí pokladničnú zásuvku pomocou ESC sekvencie
+      description: |
+        Otvorí pokladničnú zásuvku pomocou ESC sekvencie
+      operationId: openCashDrawer
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Operácia vykonaná
+        "405":
+          description: Pokladňa nie je aktívna
+        "503":
+          description: Nepodarilo sa vykonať
+  /authidset/{CashRegisterCode}:
+    get:
+      summary: Vráti všetky AuthId sety pre pokladňu
+      description: |
+        Vráti všetky AuthId sety pre pokladňu
+      operationId: getAuthIdSets
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Všetky AuthId sety pre pokladňu
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AuthIdSet'
+    post:
+      summary: Pridá AuthId set pre pokladňu
+      description: |
+        Pridá AuthId set pre pokladňu. AuthSet Id nastaví na max(AuthSetId)+1
+      operationId: addAuthIdSet
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      - in: body
+        name: AuthIdSet
+        description: AuthIdSet
+        required: true
+        schema:
+          $ref: '#/definitions/AuthIdSet'
+      responses:
+        "201":
+          description: AuthId set pridaný
+        "507":
+          description: Kapacita CHDU vyčerpaná
+          schema:
+            $ref: '#/definitions/ReceiptResponse'
+  /authidset/{CashRegisterCode}/{AuthSetId}:
+    get:
+      summary: Vráti špecifikovaný AuthSet s Id pre pokladňu
+      description: |
+        Vráti špecifikovaný AuthSet s Id pre pokladňu
+      operationId: getAuthIdSet
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      - name: AuthSetId
+        in: path
+        description: Id požadovaného AuthId setu
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Špecifikovaný AuthIdSet s Id pre pokladňu
+          schema:
+            $ref: '#/definitions/AuthIdSet'
+        "404":
+          description: AuthIdSet pre pokladňu nenájdený
+  /authidset/{CashRegisterCode}/current:
+    get:
+      summary: Vráti akuálny AuthId set pre pokladňu
+      description: |
+        Vráti AuthId set s najvyšším Id pre danú pokladňu
+      operationId: getCurrentAuthIdSet
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      responses:
+        "200":
+          description: AuthIdSet pre pokladňu
+          schema:
+            $ref: '#/definitions/AuthIdSet'
+  /authidsetraw/{CashRegisterCode}:
+    post:
+      summary: Pridá raw AuthId set pre pokladňu
+      description: "Pridá AuthId set pre pokladňu. AuthSet Id nastaví na max(AuthSetId)+1\nVstup sú autentifikačné alebo identifikačné údaje a heslo. \n* Ak sú špecifikované autentifikačné aj identifikačné údaje, OEC pridá oba\n* Ak sú špecifikované len autentifikačné alebo len identifikačné, OEC pridá len tie, ktoré sú špecifikované a druhé použije existujúce. Je teda možné poslať len autentifikačné údaje\n* Heslo je povinné pokiaľ sa posielajú autentifikačné údaje\n"
+      operationId: addAuthIdSetRaw
+      consumes:
+      - multipart/form-data
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      - name: upfile1
+        in: formData
+        description: XML súbor
+        required: true
+        type: file
+      - name: upfile2
+        in: formData
+        description: XML súbor
+        required: false
+        type: file
+      - name: password
+        in: query
+        description: Heslo k autentifikačným údajom ak sú poslané
+        required: false
+        type: string
+      responses:
+        "201":
+          description: AuthId set pridaný
+        "400":
+          description: Zlé heslo alebo autentifikačné údaje nesedia s identifikačnými alebo číslom pokladne
+        "507":
+          description: Kapacita CHDU vyčerpaná
+          schema:
+            $ref: '#/definitions/ReceiptResponse'
+  /status:
+    get:
+      summary: Vráti status informácie
+      description: Vráti status OEC
+      operationId: getStatus
+      produces:
+      - application/json
+      - application/xml
+      parameters: []
+      responses:
+        "200":
+          description: Status OEC
+          schema:
+            $ref: '#/definitions/Status'
+  /printunsent/{CashRegisterCode}:
+    get:
+      summary: Vytlačí neodoslané správy
+      description: Vytlačí neodoslané dátové správy pre zvolenú pokladňu a dátumový rozsah
+      operationId: printUnsentMessages
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      - name: DateFrom
+        in: query
+        description: Dátum od ktorého vytlačiť neodoslané dátové správy
+        required: true
+        type: string
+        format: date
+      - name: DateTo
+        in: query
+        description: Dátum do ktorého vytlačiť neodoslané dátové správy
+        required: true
+        type: string
+        format: date
+      responses:
+        "201":
+          description: Tlač úspešná
+        "504":
+          description: Tlač neúspešná
+        "507":
+          description: CHDÚ je zaplnené
+  /resend/{CashRegisterCode}:
+    get:
+      summary: Zaháji pokus o odoslanie neodoslaných správ konkrétnej pokladne
+      description: Zaháji pokus o odoslanie neodoslaných správ. Odoslanie beží na pozadí.
+      operationId: resendUnsentMessages
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Odoslanie zahájené
+        "400":
+          description: Nezosynchronizovaný čas
+        "404":
+          description: Pokladňa neexistuje
+        "500":
+          description: Odoslanie nebolo možné zahájiť
+        "507":
+          description: CHDÚ je zaplnené
+  /resendAll:
+    get:
+      summary: Zaháji pokus o odoslanie neodoslaných správ všetkých pokladní
+      description: Zaháji pokus o odoslanie neodoslaných správ všetkých pokladní. Odoslanie beží na pozadí.
+      operationId: resendAllUnsentMessages
+      parameters: []
+      responses:
+        "200":
+          description: Odoslanie zahájené
+        "500":
+          description: Odoslanie nebolo možné zahájiť
+  /cloudstorageresend/{CashRegisterCode}:
+    get:
+      summary: Zaháji pokus o odoslanie neodoslaných dokumentov pre cloud storage konkrétnej pokladne
+      description: Zaháji pokus o odoslanie neodoslaných dokumentov do cloud storage. Odoslanie beží na pozadí.
+      operationId: resendCloudDocuments
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Odoslanie zahájené
+        "404":
+          description: Pokladňa neexistuje
+        "500":
+          description: Odoslanie nebolo možné zahájiť
+  /time:
+    get:
+      summary: Vráti systémový čas PPEKK
+      description: Vráti systémovy čas PPEKK
+      operationId: getTime
+      parameters: []
+      responses:
+        "200":
+          description: Systémový čas
+    post:
+      summary: Nastaví systémový čas PPEKK
+      description: Nastaví systémový čas PPEKK
+      operationId: setTime
+      parameters:
+      - name: SystemDate
+        in: query
+        required: true
+        type: string
+        format: date
+      responses:
+        "200":
+          description: Čas nastavený
+        "500":
+          description: Čas sa nepodarilo nastaviť
+  /unsentmessages:
+    get:
+      summary: Vráti počty neodoslaných správ pre všetky pokladne
+      description: Vráti počty neodoslaných správ pre všetky pokladne
+      operationId: getUnsentMessagesCount
+      produces:
+      - application/json
+      - application/xml
+      parameters: []
+      responses:
+        "200":
+          description: Pole obsahujuce vsetky pokladne a pocty neodoslanych sprav pre pokladnu
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/UnsentState'
+  /errors/{CashRegisterCode}:
+    get:
+      summary: Vráti chybné správy
+      description: |
+        Vráti chybné dátové správy pre pokladňu
+
+        > Chybné dátové správy sú tie, na ktoré systém eKasa vrátil kód chyby
+      operationId: getErrors
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Všetky chybné dátové správy pre pokladňu
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Message'
+  /receipterror/{CashRegisterCode}/{Date}/{ReceiptNumber}/{ErrorCode}/{CorrectDate}:
+    post:
+      summary: Opraví dátovú správu dokladu so zlým dátumom
+      description: |
+        Opraví dátovú správu dokladu so zlým dátumom
+
+        > Opraviť je možné dátové správy, pre ktoré eKasa vráti kód chyby -103 alebo -104
+      operationId: repairReceiptError
+      produces:
+      - application/json
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      - name: Date
+        in: path
+        description: Dátum dátovej správy
+        required: true
+        type: string
+        format: date-time
+      - name: ReceiptNumber
+        in: path
+        description: Poradové číslo dokladu
+        required: true
+        type: integer
+      - name: ErrorCode
+        in: path
+        description: |
+          Kód chyby
+          > Opraviť je možné dátové správy, pre ktoré eKasa vráti kód chyby -103 alebo -104
+        required: true
+        type: integer
+        enum:
+        - -103
+        - -104
+      - name: CorrectDate
+        in: path
+        description: Opravený správny dátum dátovej správy
+        required: true
+        type: string
+        format: date-time
+      responses:
+        "200":
+          description: Dátum bol opravený a nová dátová správa s opraveným dátumom bola odoslaná
+        "204":
+          description: Dátum bol opravený a nová dátová správa s opraveným dátumom bola odoslaná offline
+        "400":
+          description: Nepovolený kód chyby na opravu alebo iná chyba
+          schema:
+            $ref: '#/definitions/ReceiptResponse'
+  /locationerror/{CashRegisterCode}/{Date}/{Id}/{ErrorCode}/{CorrectDate}:
+    post:
+      summary: Opraví dátovú správu polohy so zlým dátumom
+      description: |
+        Opraví dátovú správu polohy so zlým dátumom
+
+        > Opraviť je možné dátové správy, pre ktoré eKasa vráti kód chyby -108
+      operationId: repairLocationError
+      produces:
+      - application/json
+      parameters:
+      - name: CashRegisterCode
+        in: path
+        description: Kód on-line registračnej pokladnice
+        required: true
+        type: string
+      - name: Date
+        in: path
+        description: Dátum dátovej správy
+        required: true
+        type: string
+        format: date-time
+      - name: Id
+        in: path
+        description: Identifikátor dátovej správy o polohe
+        required: true
+        type: integer
+      - name: ErrorCode
+        in: path
+        description: |
+          Kód chyby
+          > Opraviť je možné dátové správy, pre ktoré eKasa vráti kód chyby -108
+        required: true
+        type: integer
+        enum:
+        - -108
+      - name: CorrectDate
+        in: path
+        description: Opravený správny dátum dátovej správy
+        required: true
+        type: string
+        format: date-time
+      responses:
+        "200":
+          description: Dátum bol opravený a nová dátová správa s opraveným dátumom bola odoslaná
+        "204":
+          description: Dátum bol opravený a nová dátová správa s opraveným dátumom bola odoslaná offline
+        "400":
+          description: Nepovolený kód chyby na opravu alebo iná chyba
+          schema:
+            $ref: '#/definitions/ReceiptResponse'
+  /reboot:
+    get:
+      summary: Vykoná reboot zariadenia
+      description: Vykoná reboot zariadenia
+      parameters: []
+      responses:
+        "200":
+          description: OK
+  /ping:
+    get:
+      summary: Jednoduchý ping. Zariadenie vráti status 200
+      description: |
+        Jednoduchý ping. Zariadenie vráti status 200. Znamená, že zariadenie nabootovalo a je pripravené.
+      parameters: []
+      responses:
+        "200":
+          description: OK
+  /printerstatus:
+    get:
+      summary: Vráti stav tlačiarne
+      description: |
+        Tlačiareň je funkčná len ak je jej status ***Success***
+        * Success
+        * PrinterIsBusy
+        * OutOfPaper
+        * TheFormatOfPrintDataPacketError
+        * PrinterMalfunctions
+        * PrinterOverHeats
+        * PrinterVoltageIsTooLow
+        * PrintingIsUnfinished
+        * CutJamError
+        * CoverOpenError
+        * ThePrinterHasNotInstalledFontLibrary
+        * DataPackageIsTooLong
+        * OtherError
+      parameters: []
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/inline_response_200'
+definitions:
+  ReceiptRequest:
+    type: object
+    properties:
+      Receipt:
+        $ref: '#/definitions/Receipt'
+      ReceiptRenderer:
+        $ref: '#/definitions/ReceiptRenderer'
+      PrintTemplate:
+        $ref: '#/definitions/ReceiptPrintTemplate'
+    description: "Receipt request. Obsahuje Receipt (doklad), renderer a tlačový template"
+  Receipt:
+    type: object
+    required:
+    - Amount
+    - IssueDate
+    - Paragon
+    - ReceiptType
+    properties:
+      Amount:
+        type: number
+        description: Celková suma dokladu
+      IssueDate:
+        type: string
+        format: date-time
+        description: Dátum a čas zaevidovania dokladu v systéme eKasa
+      ReceiptNumber:
+        type: integer
+        description: Poradové číslo dokladu
+      InvoiceNumber:
+        type: string
+        description: "Poradové číslo faktúry, ak ide o úhradu faktúry alebo jej časti"
+      ParagonNumber:
+        type: integer
+        description: Poradové číslo paragónu
+      CustomerId:
+        type: string
+        description: Unikátny identifikátor kupujúceho
+      CustomerIdType:
+        type: string
+        description: Typ identifikátora kupujúceho
+        enum:
+        - ICO
+        - DIC
+        - IC_DPH
+        - INE
+      CashRegisterCode:
+        type: string
+        description: Kód on-line registračnej pokladnice
+      Paragon:
+        type: boolean
+        description: "Príznak, či ide o zaevidovanie paragónu do ORP"
+      BasicVatAmount:
+        type: number
+        description: Celková suma DPH pre základnú sadzbu dane podľa zákona č. 222/2004 Z. z.
+      ReducedVatAmount:
+        type: number
+        description: Celková suma DPH pre zníženú sadzbu dane podľa zákona č. 222/2004 Z. z.
+      TaxFreeAmount:
+        type: number
+        description: "Celková suma položiek oslobodených od DPH alebo položiek, na ktoré sa uplatňuje osobitná úprava. V prípade podnikateľa, ktorý nie je platiteľom DPH suma všetkých položiek."
+      ReceiptType:
+        type: string
+        description: Typ pokladničného dokladu
+        enum:
+        - PD
+        - UF
+        - ND
+        - VY
+        - VK
+      TaxBaseBasic:
+        type: number
+        description: Celková suma základu DPH pre základnú sadzbu dane podľa zákona č. 222/2004 Z. z.
+      TaxBaseReduced:
+        type: number
+        description: Celková suma základu DPH pre zníženú sadzbu dane podľa zákona č. 222/2004 Z. z.
+      VATBreakdown:
+        description: Rozpis DPH
+        $ref: '#/definitions/VATBreakdown'
+      Items:
+        type: array
+        description: Položky dokladu
+        items:
+          $ref: '#/definitions/ReceiptItem'
+        minItems: 0
+      Payments:
+        type: array
+        description: Prijaté platby
+        items:
+          $ref: '#/definitions/Payment'
+      Cashier:
+        type: string
+        description: Pokladník
+    description: Receipt - doklad
+  ReceiptItem:
+    type: object
+    required:
+    - ItemType
+    - Name
+    - Price
+    - Quantity
+    - VatRate
+    properties:
+      Price:
+        type: number
+        description: Celková cena tovaru alebo služby
+      Quantity:
+        type: number
+        description: Množstvo tovaru alebo rozsah služby
+      MeasurementUnit:
+        type: string
+        description: Merná jednotka
+      Name:
+        type: string
+        description: Označenie tovaru alebo služby
+      ReferenceReceiptId:
+        type: string
+        description: "Číslo dokladu, ku ktorému sa vzťahuje oprava alebo vrátenie položky"
+      VatRate:
+        type: number
+        example: 10.0
+        description: Sadzba DPH v %
+      ItemType:
+        type: string
+        description: Typ položky dokladu
+        enum:
+        - K
+        - VO
+        - V
+        - O
+        - Z
+        - OZ
+        - VP
+      SpecialRegulation:
+        type: string
+        description: "Príznak, ktorý bližšie špecifikuje „dôvod“ priradenia dane s hodnotou 0, ak bola položke priradená"
+        enum:
+        - PDP
+        - OOD
+        - CK
+        - PT
+        - UD
+        - ZPS
+      SellerIdType:
+        type: string
+        description: "Typ identifikátora predávajúceho, v ktorého mene bol predaný tovar alebo poskytnutá služba"
+        enum:
+        - DIC
+        - IC_DPH
+      SellerId:
+        type: string
+        description: "Identifikátor predávajúceho, v ktorého mene bol predaný tovar alebo poskytnutá služba"
+      VoucherNumber:
+        type: string
+        description: Číslo jednoúčelového poukazu pri jeho výmene za tovar alebo poskytnutú službu.
+      ItemId:
+        type: string
+        description: Číslo tovaru
+      Category:
+        type: string
+        description: Kategória
+      SerialNumber:
+        type: string
+        description: Sériové číslo
+      EAN:
+        type: array
+        description: EAN kódy
+        items:
+          type: string
+    description: Položka dokladu
+  Payment:
+    properties:
+      Method:
+        type: string
+        description: Metóda platby
+        enum:
+        - cash
+        - bankcard
+        - fleetcard
+        - loyalty
+        - voucher
+        - other
+      Amount:
+        type: number
+        description: Uhradená čiastka
+      Identification:
+        type: string
+        description: "Identifikácia platby (číslo karty, číslo vouchra, ...)"
+      AdditionalData:
+        type: string
+        description: Doplnkové data
+    description: Informácie o platbe
+  ReceiptResponse:
+    properties:
+      Mode:
+        type: string
+        description: |
+          Spôsob registrácie dokladu v eKasa
+          * Online - doklad bol do eKasa odoslaný online
+          * Offline - doklad nebol do eKasa odoslaný
+        enum:
+        - Online
+        - Offline
+      Id:
+        type: string
+        description: Generovaný unikátny identifikátor dokladu
+      ErrorCode:
+        type: integer
+        description: Chybový kód
+      ErrorMessage:
+        type: string
+        description: Popis chyby
+      Receipt:
+        $ref: '#/definitions/Receipt'
+      Printout:
+        $ref: '#/definitions/ReceiptPrintTemplate'
+    description: Odpoveď na ReceiptRequest
+  ReceiptPrintTemplate:
+    type: array
+    description: |
+      Tlačová šablona
+      > Ak nie je špecifikovaná, OEC vygeneruje tlačový výstup pomocou defaultnej tlačovej šablony
+
+      ## Ako je šablona použitá
+
+      Text *OFF-LINE DOKLAD* - je pridaný na začiatok textu
+
+      *odpoveď z eKasa s QR kódom* - je pridané na koniec textu
+    items:
+      type: string
+  ReceiptRenderer:
+    properties:
+      Renderer:
+        type: string
+        description: |
+          Receipt renderer
+        enum:
+        - printer
+        - email
+        - none
+      EmailHeaders:
+        $ref: '#/definitions/EmailHeaders'
+    description: |
+      # Renderer určuje ako sa doklad pošle na výstup
+
+      ## Možné hodnoty
+      * printer - Doklad bude vytlačený na tlačiarni
+      * email - Doklad bude skonvertovaný do PDF vrátane QR kódu (ak nejde o kópiu) a odoslaný e-mailom
+      * none - doklad sa nebude tlačiť ani posielať e-mailom. Je možné použiť len s dokladmi typu VKLAD a VÝBER. Pri ostatných dokladoch **musí** byť doklad vytlačený alebo doručený elektronicky
+
+      > Ak je požadovaný email, musia byť nakonfigurované SMTP parametre a vyplnený EmailHeaders
+
+      > V prípade, že doklad bol uzavretý offline, vždy sa ako renderer použije printer a doklad bude vytlačený na pripojenej tlačiarni
+  Text:
+    required:
+    - Value
+    properties:
+      Value:
+        type: string
+        description: Text určený pre voľnú tlač
+    description: Text to free print
+  EmailHeaders:
+    required:
+    - Subject
+    - To
+    properties:
+      From:
+        type: string
+        format: email
+        description: "From. Ak nie je špecifkované, použije sa hodnota s konfigurácie"
+      To:
+        type: string
+        format: email
+        description: To
+      Subject:
+        type: string
+        description: Subject
+      IncludeReceiptResponse:
+        type: boolean
+        description: Include ReceiptResponse as the e-mail attachment. If enabled the ReceiptResponse.json is added as a attachment to the e-mail
+        default: false
+    description: Hlavičky e-mailu
+  GlobalConfiguration:
+    properties:
+      SMTPConfiguration:
+        $ref: '#/definitions/SMTPConfiguration'
+      eKasaEndpoint:
+        type: string
+        description: URL eKasa
+      eKasaPingEndpoint:
+        type: string
+        description: URL to ping eKasa
+      eKasaPingResponse:
+        type: number
+        description: Result code
+      CertificateIssuer:
+        type: string
+        description: Vydávateľ certifikátu
+      CertificateSubject:
+        type: string
+        description: Subjekt certifikátu
+      Timeout:
+        type: integer
+        description: Timeout čakania na odpoveď od eKasa v ms. Musí byť >=2000
+        minimum: 2000
+      ResendTimeout:
+        type: integer
+        description: Timeout čakania na odpoveď od eKasa v ms v prípade doposlania správy. Musí byť >=2000
+        minimum: 2000
+      ProxyConfiguration:
+        $ref: '#/definitions/ProxyConfiguration'
+    description: Globálna OEC konfigurácia
+  CashRegisterConfiguration:
+    required:
+    - CashRegisterCode
+    - ExceptionMode
+    properties:
+      CashRegisterCode:
+        type: string
+        description: |
+          Kód on-line registračnej pokladnice
+
+          > Ak je nie je špecifikovná SMTP konfigurácia pre pokladňu, použije sa SMTP z globálnej konfigurácie
+      Name:
+        type: string
+        description: Názov pokladne
+      Status:
+        type: string
+        description: |
+          ## Stav pokladne
+          - active - umožňuje registrovať doklady (addReceipt), polohu (registerLocation), tlač (print) a otvorenie zásuvky (openCashDrawer)
+          - paused - neumožňuje registrovať doklady (addReceipt), polohu (registerLocation), tlač (print) a otvorenie zásuvky (openCashDrawer). V healthckeck sa vyhodnocuje rovnako ako active.
+          - disabled - neumožňuje registrovať doklady (addReceipt), polohu (registerLocation), tlač (print) a otvorenie zásuvky (openCashDrawer). V healthckeck je vždy vyhodnotená ako Healthy
+        default: active
+        enum:
+        - active
+        - disabled
+        - paused
+      ExceptionMode:
+        type: boolean
+        description: "Príznak, či ide o pokladnicu podnikateľa s udelenou výnimkou zo zasielania údajov"
+      LastReceiptNumber:
+        type: integer
+        description: Číslo posledného dokladu
+      SMTPConfiguration:
+        $ref: '#/definitions/SMTPConfiguration'
+      PrinterConfiguration:
+        $ref: '#/definitions/PrinterConfiguration'
+      AuthIdSets:
+        type: array
+        description: AuthId sety pre pokladňu
+        items:
+          $ref: '#/definitions/AuthIdSet'
+      CloudStorageConfiguration:
+        $ref: '#/definitions/CloudStorageConfiguration'
+    description: Konfigurácia pokladne
+  AuthIdSet:
+    required:
+    - Authentication
+    - Id
+    - Identification
+    - UploadDate
+    properties:
+      Id:
+        type: integer
+        description: Id AuthId setu
+      UploadDate:
+        type: string
+        format: datetime
+        description: Dátum uploadu AuthId setu
+      Authentication:
+        type: string
+        description: Autentikačné informácie v eKasa štruktúre
+      Identification:
+        type: string
+        description: Identifikačné data v eKasa štruktúre
+      CertificatePassword:
+        type: string
+        description: Heslo k certifikat v autentikacnych udajoch
+    description: Set autentikačných a identifikačných údajov
+  SMTPConfiguration:
+    properties:
+      Address:
+        type: string
+        description: SMTP server address
+      Username:
+        type: string
+        description: SMTP server username
+      Password:
+        type: string
+        description: SMTP server password
+      Port:
+        type: integer
+        description: Port number. If not specified default 25 is used
+      From:
+        type: string
+        format: email
+        description: Default from address
+      EnableSSL:
+        type: boolean
+        description: Enable SSL. Default true
+        default: true
+      IncludeReceiptResponse:
+        type: boolean
+        description: Include ReceiptResponse as the e-mail attachment. If enabled the ReceiptResponse.json is added as a attachment to the e-mail
+        default: false
+    description: SMTP configuration
+  CloudStorageConfiguration:
+    properties:
+      Url:
+        type: string
+        description: Cloud storage URL
+      ApiKey:
+        type: string
+        description: API key
+      Enabled:
+        type: boolean
+        description: Enabled
+      Timeout:
+        type: integer
+        description: Timeout
+      DocumentTypes:
+        type: array
+        description: Documents to send to the cloud storage
+        items:
+          type: string
+    description: Cloud storage configuration
+  Status:
+    properties:
+      CHDUInformation:
+        $ref: '#/definitions/CHDUInformation'
+      Version:
+        type: string
+        description: Verzia PPEKK
+      SoftwareId:
+        type: string
+        description: Id softvéru
+      SerialNumber:
+        type: string
+        description: Sériové číslo
+      Capabilities:
+        type: string
+        description: Funkcionality
+      UnsentMessageCount:
+        type: integer
+        description: Počet neodoslaných dátových správ
+    description: Status OEC
+  Transaction:
+    properties:
+      ReceiptRequest:
+        $ref: '#/definitions/ReceiptRequest'
+      ReceiptResponse:
+        $ref: '#/definitions/ReceiptResponse'
+      TransactionState:
+        type: string
+        enum:
+        - Idle
+        - Pending
+        - Online
+        - Offline
+        - Warning
+        - Error
+    description: Zobrazí stav poslednej transakcie
+  CHDUInformation:
+    properties:
+      Capacity:
+        type: integer
+        format: int64
+        description: Celková využiteľná kapacita CHDU v byte
+      AvailableSpace:
+        type: integer
+        format: int64
+        description: Voľná kapacita CHDU v byte
+      Version:
+        type: string
+        description: Verzia firmware CHDU
+      SerialNumber:
+        type: string
+        description: Sériové číslo
+    description: CHDU informácie
+  RegisterLocationRequest:
+    required:
+    - CreateDate
+    properties:
+      CreateDate:
+        type: string
+        format: datetime
+        description: Dátum a čas vytvorenia záznamu o umiestnení prenosnej pokladnice
+      Other:
+        type: string
+        description: |
+          Iný spôsob definovania umiestnenia prenosnej pokladnice , na ktorej podnikateľ v danom čase prijíma tržbu. ORP použije tento typ definovania polohy, ak nie je možné uviesť adresu umiestnenia prenosnej pokladnice alebo GPS súradnice
+      GPS:
+        $ref: '#/definitions/GPSLocation'
+      PhysicalAddress:
+        $ref: '#/definitions/PhysicalAddress'
+    description: Register location request
+  GPSLocation:
+    properties:
+      X:
+        type: string
+        description: Obsahuje X-ovú súradnicu
+      "Y":
+        type: string
+        description: Obsahuje Y-ovú súradnicu
+    description: "GPS súradnice miesta podľa súradnicového systému WGS 84, na ktorom ORP vyhotovuje doklady. ORP použije tento typ, ak vie získať svoje GPS súradnice v rámci súradnicového systému WGS 84    \n"
+  PhysicalAddress:
+    required:
+    - Municipality
+    - StreetName
+    properties:
+      Municipality:
+        type: string
+        description: |
+          Názov obce. Obcou je územnosprávna jednotka charakterizovaná súvislým domovým osídlením a vlastným názvom. Obcou je aj mesto
+      BuildingNumber:
+        type: string
+        description: Názov budovy alebo číslo domu.
+      PostalCode:
+        type: string
+        description: "Poštové smerové číslo - kód, ktorý ustanovili poštové autority za účelom doručovania pošty."
+      PropertyRegistrationNumber:
+        type: string
+        description: Súpisné číslo budovy
+      StreetName:
+        type: string
+        description: "Názov ulice. Ak obec nemá názov ulice, udáva sa tu názov obce"
+    description: Fyzická adresa
+  RegisterLocationResponse:
+    required:
+    - Mode
+    properties:
+      Mode:
+        type: string
+        description: |
+          Spôsob registrácie polohy v eKasa
+          * Online - poloha bola do eKasa odoslaný online
+          * Offline - poloha nebola do eKasa odoslaný
+        enum:
+        - Online
+        - Offline
+      Id:
+        type: string
+        description: Generovaný unikátny identifikátor dokladu
+      Warning:
+        type: string
+        description: Upozornenie zaevidovania polohy
+      RegisterLocationRequest:
+        $ref: '#/definitions/RegisterLocationRequest'
+    description: Register location response
+  PrinterConfiguration:
+    properties:
+      Address:
+        type: string
+        description: Adresa tlačiarne
+      QRSequence:
+        type: string
+        description: "Sekvencia, pomocou ktorej tlačiareň vytlačí QR kód. Špeciálne znaky sa uvádzajú v tvare \\xhh kde hh je hexadecimálny kód znaku. \n\nOEC nahradi tieto tagy\n* [len:16] - dlzka kodu reprezentovana 16bit word\n* [len:8] - dlzka kodu reprezentovana 8bit word\n* [code] - QR kod, ktory sa ma vytlacit\n## Príklady:\n### Diebold-Nixdorf TH-250\n\n\\x1D\\x28\\x6B[len:16]\\x31\\x50\\x30[code]\\x1D\\x28\\x6B\\x03\\x00\\x31\\x51\\x30\n"
+      PaperCutSequence:
+        type: string
+        description: "Sekvencia, pomocou ktorej tlačiareň odreže papier. Špeciálne znaky sa uvádzajú v tvare \\xhh kde hh je hexadecimálny kód znaku. \n## Príklady:\n\\x1B\\x69\n"
+      PrinterCodePageSequence:
+        type: string
+        description: "Sekvencia, pomocou ktorej tlačiareň nastaví kódovú stránku uvedenú v Encoding. Špeciálne znaky sa uvádzajú v tvare \\xhh kde hh je hexadecimálny kód znaku. \n## Príklady:\nibm852 \\x1Bt\\x12\n"
+      Encoding:
+        type: string
+        description: |
+          Kódovanie, na ktoré sa prekódujú všetky texty poslané na tlačiareň a uložené do CHDU.
+        enum:
+        - ibm852
+        - windows-1250
+        - iso-8859-2
+      OpenCashDrawerSequence:
+        type: string
+        description: "Sekvencia, pomocou ktorej tlačiareň otovorí pripojenú pokladničnú zásuvku. Špeciálne znaky sa uvádzajú v tvare \\xhh kde hh je hexadecimálny kód znaku. \n## Príklady:\n\\x1B\\x70\\x30\\x80\\x80\n"
+        default: \x1B\x70\x30\x80\x80
+      PrinterJobWaitTime:
+        type: integer
+        description: |
+          Maximálna doba v ms na čakanie odozvy od tlačiarne
+    description: Konfigurácia tlačiarne
+  UnsentState:
+    properties:
+      CashRegisterCode:
+        type: string
+        description: Kód on-line registračnej pokladnice
+      UnsentMessagesCount:
+        type: integer
+        description: Počet neodoslaných dátových správ
+    description: Stav pokladne
+  Message:
+    properties:
+      CashRegisterCode:
+        type: string
+        description: Kód on-line registračnej pokladnice
+      CreateDate:
+        type: string
+        format: date-time
+        description: Dátum vytvorenia dátovej správy
+      Id:
+        type: string
+        description: Identifikátor dátovej správy
+      MessageContent:
+        type: string
+        description: Obsah dátovej správy
+      ErrorCode:
+        type: integer
+        description: "Kód chyby \n\n- 0 žiadna\n- != 0 kód chyby\n"
+    description: Dátová správa
+  ReceiptMessage:
+    properties:
+      MessageContent:
+        type: string
+        description: Dekódovaný obsah dátovej správy
+      PrintoutContent:
+        type: string
+        description: Raw dáta
+      MessageType:
+        type: integer
+        description: |
+          Typ správy
+           * 1: ReceiptRequest
+           * 2: ReceiptResponse
+           * 3: LocationRequest
+           * 4: LocationResponse
+           * 5: AuthIdSet
+           * 6: PrintReceipt
+           * 7: PrintText
+    description: Dáta o doklade
+  ProxyConfiguration:
+    properties:
+      UseProxy:
+        type: boolean
+        description: Použiť alebo nepoužiť proxy
+      Address:
+        type: string
+        description: Adresa proxy
+      Port:
+        type: integer
+        description: Port proxy. Default 80
+      UserName:
+        type: string
+        description: meno
+      Password:
+        type: string
+        description: heslo
+    description: Konfigurácia proxy
+  VATBreakdown:
+    properties:
+      TotalBaseAmount:
+        type: number
+        description: Celkový základ bez dane
+      TotalVATAmount:
+        type: number
+        description: Celková suma DPH
+      TotalAmount:
+        type: number
+        description: Celková suma s DPH
+      VATAmount:
+        type: array
+        description: DPH pre jednotlivé sadzby
+        items:
+          $ref: '#/definitions/VATAmount'
+        minItems: 0
+    description: Rozpis DPH
+  VATAmount:
+    properties:
+      Percentage:
+        type: number
+        description: Percento DPH
+      BaseAmount:
+        type: number
+        description: Základ DPH
+      VATAmount:
+        type: number
+        description: Hodnota DPH
+      Amount:
+        type: number
+        description: Suma s DPH
+    description: DPH pre sadzbu
+  inline_response_200:
+    type: object
+    properties:
+      Status:
+        type: string
+        example: Success
+        description: |
+          * Success
+          * PrinterIsBusy
+          * OutOfPaper
+          * TheFormatOfPrintDataPacketError
+          * PrinterMalfunctions
+          * PrinterOverHeats
+          * PrinterVoltageIsTooLow
+          * PrintingIsUnfinished
+          * CutJamError
+          * CoverOpenError
+          * ThePrinterHasNotInstalledFontLibrary
+          * DataPackageIsTooLong
+          * OtherError
