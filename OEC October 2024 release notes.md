@@ -100,6 +100,7 @@ Pre jednotlivé sadzby DPH je v elemente VATBreakdown pole VATAmount pre jednotl
             }
 ```
 
+> Popis API v OpenAPI formáte je dostupný tu [OEC_API](https://github.com/datapacsro/oec/blob/master/api/oec_api.yaml)
 
 #### Príklady použitia
 ##### Doklad registrovaný v roku 2024 so sadzbami DPH 0, 10, 20%
