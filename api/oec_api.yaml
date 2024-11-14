@@ -1,3 +1,4 @@
+---
 swagger: "2.0"
 info:
   description: "## API je dostupné na adrese\n```\nhttp://adresa/oec/api\n```\n\n### Príklad\n```\nhttp://adresa/oec/api/status\nhttp://adresa/oec/api/receipt/123456789\n```\n\n## Healthcheck OEC je dostupný na \n```\nhttp://adresa/oec/health\n```\n"
@@ -1495,12 +1496,15 @@ definitions:
     properties:
       TotalBaseAmount:
         type: number
+        example: 10.0
         description: Celkový základ bez dane
       TotalVATAmount:
         type: number
+        example: 2.3
         description: Celková suma DPH
       TotalAmount:
         type: number
+        example: 12.3
         description: Celková suma s DPH
       VATAmount:
         type: array
@@ -1513,15 +1517,19 @@ definitions:
     properties:
       Percentage:
         type: number
+        example: 23.0
         description: Percento DPH
       BaseAmount:
         type: number
+        example: 10.0
         description: Základ DPH
       VATAmount:
         type: number
+        example: 2.3
         description: Hodnota DPH
       Amount:
         type: number
+        example: 12.3
         description: Suma s DPH
     description: DPH pre sadzbu
   inline_response_200:
@@ -1544,3 +1552,5 @@ definitions:
           * ThePrinterHasNotInstalledFontLibrary
           * DataPackageIsTooLong
           * OtherError
+externalDocs:
+  url: https://github.com/datapacsro/oec/tree/master/requests
