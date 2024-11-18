@@ -122,8 +122,8 @@ Na základe vyjadrenie FS sa kópia dokladu môže robiť len z dát v dátovej 
 - JUP je možné použiť len v kombinácii 1 JUP na 1 položku. Nie je možné mať v doklade viac položiek alebo použiť viac JUP v jednom doklade.
 - Ak je výsledná suma dokladu pri použití JUP 0 (JUP sa použije na úhradu celého dokladu), netlačí sa DPH na riadkoch ani sa netlačí rozpis DPH
 
-### Znak €
-Znak € nesmie byť použitý v názve položky
+### Zakázané znaky
+Znaky §Ł¥£€¦¡¢¤¨©ª«¬®ˉ°±²³´µ¶¸¹º»¼½¾¿  nesmú byť použité v názve položky.
 
 ### Zrušenie tlače QR kódu pre vklady a výbery hotovosti
 Na základe žiadosti od Finančnej správy sa pri vkladoch a výberoch hotovosti odstránila tlač QR kódu.
