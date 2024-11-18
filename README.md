@@ -18,6 +18,8 @@ Datapac OEC je certifikovaný online eKasa klient.
 
 [API docs](https://datapacsro.github.io/oec/) - podrobná dokumentácia k API
 
+[API docs swagger](https://app.swaggerhub.com/apis-docs/Datapac/PPEKK/7.0.0)
+
 [codesamples](codesamples) - príklad kódu v C#
 
 [Releases](https://github.com/datapacsro/oec/releases) - aktualizácie dostupné pre OEC.LAN Standalone
