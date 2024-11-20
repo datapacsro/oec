@@ -21,7 +21,7 @@
         "MeasurementUnit": "ks",
         "Name": "Item 1",
         "ReferenceReceiptId": null,
-        "VatRate": 20.0,
+        "VatRate": 23.0,
         "ItemType": "K",
         "SpecialRegulation": null,
         "SellerIdType": null,
@@ -38,7 +38,7 @@
         "MeasurementUnit": "ks",
         "Name": "Použitie poukazu",
         "ReferenceReceiptId": null,
-        "VatRate": 20.0,
+        "VatRate": 23.0,
         "ItemType": "VP",
         "SpecialRegulation": null,
         "SellerIdType": null,
@@ -63,11 +63,58 @@
       "TotalBaseAmount": 0.0,
       "TotalVATAmount": 0.0,
       "TotalAmount": 0.0,
-      "VATAmount": []
+      "VATAmount": [
+        {
+          "Percentage": 23.0,
+          "BaseAmount": 0,
+          "VATAmount": 0,
+          "Amount": 0
+        }
+      ]
     }
   },
   "ReceiptRenderer": null,
-  "PrintTemplate": [
-    "[codePage]\r\n[CompanyName:CWRAP44]\r\nIČO: [ICO:L8]       DIČ: [DIC:L10] \r\nIČ DPH: [ICDPH:L12]\r\n[CompanyAddress:CWRAP]\r\nPrevádzka:\r\n[Shop:CWRAP]\r\n[PosType:LMAX]\r\nKód pokladne: [CashRegisterCode:L20]\r\nDátum vyhot. a dodania:  [CreateDateTime:R19]\r\n\r\nPoradové číslo dokladu/účtu:      [ReceiptNumber:R10]\r\n--------------------------------------------\r\n[Items.Start]\r\n[Item.Start]\r\n[Item.Name:L18] [Item.Quantity:R3.2] [Item.MeasurementUnit:R3] [Item.Price:R4.2] [Item.ItemVat:R4.0]%\r\n[Item.End]\r\n[Item.Start]\r\n[Item.Name:L18] [Item.Quantity:R3.2] [Item.MeasurementUnit:R3] [Item.Price:R4.2] [Item.ItemVat:R4.0]%\r\n[Item.ReferenceId:L50]\r\n[Item.End]\r\n[Items.End]\r\n--------------------------------------------\r\nSUMA:[Amount:R32.2] EUR\r\n============================================\r\nTriedy     Základ        DPH           Spolu\r\n--------------------------------------------\r\nSpolu:   [VatBaseSum:R4.2]   [VatAmountSum:R4.2] EUR[VatTotal:R7.2] EUR\r\n--------------------------------------------\r\n[UID:LMAX]\r\n\r\n             Ďakujeme za nákup              \r\n[qrcode]\r\n\r\n[okpCode:LMAX]\r\n\r\n\r\n\r\n\r\n\r\n\r\n[paperCut]\r\n"
-  ]
+  "PrintTemplate": ["[codePage]
+[CompanyName:CWRAP44]
+ICO: [ICO:L8]       DIC: [DIC:L10]
+IC DPH: [ICDPH:L12]
+[CompanyAddress:CWRAP]
+Prevádzka:
+[Shop:CWRAP]
+[PosType:LMAX]
+Kód pokladne: [CashRegisterCode:L20]
+Dátum vyhot. a dodania:  [CreateDateTime:R19]
+
+Poradové císlo dokladu/úctu:      [ReceiptNumber:R10]
+--------------------------------------------
+[Items.Start]
+[Item.Start]
+[Item.Name:L18] [Item.Quantity:R3.2] [Item.MeasurementUnit:R3] [Item.Price:R4.2] [Item.ItemVat:R4.0]%
+[Item.End]
+[Item.Start]
+[Item.Name:L18] [Item.Quantity:R3.2] [Item.MeasurementUnit:R3] [Item.Price:R4.2] [Item.ItemVat:R4.0]%
+[Item.ReferenceId:L50]
+[Item.End]
+[Items.End]
+--------------------------------------------
+SUMA:[Amount:R32.2] EUR
+============================================
+Triedy     Základ        DPH           Spolu
+[VatRate23:L2.0]%     [VatBase23:R4.2]   [VatAmount23:R4.2] EUR   [VatAmountTotal23:R4.2] EUR
+--------------------------------------------
+Spolu:   [VatBaseSum:R4.2]   [VatAmountSum:R4.2] EUR[VatTotal:R7.2] EUR
+--------------------------------------------
+[UID:LMAX]
+
+             Dakujeme za nákup
+[qrcode]
+
+[okpCode:LMAX]
+
+
+
+
+
+
+[paperCut]"]
 }
