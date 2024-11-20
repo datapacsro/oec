@@ -8,12 +8,12 @@
     "ParagonNumber": null,
     "CashRegisterCode": "88812345678900001",
     "Paragon": false,
-    "BasicVatAmount": 20.0,
-    "ReducedVatAmount": 0.0,
-    "TaxFreeAmount": 0.0,
+    "BasicVatAmount": null,
+    "ReducedVatAmount": null,
+    "TaxFreeAmount": null,
     "ReceiptType": "PD",
-    "TaxBaseBasic": 100.0,
-    "TaxBaseReduced": 0.0,
+    "TaxBaseBasic": null,
+    "TaxBaseReduced": null,
     "Items": [
       {
         "Price": 120.00,
@@ -59,10 +59,78 @@
       }
     ],
     "Cashier": null,
-    "VATBreakdown": null
+    "VATBreakdown": {
+      "TotalBaseAmount": 120.0,
+      "TotalVATAmount": 20.0,
+      "TotalAmount": 100.0,
+      "VATAmount": [
+        {
+          "Percentage": 20.0,
+          "BaseAmount": 100.0,
+          "VATAmount": 20.0,
+          "Amount": 120.0
+        },
+        {
+          "Percentage": 10.0,
+          "BaseAmount": 0.0,
+          "VATAmount": 0.0,
+          "Amount": 0.0
+        },
+        {
+          "Percentage": 0.0,
+          "BaseAmount": 0.0,
+          "VATAmount": 0.0,
+          "Amount": 0.0
+        }
+      ]
+    }
   },
   "ReceiptRenderer": null,
   "PrintTemplate": [
-    "[codePage]\n[CompanyName:CWRAP44]\nIČO: [ICO:L8]       DIČ: [DIC:L10] \nIČ DPH: [ICDPH:L12]\n[CompanyAddress:CWRAP]\nPrevádzka:\n[Shop:CWRAP]\n[PosType:LMAX]\nKód pokladne: [CashRegisterCode:L20]\nDátum vyhot. a dodania:  [CreateDateTime:R19]\n\nPoradové číslo dokladu/účtu:      [ReceiptNumber:R10]\n--------------------------------------------\n[Items.Start]\n[Item.Start]\n[Item.Name:L18] [Item.Quantity:R3.2] [Item.MeasurementUnit:R3] [Item.Price:R4.2] [Item.ItemVat:R4.0]%\n[Item.End]\n[Item.Start]\n[Item.Name:L18] [Item.Quantity:R3.2] [Item.MeasurementUnit:R3] [Item.Price:R4.2] [Item.ItemVat:R4.0]%\n[Item.End]\n[Items.End]\n--------------------------------------------\nSUMA:[Amount:R32.2] EUR\n============================================\nTriedy     Základ        DPH           Spolu\n[VatRateBasic:L2.0]%     [VatBaseBasic:R4.2]   [VatAmountBasic:R4.2] EUR   [VatAmountBasicSum:R4.2] EUR\n[VatRateReduced:L2.0]%     [VatBaseReduced:R4.2]   [VatAmountReduced:R4.2] EUR   [VatAmountReducedSum:R4.2] EUR\n[VatRateFree:L2.0]%     [VatBaseFree:R4.2]   [VatAmountFree:R4.2] EUR   [VatBaseFree:R4.2] EUR\n--------------------------------------------\nSpolu:   [VatBaseSum:R4.2]   [VatAmountSum:R4.2] EUR[VatTotal:R7.2] EUR\n--------------------------------------------\n[UID:LMAX]\n\n             Ďakujeme za nákup              \n[qrcode]\n\n[okpCode:LMAX]\n\n\n\n\n\n\n[paperCut]\n"
+    "[codePage]
+[CompanyName:CWRAP44]
+IČO: [ICO:L8]       DIČ: [DIC:L10] 
+IČ DPH: [ICDPH:L12]
+[CompanyAddress:CWRAP]
+Prevádzka:
+[Shop:CWRAP]
+[PosType:LMAX]
+Kód pokladne: [CashRegisterCode:L20]
+Dátum vyhot. a dodania:  [CreateDateTime:R19]
+
+Poradové číslo dokladu/účtu:      [ReceiptNumber:R10]
+--------------------------------------------
+[Items.Start]
+[Item.Start]
+[Item.Name:L18] [Item.Quantity:R3.2] [Item.MeasurementUnit:R3] [Item.Price:R4.2] [Item.ItemVat:R4.0]%
+[Item.End]
+[Item.Start]
+[Item.Name:L18] [Item.Quantity:R3.2] [Item.MeasurementUnit:R3] [Item.Price:R4.2] [Item.ItemVat:R4.0]%
+[Item.End]
+[Items.End]
+--------------------------------------------
+SUMA:[Amount:R32.2] EUR
+============================================
+Triedy     Základ        DPH           Spolu
+[VatRate20:L2.0]%     [VatBase20:R4.2]   [VatAmount20:R4.2] EUR   [VatAmountTotal20:R4.2] EUR
+[VatRate10:L2.0]%     [VatBase10:R4.2]   [VatAmount10:R4.2] EUR   [VatAmountTotal10:R4.2] EUR
+[VatRate0:L2.0]%     [VatBase0:R4.2]   [VatAmount0:R4.2] EUR   [VatAmountTotal0:R4.2] EUR
+--------------------------------------------
+Spolu:   [VatBaseSum:R4.2]   [VatAmountSum:R4.2] EUR[VatTotal:R7.2] EUR
+--------------------------------------------
+[UID:LMAX]
+
+             Ďakujeme za nákup              
+[qrcode]
+
+[okpCode:LMAX]
+
+
+
+
+
+
+[paperCut]
+"
   ]
 }
