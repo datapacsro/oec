@@ -105,7 +105,7 @@ Pre jednotlivé sadzby DPH je v elemente VATBreakdown pole VATAmount pre jednotl
 #### Tlač rozpisu DPH
 Ak v requeste nie je použitá tlačová šablona, OEC automaticky vytlačí rozpis DPH pre každú sadzbu uvedenú v doklade
 
-> Ak je v requeste uvedená šablona, je potrebné upraviť ju aby obsahovala všetky použité sadzby DPH v doklade
+> Ak je v requeste uvedená šablona, je potrebné upraviť ju aby obsahovala všetky použité sadzby DPH v doklade inak v roku 2025 OEC vráti chybu a doklad nezaregistruje v eKasa
 
 Formát je v tvare Atirbutx kde Atribut je
 - VATRate (sadzba dane)
