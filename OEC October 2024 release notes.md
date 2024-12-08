@@ -102,6 +102,41 @@ Pre jednotlivé sadzby DPH je v elemente VATBreakdown pole VATAmount pre jednotl
 
 > Popis API v OpenAPI formáte je dostupný tu [OEC API](https://github.com/datapacsro/oec/blob/master/api/oec_api.yaml) a dokumentacia tu [OEC API docs](https://app.swaggerhub.com/apis-docs/Datapac/PPEKK/7.0.0)
 
+#### Tlač rozpisu DPH
+Ak v requeste nie je použitá tlačová šablona, OEC automaticky vytlačí rozpis DPH pre každú sadzbu uvedenú v doklade
+
+> Ak je v requeste uvedená šablona, je potrebné upraviť ju aby obsahovala všetky použité sadzby DPH v doklade
+
+Formát je v tvare Atirbutx kde Atribut je
+- VATRate (sadzba dane)
+- VatBase (základ)
+- VATAmount (hodnoda dane)
+- VatAmountTotal (obrat v sadzbe s DPH)
+
+a x je sadzba DPH
+- 0
+- 10
+- 20
+- 5
+- 19
+- 23
+
+Príklad: VATBase23 je základ dane 23%
+
+```txt
+Triedy     Základ        DPH           Spolu
+[VatRate23:L2.0]%     [VatBase23:R4.2]   [VatAmount23:R4.2] EUR   [VatAmountTotal23:R4.2] EUR
+[VatRate19:L2.0]%     [VatBase19:R4.2]   [VatAmount19:R4.2] EUR   [VatAmountTotal19:R4.2] EUR
+[VatRate9:L2.0]%     [VatBase9:R4.2]   [VatAmount9:R4.2] EUR   [VatAmountTotal9:R4.2] EUR
+[VatRate5:L2.0]%     [VatBase5:R4.2]   [VatAmount5:R4.2] EUR   [VatAmountTotal5:R4.2] EUR
+[VatRate0:L2.0]%     [VatBase0:R4.2]   [VatAmount0:R4.2] EUR   [VatAmountTotal0:R4.2] EUR
+--------------------------------------------
+Spolu:   [VatBaseSum:R4.2]   [VatAmountSum:R4.2] EUR[VatTotal:R7.2] EUR
+--------------------------------------------
+
+```
+
+
 #### Príklady použitia
 ##### Doklad registrovaný v roku 2024 so sadzbami DPH 0, 10, 20%
 - Doklad je možné zaslať v pôvodnej štruktúre s vyplnenými elementami TaxBaseBasic, TaxBaseReduced, TaxFreeAmount, BasicVatAmount, ReducedVatAmount
