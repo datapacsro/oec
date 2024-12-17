@@ -27,5 +27,6 @@ Ak zákazník zaplatil zálohu alebo si obstaral JUP v roku 2024 s DPH 0,10,20%,
 Digitálne doklady odosielané do Receipt portal obsahujú členenie DPH v novej štruktúre VATBreakdown
 
 # Bugfixes a zlepšenia stability
+## Oprava chyby pri tlaci rozpisu DPH ked je rozdiel vo formatovani elementov
 
 
