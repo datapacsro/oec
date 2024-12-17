@@ -28,5 +28,8 @@ Digitálne doklady odosielané do Receipt portal obsahujú členenie DPH v novej
 
 # Bugfixes a zlepšenia stability
 ## Oprava chyby pri tlaci rozpisu DPH ked je rozdiel vo formatovani elementov
+Problém nastáva, ak VatBase0 má iné formátovanie ako VatAmountTotal0. Vtedy sa v rozpise chybne vytlačí text [VATBaseFree:R5.2
+[VatRate0:L2.0]%    [VatBase0:R4.2]      [VatAmount0:R4.2]       [VatAmountTotal0:R5.2]
+
 
 
