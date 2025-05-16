@@ -1,7 +1,6 @@
 # OEC May 2025 release notes
 
 - Možnosť voľby textu medzi "Oslobodené od DPH" a "Mimo režim DPH" pre vratné obaly
-- Podpora nových Sunmi zariadení
 
 
 ## Dostupnosť
@@ -25,8 +24,6 @@ V OECConfigurator je možné zvoliť si
 
 > Štandardne sa tlačí text Oslobodené od DPH. 
 
-## Podpora pre nové Sunmi zariadenia
-V3 MIX, V3, V3H, L3, M3, CPad, P3 MIX, P3, P3H, P3KH, T3 PRO, T3 PRO MAX, T3 PRO SUPER, T3 PRO MAX SUPER, D3 MINI, D3 PRO
 
 # Zmeny
 
