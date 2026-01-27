@@ -2,7 +2,7 @@
 swagger: "2.0"
 info:
   description: "## API je dostupné na adrese\n```\nhttp://adresa/oec/api\n```\n\n### Príklad\n```\nhttp://adresa/oec/api/status\nhttp://adresa/oec/api/receipt/123456789\n```\n\n## Healthcheck OEC je dostupný na \n```\nhttp://adresa/oec/health\n```\n"
-  version: 7.0.0
+  version: 7.1.0
   title: Datapac OEC API
   contact:
     name: Helpdesk
@@ -47,18 +47,18 @@ paths:
         description: Renderer
         required: false
         schema:
-          $ref: '#/definitions/ReceiptRenderer'
+          $ref: "#/definitions/ReceiptRenderer"
       responses:
         "204":
           description: Kópia dokladu vyhotovená
           schema:
-            $ref: '#/definitions/ReceiptResponse'
+            $ref: "#/definitions/ReceiptResponse"
         "404":
           description: Doklad nenájedný
         "504":
           description: Kópiu dokladu sa nepodarilo vyhotoviť. Buď zlyhala tlač alebo odoslanie e-mailu
           schema:
-            $ref: '#/definitions/ReceiptResponse'
+            $ref: "#/definitions/ReceiptResponse"
     post:
       summary: Zaeviduje doklad v eKasa
       description: "Zaeviduje doklad v eKasa systéme, CHDU a použitím zvoleného renderera ho vytlačí alebo pošle e-mailom"
@@ -80,31 +80,31 @@ paths:
         description: Receipt request
         required: true
         schema:
-          $ref: '#/definitions/ReceiptRequest'
+          $ref: "#/definitions/ReceiptRequest"
       responses:
         "201":
           description: "Doklad bol úspešne zaevidovaný v eKasa buď online alebo offline, uložený v CHDU a vytlačený alebo poslaný e-mailom"
           schema:
-            $ref: '#/definitions/ReceiptResponse'
+            $ref: "#/definitions/ReceiptResponse"
         "202":
           description: |
             Doklad bol úspešne zaevidovaný v eKasa buď online alebo offline, uložený v CHDU, ale **NEBOL** vytlačený alebo poslaný e-mailom
           schema:
-            $ref: '#/definitions/ReceiptResponse'
+            $ref: "#/definitions/ReceiptResponse"
         "400":
           description: Zlý vstup
           schema:
-            $ref: '#/definitions/ReceiptResponse'
+            $ref: "#/definitions/ReceiptResponse"
         "405":
           description: Pokladňa nie je aktívna
         "504":
           description: Tlačiareň nepripravená
           schema:
-            $ref: '#/definitions/ReceiptResponse'
+            $ref: "#/definitions/ReceiptResponse"
         "507":
           description: Kapacita CHDU vyčerpaná
           schema:
-            $ref: '#/definitions/ReceiptResponse'
+            $ref: "#/definitions/ReceiptResponse"
   /transaction/{CashRegisterCode}:
     get:
       summary: Vráti poslednú transakciu
@@ -126,7 +126,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Transaction'
+              $ref: "#/definitions/Transaction"
   /transaction/{CashRegisterCode}/{Count}:
     get:
       summary: Vráti posledné Count transakcie
@@ -153,7 +153,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Transaction'
+              $ref: "#/definitions/Transaction"
   /transaction/{CashRegisterCode}/{From}/{To}:
     get:
       summary: Vráti transakcie od datumu po datum
@@ -184,7 +184,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Transaction'
+              $ref: "#/definitions/Transaction"
   /documentinfo/{CashRegisterCode}/{Year}/{Month}/{ReceiptNumber}:
     get:
       summary: Vráti detaily k dokladu
@@ -221,7 +221,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/ReceiptMessage'
+              $ref: "#/definitions/ReceiptMessage"
         "404":
           description: Doklad nenájedný
   /location/{CashRegisterCode}:
@@ -245,22 +245,22 @@ paths:
         description: Register location request
         required: true
         schema:
-          $ref: '#/definitions/RegisterLocationRequest'
+          $ref: "#/definitions/RegisterLocationRequest"
       responses:
         "201":
           description: Poloha zaevidovaná v eKasa
           schema:
-            $ref: '#/definitions/RegisterLocationResponse'
+            $ref: "#/definitions/RegisterLocationResponse"
         "400":
           description: Zlý vstup
           schema:
-            $ref: '#/definitions/ReceiptResponse'
+            $ref: "#/definitions/ReceiptResponse"
         "405":
           description: Pokladňa nie je aktívna
         "507":
           description: Kapacita CHDU vyčerpaná
           schema:
-            $ref: '#/definitions/ReceiptResponse'
+            $ref: "#/definitions/ReceiptResponse"
   /print/{CashRegisterCode}:
     post:
       summary: Prints the text to the printer and stores it to the CHDU
@@ -278,7 +278,7 @@ paths:
         description: Receipt request
         required: true
         schema:
-          $ref: '#/definitions/Text'
+          $ref: "#/definitions/Text"
       responses:
         "200":
           description: Text bol uložený v CHDU a vytlačený
@@ -289,7 +289,7 @@ paths:
         "504":
           description: Tlačiareň nepripravená
           schema:
-            $ref: '#/definitions/ReceiptResponse'
+            $ref: "#/definitions/ReceiptResponse"
         "507":
           description: Kapacita CHDU vyčerpaná
   /cashregisterconfig/{CashRegisterCode}:
@@ -311,7 +311,7 @@ paths:
         "200":
           description: Konfigurácia pre pokladňu
           schema:
-            $ref: '#/definitions/CashRegisterConfiguration'
+            $ref: "#/definitions/CashRegisterConfiguration"
         "400":
           description: Konfigurácia pre pokladňu neexistuje
     post:
@@ -332,7 +332,7 @@ paths:
         description: Konfigurácia pokladne
         required: true
         schema:
-          $ref: '#/definitions/CashRegisterConfiguration'
+          $ref: "#/definitions/CashRegisterConfiguration"
       responses:
         "201":
           description: Konfigurácia zmenená
@@ -354,7 +354,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/CashRegisterConfiguration'
+              $ref: "#/definitions/CashRegisterConfiguration"
   /globalconfig/:
     get:
       summary: Vráti globálnu  konfiguráciu
@@ -369,7 +369,7 @@ paths:
         "200":
           description: Globálna konfigurácia
           schema:
-            $ref: '#/definitions/GlobalConfiguration'
+            $ref: "#/definitions/GlobalConfiguration"
     post:
       summary: Uloží globálnu konfiguráciu
       description: |
@@ -384,7 +384,7 @@ paths:
         description: Global Configuration
         required: true
         schema:
-          $ref: '#/definitions/GlobalConfiguration'
+          $ref: "#/definitions/GlobalConfiguration"
       responses:
         "200":
           description: Update úspešný
@@ -433,7 +433,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/AuthIdSet'
+              $ref: "#/definitions/AuthIdSet"
     post:
       summary: Pridá AuthId set pre pokladňu
       description: |
@@ -450,14 +450,14 @@ paths:
         description: AuthIdSet
         required: true
         schema:
-          $ref: '#/definitions/AuthIdSet'
+          $ref: "#/definitions/AuthIdSet"
       responses:
         "201":
           description: AuthId set pridaný
         "507":
           description: Kapacita CHDU vyčerpaná
           schema:
-            $ref: '#/definitions/ReceiptResponse'
+            $ref: "#/definitions/ReceiptResponse"
   /authidset/{CashRegisterCode}/{AuthSetId}:
     get:
       summary: Vráti špecifikovaný AuthSet s Id pre pokladňu
@@ -482,7 +482,7 @@ paths:
         "200":
           description: Špecifikovaný AuthIdSet s Id pre pokladňu
           schema:
-            $ref: '#/definitions/AuthIdSet'
+            $ref: "#/definitions/AuthIdSet"
         "404":
           description: AuthIdSet pre pokladňu nenájdený
   /authidset/{CashRegisterCode}/current:
@@ -504,7 +504,7 @@ paths:
         "200":
           description: AuthIdSet pre pokladňu
           schema:
-            $ref: '#/definitions/AuthIdSet'
+            $ref: "#/definitions/AuthIdSet"
   /authidsetraw/{CashRegisterCode}:
     post:
       summary: Pridá raw AuthId set pre pokladňu
@@ -541,7 +541,7 @@ paths:
         "507":
           description: Kapacita CHDU vyčerpaná
           schema:
-            $ref: '#/definitions/ReceiptResponse'
+            $ref: "#/definitions/ReceiptResponse"
   /status:
     get:
       summary: Vráti status informácie
@@ -555,7 +555,7 @@ paths:
         "200":
           description: Status OEC
           schema:
-            $ref: '#/definitions/Status'
+            $ref: "#/definitions/Status"
   /printunsent/{CashRegisterCode}:
     get:
       summary: Vytlačí neodoslané správy
@@ -676,7 +676,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/UnsentState'
+              $ref: "#/definitions/UnsentState"
   /errors/{CashRegisterCode}:
     get:
       summary: Vráti chybné správy
@@ -700,7 +700,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Message'
+              $ref: "#/definitions/Message"
   /receipterror/{CashRegisterCode}/{Date}/{ReceiptNumber}/{ErrorCode}/{CorrectDate}:
     post:
       summary: Opraví dátovú správu dokladu so zlým dátumom
@@ -752,7 +752,7 @@ paths:
         "400":
           description: Nepovolený kód chyby na opravu alebo iná chyba
           schema:
-            $ref: '#/definitions/ReceiptResponse'
+            $ref: "#/definitions/ReceiptResponse"
   /locationerror/{CashRegisterCode}/{Date}/{Id}/{ErrorCode}/{CorrectDate}:
     post:
       summary: Opraví dátovú správu polohy so zlým dátumom
@@ -803,7 +803,7 @@ paths:
         "400":
           description: Nepovolený kód chyby na opravu alebo iná chyba
           schema:
-            $ref: '#/definitions/ReceiptResponse'
+            $ref: "#/definitions/ReceiptResponse"
   /reboot:
     get:
       summary: Vykoná reboot zariadenia
@@ -844,17 +844,17 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/inline_response_200'
+            $ref: "#/definitions/inline_response_200"
 definitions:
   ReceiptRequest:
     type: object
     properties:
       Receipt:
-        $ref: '#/definitions/Receipt'
+        $ref: "#/definitions/Receipt"
       ReceiptRenderer:
-        $ref: '#/definitions/ReceiptRenderer'
+        $ref: "#/definitions/ReceiptRenderer"
       PrintTemplate:
-        $ref: '#/definitions/ReceiptPrintTemplate'
+        $ref: "#/definitions/ReceiptPrintTemplate"
     description: "Receipt request. Obsahuje Receipt (doklad), renderer a tlačový template"
   Receipt:
     type: object
@@ -923,18 +923,18 @@ definitions:
         description: Celková suma základu DPH pre zníženú sadzbu dane podľa zákona č. 222/2004 Z. z.
       VATBreakdown:
         description: Rozpis DPH
-        $ref: '#/definitions/VATBreakdown'
+        $ref: "#/definitions/VATBreakdown"
       Items:
         type: array
         description: Položky dokladu
         items:
-          $ref: '#/definitions/ReceiptItem'
+          $ref: "#/definitions/ReceiptItem"
         minItems: 0
       Payments:
         type: array
         description: Prijaté platby
         items:
-          $ref: '#/definitions/Payment'
+          $ref: "#/definitions/Payment"
       Cashier:
         type: string
         description: Pokladník
@@ -1058,9 +1058,9 @@ definitions:
         type: string
         description: Popis chyby
       Receipt:
-        $ref: '#/definitions/Receipt'
+        $ref: "#/definitions/Receipt"
       Printout:
-        $ref: '#/definitions/ReceiptPrintTemplate'
+        $ref: "#/definitions/ReceiptPrintTemplate"
     description: Odpoveď na ReceiptRequest
   ReceiptPrintTemplate:
     type: array
@@ -1081,18 +1081,21 @@ definitions:
         type: string
         description: |
           Receipt renderer
+        default: printer
         enum:
         - printer
         - email
         - none
+        - drr
       EmailHeaders:
-        $ref: '#/definitions/EmailHeaders'
+        $ref: "#/definitions/EmailHeaders"
     description: |
       # Renderer určuje ako sa doklad pošle na výstup
 
       ## Možné hodnoty
       * printer - Doklad bude vytlačený na tlačiarni
       * email - Doklad bude skonvertovaný do PDF vrátane QR kódu (ak nejde o kópiu) a odoslaný e-mailom
+      * drr - doklad bude doruceny do digital receipt repository
       * none - doklad sa nebude tlačiť ani posielať e-mailom. Je možné použiť len s dokladmi typu VKLAD a VÝBER. Pri ostatných dokladoch **musí** byť doklad vytlačený alebo doručený elektronicky
 
       > Ak je požadovaný email, musia byť nakonfigurované SMTP parametre a vyplnený EmailHeaders
@@ -1126,11 +1129,14 @@ definitions:
         type: boolean
         description: Include ReceiptResponse as the e-mail attachment. If enabled the ReceiptResponse.json is added as a attachment to the e-mail
         default: false
+      Body:
+        type: string
+        description: "Telo emailu. Ak nie je špecifikované, použije sa definícia z SMTP konfigurácie. Môže byť v HTML"
     description: Hlavičky e-mailu
   GlobalConfiguration:
     properties:
       SMTPConfiguration:
-        $ref: '#/definitions/SMTPConfiguration'
+        $ref: "#/definitions/SMTPConfiguration"
       eKasaEndpoint:
         type: string
         description: URL eKasa
@@ -1155,7 +1161,7 @@ definitions:
         description: Timeout čakania na odpoveď od eKasa v ms v prípade doposlania správy. Musí byť >=2000
         minimum: 2000
       ProxyConfiguration:
-        $ref: '#/definitions/ProxyConfiguration'
+        $ref: "#/definitions/ProxyConfiguration"
     description: Globálna OEC konfigurácia
   CashRegisterConfiguration:
     required:
@@ -1190,16 +1196,16 @@ definitions:
         type: integer
         description: Číslo posledného dokladu
       SMTPConfiguration:
-        $ref: '#/definitions/SMTPConfiguration'
+        $ref: "#/definitions/SMTPConfiguration"
       PrinterConfiguration:
-        $ref: '#/definitions/PrinterConfiguration'
+        $ref: "#/definitions/PrinterConfiguration"
       AuthIdSets:
         type: array
         description: AuthId sety pre pokladňu
         items:
-          $ref: '#/definitions/AuthIdSet'
+          $ref: "#/definitions/AuthIdSet"
       CloudStorageConfiguration:
-        $ref: '#/definitions/CloudStorageConfiguration'
+        $ref: "#/definitions/CloudStorageConfiguration"
     description: Konfigurácia pokladne
   AuthIdSet:
     required:
@@ -1251,6 +1257,10 @@ definitions:
         type: boolean
         description: Include ReceiptResponse as the e-mail attachment. If enabled the ReceiptResponse.json is added as a attachment to the e-mail
         default: false
+      Body:
+        type: string
+        format: html
+        description: "Telo emailu. Ak nie je špecifikované, telo emailu bude prázdne. Môže byť v HTML"
     description: SMTP configuration
   CloudStorageConfiguration:
     properties:
@@ -1275,7 +1285,7 @@ definitions:
   Status:
     properties:
       CHDUInformation:
-        $ref: '#/definitions/CHDUInformation'
+        $ref: "#/definitions/CHDUInformation"
       Version:
         type: string
         description: Verzia PPEKK
@@ -1295,9 +1305,9 @@ definitions:
   Transaction:
     properties:
       ReceiptRequest:
-        $ref: '#/definitions/ReceiptRequest'
+        $ref: "#/definitions/ReceiptRequest"
       ReceiptResponse:
-        $ref: '#/definitions/ReceiptResponse'
+        $ref: "#/definitions/ReceiptResponse"
       TransactionState:
         type: string
         enum:
@@ -1338,9 +1348,9 @@ definitions:
         description: |
           Iný spôsob definovania umiestnenia prenosnej pokladnice , na ktorej podnikateľ v danom čase prijíma tržbu. ORP použije tento typ definovania polohy, ak nie je možné uviesť adresu umiestnenia prenosnej pokladnice alebo GPS súradnice
       GPS:
-        $ref: '#/definitions/GPSLocation'
+        $ref: "#/definitions/GPSLocation"
       PhysicalAddress:
-        $ref: '#/definitions/PhysicalAddress'
+        $ref: "#/definitions/PhysicalAddress"
     description: Register location request
   GPSLocation:
     properties:
@@ -1393,7 +1403,7 @@ definitions:
         type: string
         description: Upozornenie zaevidovania polohy
       RegisterLocationRequest:
-        $ref: '#/definitions/RegisterLocationRequest'
+        $ref: "#/definitions/RegisterLocationRequest"
     description: Register location response
   PrinterConfiguration:
     properties:
@@ -1510,7 +1520,7 @@ definitions:
         type: array
         description: DPH pre jednotlivé sadzby
         items:
-          $ref: '#/definitions/VATAmount'
+          $ref: "#/definitions/VATAmount"
         minItems: 0
     description: Rozpis DPH
   VATAmount:
