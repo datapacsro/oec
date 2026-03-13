@@ -1,4 +1,3 @@
----
 swagger: "2.0"
 info:
   description: "## API je dostupné na adrese\n```\nhttp://adresa/oec/api\n```\n\n### Príklad\n```\nhttp://adresa/oec/api/status\nhttp://adresa/oec/api/receipt/123456789\n```\n\n## Healthcheck OEC je dostupný na \n```\nhttp://adresa/oec/health\n```\n"
@@ -1081,12 +1080,12 @@ definitions:
         type: string
         description: |
           Receipt renderer
-        default: printer
         enum:
         - printer
         - email
         - none
         - drr
+        default: printer
       EmailHeaders:
         $ref: "#/definitions/EmailHeaders"
     description: |
@@ -1184,11 +1183,11 @@ definitions:
           - active - umožňuje registrovať doklady (addReceipt), polohu (registerLocation), tlač (print) a otvorenie zásuvky (openCashDrawer)
           - paused - neumožňuje registrovať doklady (addReceipt), polohu (registerLocation), tlač (print) a otvorenie zásuvky (openCashDrawer). V healthckeck sa vyhodnocuje rovnako ako active.
           - disabled - neumožňuje registrovať doklady (addReceipt), polohu (registerLocation), tlač (print) a otvorenie zásuvky (openCashDrawer). V healthckeck je vždy vyhodnotená ako Healthy
-        default: active
         enum:
         - active
         - disabled
         - paused
+        default: active
       ExceptionMode:
         type: boolean
         description: "Príznak, či ide o pokladnicu podnikateľa s udelenou výnimkou zo zasielania údajov"
