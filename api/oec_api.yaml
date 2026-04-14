@@ -1153,12 +1153,12 @@ definitions:
         description: Subjekt certifikátu
       Timeout:
         type: integer
-        description: Timeout čakania na odpoveď od eKasa v ms. Musí byť >=2000
-        minimum: 2000
+        description: Timeout čakania na odpoveď od eKasa v ms. Musí byť >=5000
+        minimum: 5000
       ResendTimeout:
         type: integer
-        description: Timeout čakania na odpoveď od eKasa v ms v prípade doposlania správy. Musí byť >=2000
-        minimum: 2000
+        description: Timeout čakania na odpoveď od eKasa v ms v prípade doposlania správy. Musí byť >=5000
+        minimum: 5000
       ProxyConfiguration:
         $ref: "#/definitions/ProxyConfiguration"
     description: Globálna OEC konfigurácia
