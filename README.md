@@ -7,7 +7,8 @@ Datapac OEC je certifikovaný online eKasa klient.
 <img src="images/oec.png" align="right"/>
 
 # Novinky
-3.11.2026 FS publikovala nove autentifikacne udaje pre integracne prostredie. Najdete ich tu [Autentifikacne udaje platne od November 2026) (https://github.com/datapacsro/oec/raw/refs/heads/master/auth_id/IU_AU_Na_testovanie_2028.7z)
+## 3.11.2026 
+FS publikovala nove autentifikacne udaje pre integracne prostredie. Najdete ich tu [Autentifikacne udaje platne od November 2026) (https://github.com/datapacsro/oec/raw/refs/heads/master/auth_id/IU_AU_Na_testovanie_2028.7z)
 
 # Popis dokumentov
 
